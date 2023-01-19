@@ -4,7 +4,8 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -15,13 +16,15 @@ import frc.robot.Constants;
 
 public class DriveBase_Subsystem extends SubsystemBase {
   //left motors
-  public static WPI_TalonFX leftBackTalon;
-  public static WPI_TalonFX leftFrontTalon;
+  public static WPI_TalonSRX leftTalon;
+  public static WPI_VictorSPX leftFrontVic;
+  public static WPI_VictorSPX leftBackVic;
   public static MotorControllerGroup leftDrive;
   
   //right motors
-  public static WPI_TalonFX rightBackTalon;
-  public static WPI_TalonFX rightFrontTalon;
+  public static WPI_TalonSRX rightTalon;
+  public static WPI_VictorSPX rightFrontVic;
+  public static WPI_VictorSPX rightBackVic;
   public static MotorControllerGroup rightDrive;
 
   //DriveTrain
@@ -36,14 +39,16 @@ public class DriveBase_Subsystem extends SubsystemBase {
 
   public DriveBase_Subsystem() {
     //left motors
-    leftBackTalon = new WPI_TalonFX(Constants.leftBackTalonPort);
-    leftFrontTalon = new WPI_TalonFX(Constants.leftFrontTalonPort);
-    leftDrive = new MotorControllerGroup(leftBackTalon, leftFrontTalon);
+    leftTalon = new WPI_TalonSRX(Constants.leftTalonPort);
+    leftFrontVic = new WPI_VictorSPX(Constants.leftFrontVicPort);
+    leftBackVic = new WPI_VictorSPX(Constants.leftBackVicPort);
+    leftDrive = new MotorControllerGroup(leftTalon, leftFrontVic, leftBackVic);
 
     //right motors
-    rightBackTalon = new WPI_TalonFX(Constants.rightBackTalonPort);
-    rightFrontTalon = new WPI_TalonFX(Constants.rightFrontTalonPort);
-    rightDrive = new MotorControllerGroup(rightBackTalon, rightFrontTalon);
+    rightTalon = new WPI_TalonSRX(Constants.rightTalonPort);
+    rightFrontVic = new WPI_VictorSPX(Constants.rightFrontVicPort);
+    rightBackVic = new WPI_VictorSPX(Constants.rightBackVicPort);
+    rightDrive = new MotorControllerGroup(rightTalon, rightFrontVic, rightBackVic);
 
     //DriveTrain
     testDrive = new DifferentialDrive(leftDrive, rightDrive);
