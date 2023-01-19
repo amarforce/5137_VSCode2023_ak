@@ -41,10 +41,8 @@ public final class Constants {
   public final static int PS4_RYStickAxisPort = 5;
 
   //DriveBase Motors
-  public final static int leftTalonPort = 1;
-  public final static int leftFrontVicPort = 2;
-  public final static int leftBackVicPort = 3;
-  public final static int rightTalonPort = 4;
-  public final static int rightFrontVicPort = 5;
-  public final static int rightBackVicPort = 6;
+  public final static int leftFrontTalonPort = 2;
+  public final static int leftBackTalonPort = 1;
+  public final static int rightFrontTalonPort = 6;
+  public final static int rightBackTalonPort = 5;
 }
