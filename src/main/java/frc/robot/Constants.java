@@ -19,26 +19,31 @@ public final class Constants {
   public final static double errormargin = 0.1;
 
   //Controller Type "xbox" or "ps4"
-  public final static String controllerType = "xbox";
+  public final static String controllerType = "ps4";
 
   //Ports
 
   //Controllers
-  public final static int controllerPort = 0;
+  public final static int driverControllerPort = 0;
+  public final static int assistControllerPort = 1;
 
   //XBOX Controller Ports
-  //Need to test these, ports may have changed with the removal of buttons.
   public final static int XBOX_LXStickAxisPort = 0;
   public final static int XBOX_LYStickAxisPort = 1;
+  public final static int XBOX_LTriggerPort = 2;
+  public final static int XBOX_RTriggerPort = 3;
   public final static int XBOX_RXStickAxisPort = 4;
   public final static int XBOX_RYStickAxisPort = 5;
+  public final static int XBOX_APort = 1;
 
   //PS4 Controller Ports
-  //Need to test these. ports may have changed with the removal of buttons.
   public final static int PS4_LXStickAxisPort = 0;
   public final static int PS4_LYStickAxisPort = 1;
   public final static int PS4_RXStickAxisPort = 2;
+  public final static int PS4_LTriggerPort = 3;
+  public final static int PS4_RTriggerPort = 4;
   public final static int PS4_RYStickAxisPort = 5;
+  public final static int PS4_SPort = 1;
 
   //DriveBase Motors - CAN Numbers
   public final static int leftTalonPort = 1;
@@ -48,4 +53,9 @@ public final class Constants {
   public final static int rightTalonPort = 2;
   public final static int rightFrontVicPort = 4;
   public final static int rightBackVicPort = 6;
+
+  //Intake
+  public final static int intakeOnePort = 7;
+  public final static int intakeTwoPort = 8;
+  public final static double intakeSpeed = 1.0;
 }

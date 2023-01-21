@@ -54,7 +54,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     testDrive = new DifferentialDrive(leftDrive, rightDrive);
 
     //Controller
-    controller = new Joystick(Constants.controllerPort);
+    controller = new Joystick(Constants.driverControllerPort);
 
     //Controller Type (Not required just for ease)
     switch (Constants.controllerType) {
