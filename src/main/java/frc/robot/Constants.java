@@ -55,13 +55,13 @@ public final class Constants {
   public final static int rightBackVicPort = 6;
 
   //Intake
-  public final static int intakeOnePort = 7;
-  public final static int intakeTwoPort = 8;
+  public final static int topIntakePort = 7;
+  public final static int bottomIntakePort = 8;
   public final static double intakeSpeed = 1.0;
 
   //Solenoids
   public static final int intakeSolChannel = 0;
   public static final int clampSolChannel = 1;
-  public static final int telscopeSolChannel = 2;
+  public static final int telescopeSolChannel = 2;
   public static final int feetSolChannel = 3;
 }

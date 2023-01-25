@@ -14,12 +14,12 @@ import frc.robot.RobotContainer;
 public class Intake_Subystem extends SubsystemBase {
     boolean intakeActive = false;
 
-    SparkMaxWrapper intakeMotorOne;
-    SparkMaxWrapper intakeMotorTwo;
+    SparkMaxWrapper topIntakeMotor;
+    SparkMaxWrapper bottomIntakeMotor;
 
     public Intake_Subystem() {
-        intakeMotorOne = new SparkMaxWrapper(Constants.intakeOnePort, MotorType.kBrushless);
-        intakeMotorTwo = new SparkMaxWrapper(Constants.intakeTwoPort, MotorType.kBrushless);
+        topIntakeMotor = new SparkMaxWrapper(Constants.topIntakePort, MotorType.kBrushless);
+        bottomIntakeMotor = new SparkMaxWrapper(Constants.bottomIntakePort, MotorType.kBrushless);
     }
 
     public void activateIntake() {
@@ -34,16 +34,16 @@ public class Intake_Subystem extends SubsystemBase {
 
     public void intake(boolean direction) {
         if (direction) {
-            intakeMotorOne.set(Constants.intakeSpeed);
-            intakeMotorTwo.set(-Constants.intakeSpeed);
+            topIntakeMotor.set(Constants.intakeSpeed);
+            bottomIntakeMotor.set(-Constants.intakeSpeed);
         } else {
-            intakeMotorOne.set(-Constants.intakeSpeed);
-            intakeMotorTwo.set(Constants.intakeSpeed);
+            topIntakeMotor.set(-Constants.intakeSpeed);
+            bottomIntakeMotor.set(Constants.intakeSpeed);
         }
     }
 
     public void stopIntake() {
-        intakeMotorOne.set(0.0);
-        intakeMotorTwo.set(0.0);
+        topIntakeMotor.set(0.0);
+        bottomIntakeMotor.set(0.0);
     }
 }
