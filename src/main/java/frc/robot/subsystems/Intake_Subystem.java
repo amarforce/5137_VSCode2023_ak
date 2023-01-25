@@ -3,12 +3,14 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.simulation.SparkMaxWrapper;
 import frc.robot.Constants;
+import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.RobotContainer;
 
 public class Intake_Subystem extends SubsystemBase {
@@ -32,7 +34,7 @@ public class Intake_Subystem extends SubsystemBase {
         }
     }
 
-    public void intake(boolean direction) {
+    public void runIntake(boolean direction) {
         if (direction) {
             topIntakeMotor.set(Constants.intakeSpeed);
             bottomIntakeMotor.set(-Constants.intakeSpeed);
@@ -45,5 +47,13 @@ public class Intake_Subystem extends SubsystemBase {
     public void stopIntake() {
         topIntakeMotor.set(0.0);
         bottomIntakeMotor.set(0.0);
+    }
+
+    public void extendIntake() {
+        PneumaticsSubsystem.intakeSolenoid.set(true);
+    }
+
+    public void retractIntake() {
+        PneumaticsSubsystem.intakeSolenoid.set(false);
     }
 }

@@ -12,15 +12,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class PneumaticsSubsystem extends SubsystemBase {
-  /** Creates a new ExampleSubsystem. */
+  public static Compressor comp;
+  public static Solenoid intakeSolenoid;
+  public static Solenoid clampSolenoid;
+  public static Solenoid feetSolenoid;
+
   public PneumaticsSubsystem() {
-    final Compressor comp = new Compressor(PneumaticsModuleType.CTREPCM);
-
-    final Solenoid intakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.intakeSolChannel);
-    final Solenoid clampSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.clampSolChannel);
-    final Solenoid telescopeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.telescopeSolChannel);
-    final Solenoid feetSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.feetSolChannel);
-
+    comp = new Compressor(PneumaticsModuleType.CTREPCM);
+    intakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.intakeSolChannel);
+    clampSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.clampSolChannel);
+    feetSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.feetSolChannel);
   }
 
   @Override
@@ -31,5 +32,13 @@ public class PneumaticsSubsystem extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+  }
+
+  public void compress(boolean active) {
+    if (active) {
+      comp.enableDigital();
+    } else {
+      comp.disable();
+    }
   }
 }

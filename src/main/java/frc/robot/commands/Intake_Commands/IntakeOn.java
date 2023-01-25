@@ -10,7 +10,8 @@ public class IntakeOn extends CommandBase{
  
      @Override
      public void execute() {
-         RobotContainer.intake_Subystem.intake(true);
+         RobotContainer.intake_Subystem.extendIntake();
+         RobotContainer.intake_Subystem.runIntake(true);
      }
  
      @Override

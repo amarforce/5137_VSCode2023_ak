@@ -10,7 +10,8 @@ public class IntakeOff extends CommandBase{
  
      @Override
      public void execute() {
-         RobotContainer.intake_Subystem.stopIntake();
+        RobotContainer.intake_Subystem.retractIntake();
+        RobotContainer.intake_Subystem.stopIntake();
      }
  
      @Override

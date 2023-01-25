@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,11 +31,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
   DifferentialDrive testDrive;
 
   //Controller
-  Joystick controller;
-
-  //Joystick Ports
-  int LYStickAxisPort;
-  int RXStickAxisPort;
+  XboxController controller;
 
   public DriveBase_Subsystem() {
     //left motors
@@ -43,6 +39,8 @@ public class DriveBase_Subsystem extends SubsystemBase {
     leftFrontVic = new WPI_VictorSPX(Constants.leftFrontVicPort);
     leftBackVic = new WPI_VictorSPX(Constants.leftBackVicPort);
     leftDrive = new MotorControllerGroup(leftTalon, leftFrontVic, leftBackVic);
+
+
 
     //right motors
     rightTalon = new WPI_TalonSRX(Constants.rightTalonPort);
@@ -54,25 +52,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     testDrive = new DifferentialDrive(leftDrive, rightDrive);
 
     //Controller
-    controller = new Joystick(Constants.driverControllerPort);
-
-    //Controller Type (Not required just for ease)
-    switch (Constants.controllerType) {
-      case ("xbox"):
-        LYStickAxisPort = Constants.XBOX_LYStickAxisPort;
-        RXStickAxisPort = Constants.XBOX_RXStickAxisPort;
-        System.out.println("XBox Controller");
-        return;
-      case ("ps4"):
-        LYStickAxisPort = Constants.PS4_LYStickAxisPort;
-        RXStickAxisPort = Constants.PS4_RXStickAxisPort;
-        System.out.println("PS4 Controller");
-        return;
-      default:
-        LYStickAxisPort = Constants.XBOX_LYStickAxisPort;
-        RXStickAxisPort = Constants.XBOX_RXStickAxisPort;
-        System.out.println("Default Controller");
-    }
+    controller = new XboxController(Constants.driverControllerPort);
   }
 
   @Override
@@ -81,10 +61,10 @@ public class DriveBase_Subsystem extends SubsystemBase {
     arcadeDrive(controller);
   }
 
-  public void arcadeDrive(Joystick controller) {
+  public void arcadeDrive(XboxController controller) {
     //Gets controller values
-    double speed = controller.getRawAxis(LYStickAxisPort);
-    double rotate = controller.getRawAxis(RXStickAxisPort);
+    double speed = controller.getLeftX();
+    double rotate = controller.getRightX();
     speed = adjust(speed);
     rotate = adjust(rotate);
     testDrive.curvatureDrive(-speed/Constants.driveSensitivity, -rotate/Constants.turnSensitivity, true);

@@ -15,7 +15,6 @@ import frc.robot.subsystems.DriveBase_Subsystem;
 import frc.robot.subsystems.Intake_Subystem;
 
 //Intake Commands
-import frc.robot.commands.Intake_Commands.ActivateIntake;
 import frc.robot.commands.Intake_Commands.IntakeOff;
 import frc.robot.commands.Intake_Commands.IntakeOn;
 import frc.robot.commands.Intake_Commands.IntakeOnReverse;
@@ -67,21 +66,18 @@ public class RobotContainer {
     RTrigger = new Trigger(booleanSupplyRT);
     RTrigger.whileTrue(new IntakeOn());
     RTrigger.onFalse(new IntakeOff());
-
-    AButton = new JoystickButton(driverController, Constants.PS4_SPort);
-    AButton.onTrue(new ActivateIntake());
   }
 
   private void configureBooleanSuppliers() {
     booleanSupplyLT = () -> {
-      if (driverController.getRawAxis(Constants.PS4_LTriggerPort) > -0.9 && driverController.getRawAxis(Constants.PS4_RTriggerPort) < -0.9) {
+      if (driverController.getRawAxis(Constants.XBOX_LTriggerPort) > -0.9 && driverController.getRawAxis(Constants.XBOX_RTriggerPort) < -0.9) {
         return true;
       } else {
         return false;
       }
     };
     booleanSupplyRT = () -> {
-      if (driverController.getRawAxis(Constants.PS4_RTriggerPort) > -0.9 && driverController.getRawAxis(Constants.PS4_LTriggerPort) < -0.9) {
+      if (driverController.getRawAxis(Constants.XBOX_RTriggerPort) > -0.9 && driverController.getRawAxis(Constants.XBOX_LTriggerPort) < -0.9) {
         return true;
       } else {
         return false;
