@@ -70,14 +70,14 @@ public class RobotContainer {
 
   private void configureBooleanSuppliers() {
     booleanSupplyLT = () -> {
-      if (driverController.getRawAxis(Constants.XBOX_LTriggerPort) > 0 && driverController.getRawAxis(Constants.XBOX_RTriggerPort) < 0) {
+      if (driverController.getRawAxis(Constants.XBOX_LTriggerPort) > 0.1 && driverController.getRawAxis(Constants.XBOX_RTriggerPort) < 0.1) {
         return true;
       } else {
         return false;
       }
     };
     booleanSupplyRT = () -> {
-      if (driverController.getRawAxis(Constants.XBOX_RTriggerPort) > 0 && driverController.getRawAxis(Constants.XBOX_LTriggerPort) < 0) {
+      if (driverController.getRawAxis(Constants.XBOX_RTriggerPort) > 0.1 && driverController.getRawAxis(Constants.XBOX_LTriggerPort) < 0.1) {
         return true;
       } else {
         return false;
