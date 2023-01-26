@@ -35,6 +35,8 @@ public final class Constants {
   public final static int XBOX_RXStickAxisPort = 4;
   public final static int XBOX_RYStickAxisPort = 5;
   public final static int XBOX_APort = 1;
+  public final static int XBOX_StartPort = 8;
+  public final static int XBOX_BackPort = 7;
 
   //PS4 Controller Ports
   public final static int PS4_LXStickAxisPort = 0;

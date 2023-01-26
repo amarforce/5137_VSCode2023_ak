@@ -13,11 +13,16 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 //Subsystems
 import frc.robot.subsystems.DriveBase_Subsystem;
 import frc.robot.subsystems.Intake_Subystem;
+import frc.robot.subsystems.Pneumatics_Subsystem;
 
 //Intake Commands
 import frc.robot.commands.Intake_Commands.IntakeOff;
 import frc.robot.commands.Intake_Commands.IntakeOn;
 import frc.robot.commands.Intake_Commands.IntakeOnReverse;
+
+//Compressor Commands 
+import frc.robot.commands.Compressor_Commands.CompressorOn;
+import frc.robot.commands.Compressor_Commands.CompressorOff;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -29,6 +34,7 @@ public class RobotContainer {
   //Subsystems
   public static DriveBase_Subsystem driveBase_Subsystem;
   public static Intake_Subystem intake_Subystem;
+  public static Pneumatics_Subsystem pneumatics_Subsystem;
 
   //Controllers
   public static Joystick driverController;
@@ -39,7 +45,8 @@ public class RobotContainer {
   public static Trigger RTrigger;
 
   //Buttons
-  public static JoystickButton AButton;
+  public static JoystickButton StartButton;
+  public static JoystickButton BackButton;
 
   //Boolean Suppliers
   public static BooleanSupplier booleanSupplyLT;
@@ -48,17 +55,19 @@ public class RobotContainer {
   public RobotContainer() {
     //Subsystems
     driveBase_Subsystem = new DriveBase_Subsystem();
-    intake_Subystem = new Intake_Subystem();
+    intake_Subystem = new Intake_Subystem(); 
+    pneumatics_Subsystem = new Pneumatics_Subsystem();
 
     //Controllers
     driverController = new Joystick(Constants.driverControllerPort);
     assistController = new Joystick(Constants.assistControllerPort);
 
-    // Configure the trigger bindings
-    configureBindings();
+    configureBindings();    // Configures the trigger bindings
   }
   private void configureBindings() {
     configureBooleanSuppliers();
+
+    //Intake 
     LTrigger = new Trigger(booleanSupplyLT);
     LTrigger.whileTrue(new IntakeOnReverse());
     LTrigger.onFalse(new IntakeOff());
@@ -66,6 +75,15 @@ public class RobotContainer {
     RTrigger = new Trigger(booleanSupplyRT);
     RTrigger.whileTrue(new IntakeOn());
     RTrigger.onFalse(new IntakeOff());
+
+    //Compressor 
+    StartButton = new JoystickButton(driverController, Constants.XBOX_StartPort);
+    StartButton.onTrue(new CompressorOn());
+
+    BackButton = new JoystickButton(driverController, Constants.XBOX_BackPort);
+    BackButton.onTrue(new CompressorOff());
+
+
   }
 
   private void configureBooleanSuppliers() {

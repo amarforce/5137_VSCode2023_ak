@@ -7,18 +7,19 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.simulation.SolenoidSim;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class PneumaticsSubsystem extends SubsystemBase {
+public class Pneumatics_Subsystem extends SubsystemBase {
   public static Compressor comp = new Compressor(PneumaticsModuleType.CTREPCM);
-  public static Solenoid intakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.intakeSolChannel);
-  public static Solenoid clampSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.clampSolChannel);
-  public static Solenoid feetSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.feetSolChannel);
+  public static SolenoidSim intakeSolenoid = new SolenoidSim(PneumaticsModuleType.CTREPCM, Constants.intakeSolChannel);
+  public static SolenoidSim clampSolenoid = new SolenoidSim(PneumaticsModuleType.CTREPCM, Constants.clampSolChannel);
+  public static SolenoidSim feetSolenoid = new SolenoidSim(PneumaticsModuleType.CTREPCM, Constants.feetSolChannel);
 
  
-  public PneumaticsSubsystem() {
+  public Pneumatics_Subsystem() {
     
   }
 
@@ -37,6 +38,7 @@ public class PneumaticsSubsystem extends SubsystemBase {
       comp.enableDigital();
     } else {
       comp.disable();
-    }
-  }
+    } 
+  } 
+
 }

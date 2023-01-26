@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.simulation.SparkMaxWrapper;
 import frc.robot.Constants;
-import frc.robot.subsystems.PneumaticsSubsystem;
+import frc.robot.subsystems.Pneumatics_Subsystem;
 import frc.robot.RobotContainer;
 
 public class Intake_Subystem extends SubsystemBase {
@@ -40,12 +40,12 @@ public class Intake_Subystem extends SubsystemBase {
     }
 
     public void extendIntake() {
-        PneumaticsSubsystem.intakeSolenoid.set(true);
+        Pneumatics_Subsystem.intakeSolenoid.setOutput(true);
         intakeActive = true;
     }
 
     public void retractIntake() {
-        PneumaticsSubsystem.intakeSolenoid.set(false);
+        Pneumatics_Subsystem.intakeSolenoid.setOutput(false);
         intakeActive = false;
     }
 }

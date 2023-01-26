@@ -71,9 +71,9 @@ public class DriveBase_Subsystem extends SubsystemBase {
   }
 
   //Also not required but stops drifiting and gurantees max speed
-  public double adjust(double x) {
-    if (Math.abs(x)<Constants.errormargin) {return 0.0;}
-    if (Math.abs(x)>(1-Constants.errormargin)) {return (Math.abs(x)/x);}
-    return x;
+  public double adjust(double axis) {
+    if (Math.abs(axis)<Constants.errormargin) {return 0.0;}
+    if (Math.abs(axis)>(1-Constants.errormargin)) {return (Math.abs(axis)/axis);}
+    return axis;
   }
 }
