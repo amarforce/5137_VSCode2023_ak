@@ -10,7 +10,9 @@ public class IntakeOnReverse extends CommandBase{
  
      @Override
      public void execute() {
-        RobotContainer.intake_Subystem.extendIntake();
+        if (!RobotContainer.intake_Subystem.intakeActive) {
+            RobotContainer.intake_Subystem.extendIntake();
+           }
         RobotContainer.intake_Subystem.runIntake(false);
      }
  

@@ -14,10 +14,10 @@ import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.RobotContainer;
 
 public class Intake_Subystem extends SubsystemBase {
-    boolean intakeActive = false;
+    public boolean intakeActive = false;
 
-    SparkMaxWrapper topIntakeMotor;
-    SparkMaxWrapper bottomIntakeMotor;
+    public static SparkMaxWrapper topIntakeMotor;
+    public static SparkMaxWrapper bottomIntakeMotor;
 
     public Intake_Subystem() {
         topIntakeMotor = new SparkMaxWrapper(Constants.topIntakePort, MotorType.kBrushless);
@@ -51,9 +51,11 @@ public class Intake_Subystem extends SubsystemBase {
 
     public void extendIntake() {
         PneumaticsSubsystem.intakeSolenoid.set(true);
+        intakeActive = true;
     }
 
     public void retractIntake() {
         PneumaticsSubsystem.intakeSolenoid.set(false);
+        intakeActive = false;
     }
 }
