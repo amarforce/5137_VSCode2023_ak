@@ -63,7 +63,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
 
   public void arcadeDrive(XboxController controller) {
     //Gets controller values
-    double speed = controller.getLeftX();
+    double speed = controller.getLeftY();
     double rotate = controller.getRightX();
     speed = adjust(speed);
     rotate = adjust(rotate);
