@@ -10,6 +10,8 @@ public class IntakeOff extends CommandBase{
  
      @Override
      public void execute() {
+        //doesn't toggle intake off unless intake is currently on
+        //technically unnecessary but we're keeping it 
         if (RobotContainer.intake_Subystem.intakeActive) {
             RobotContainer.intake_Subystem.retractIntake();
         }

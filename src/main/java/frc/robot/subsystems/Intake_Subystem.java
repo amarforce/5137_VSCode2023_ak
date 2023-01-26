@@ -24,16 +24,6 @@ public class Intake_Subystem extends SubsystemBase {
         bottomIntakeMotor = new SparkMaxWrapper(Constants.bottomIntakePort, MotorType.kBrushless);
     }
 
-    public void activateIntake() {
-        if (intakeActive) {
-            //Retract intake
-            intakeActive = false;
-        } else {
-            //Activate intake
-            intakeActive = true;
-        }
-    }
-
     public void runIntake(boolean direction) {
         if (direction) {
             topIntakeMotor.set(Constants.intakeSpeed);
