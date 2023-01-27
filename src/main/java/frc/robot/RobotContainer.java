@@ -48,10 +48,6 @@ public class RobotContainer {
   public static JoystickButton StartButton;
   public static JoystickButton BackButton;
 
-  //Boolean Suppliers
-  public static BooleanSupplier booleanSupplyLT;
-  public static BooleanSupplier booleanSupplyRT;
-
   public RobotContainer() {
     //Subsystems
     driveBase_Subsystem = new DriveBase_Subsystem();
@@ -65,14 +61,12 @@ public class RobotContainer {
     configureBindings();    // Configures the trigger bindings
   }
   private void configureBindings() {
-    configureBooleanSuppliers();
-
     //Intake 
-    LTrigger = new Trigger(booleanSupplyLT);
+    LTrigger = new Trigger(createBooleanSupplier(driverController, Constants.XBOX_LTriggerPort, Constants.XBOX_RTriggerPort, 0.1));
     LTrigger.whileTrue(new IntakeOnReverse());
     LTrigger.onFalse(new IntakeOff());
 
-    RTrigger = new Trigger(booleanSupplyRT);
+    RTrigger = new Trigger(createBooleanSupplier(driverController, Constants.XBOX_RTriggerPort, Constants.XBOX_LTriggerPort, 0.1));
     RTrigger.whileTrue(new IntakeOn());
     RTrigger.onFalse(new IntakeOff());
 
@@ -82,24 +76,17 @@ public class RobotContainer {
 
     BackButton = new JoystickButton(driverController, Constants.XBOX_BackPort);
     BackButton.onTrue(new CompressorOff());
-
-
   }
 
-  private void configureBooleanSuppliers() {
-    booleanSupplyLT = () -> {
-      if (driverController.getRawAxis(Constants.XBOX_LTriggerPort) > 0.1 && driverController.getRawAxis(Constants.XBOX_RTriggerPort) < 0.1) {
+  private BooleanSupplier createBooleanSupplier(Joystick controller, int requiredPort, int dependentPort, double requirement) {
+    BooleanSupplier booleanSupply;
+    booleanSupply = () -> {
+      if (controller.getRawAxis(requiredPort) > requirement && controller.getRawAxis(dependentPort) < requirement) {
         return true;
       } else {
         return false;
       }
     };
-    booleanSupplyRT = () -> {
-      if (driverController.getRawAxis(Constants.XBOX_RTriggerPort) > 0.1 && driverController.getRawAxis(Constants.XBOX_LTriggerPort) < 0.1) {
-        return true;
-      } else {
-        return false;
-      }
-    };
+    return booleanSupply;
   }
 }

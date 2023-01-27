@@ -1,6 +1,11 @@
 {
   "HALProvider": {
     "Other Devices": {
+      "Compressor[0]": {
+        "header": {
+          "open": true
+        }
+      },
       "SparkMax[7]": {
         "header": {
           "open": true
@@ -10,6 +15,16 @@
         "header": {
           "open": true
         }
+      }
+    },
+    "Solenoids": {
+      "0": {
+        "header": {
+          "open": true
+        }
+      },
+      "window": {
+        "visible": true
       }
     }
   },

@@ -40,12 +40,12 @@ public class Intake_Subystem extends SubsystemBase {
     }
 
     public void extendIntake() {
-        Pneumatics_Subsystem.intakeSolenoid.setOutput(true);
+        Pneumatics_Subsystem.intakeSolenoid.set(true);
         intakeActive = true;
     }
 
     public void retractIntake() {
-        Pneumatics_Subsystem.intakeSolenoid.setOutput(false);
+        Pneumatics_Subsystem.intakeSolenoid.set(false);
         intakeActive = false;
     }
 }

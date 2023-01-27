@@ -14,9 +14,9 @@ import frc.robot.Constants;
 
 public class Pneumatics_Subsystem extends SubsystemBase {
   public static Compressor comp = new Compressor(PneumaticsModuleType.CTREPCM);
-  public static SolenoidSim intakeSolenoid = new SolenoidSim(PneumaticsModuleType.CTREPCM, Constants.intakeSolChannel);
-  public static SolenoidSim clampSolenoid = new SolenoidSim(PneumaticsModuleType.CTREPCM, Constants.clampSolChannel);
-  public static SolenoidSim feetSolenoid = new SolenoidSim(PneumaticsModuleType.CTREPCM, Constants.feetSolChannel);
+  public static Solenoid intakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.intakeSolChannel);
+  public static Solenoid clampSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.clampSolChannel);
+  public static Solenoid feetSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.feetSolChannel);
 
  
   public Pneumatics_Subsystem() {
