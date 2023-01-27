@@ -57,8 +57,7 @@ public final class Constants {
   public final static int rightBackVicPort = 6;
 
   //Intake
-  public final static int topIntakePort = 7;
-  public final static int bottomIntakePort = 8;
+  public final static int intakePort = 7;
   public final static double intakeSpeed = 1.0;
 
   //Solenoids

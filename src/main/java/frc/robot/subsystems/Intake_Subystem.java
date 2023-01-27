@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -16,27 +17,22 @@ import frc.robot.RobotContainer;
 public class Intake_Subystem extends SubsystemBase {
     public boolean intakeActive = false;
 
-    public static SparkMaxWrapper topIntakeMotor;
-    public static SparkMaxWrapper bottomIntakeMotor;
+    public static WPI_VictorSPX intakeMotor;
 
     public Intake_Subystem() {
-        topIntakeMotor = new SparkMaxWrapper(Constants.topIntakePort, MotorType.kBrushless);
-        bottomIntakeMotor = new SparkMaxWrapper(Constants.bottomIntakePort, MotorType.kBrushless);
+        intakeMotor = new WPI_VictorSPX(Constants.intakePort);
     }
 
     public void runIntake(boolean direction) {
         if (direction) {
-            topIntakeMotor.set(Constants.intakeSpeed);
-            bottomIntakeMotor.set(-Constants.intakeSpeed);
+            intakeMotor.set(Constants.intakeSpeed);
         } else {
-            topIntakeMotor.set(-Constants.intakeSpeed);
-            bottomIntakeMotor.set(Constants.intakeSpeed);
+            intakeMotor.set(-Constants.intakeSpeed);
         }
     }
 
     public void stopIntake() {
-        topIntakeMotor.set(0.0);
-        bottomIntakeMotor.set(0.0);
+        intakeMotor.set(0.0);
     }
 
     public void extendIntake() {
