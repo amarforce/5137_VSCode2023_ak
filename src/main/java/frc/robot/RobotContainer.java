@@ -77,11 +77,11 @@ public class RobotContainer {
     driver_BackButton.onTrue(new CompressorOff());
 
     //Clamp
-    assist_LTrigger = new Trigger(createBooleanSupplier(assistController, Constants.PS4_LTriggerPort, Constants.PS4_RTriggerPort, -0.9));
+    assist_LTrigger = new Trigger(createBooleanSupplier(assistController, Constants.XBOX_LTriggerPort, Constants.XBOX_RTriggerPort, 0.1));
     assist_LTrigger.onTrue(new ClampCube());
     assist_LTrigger.onFalse(new ClampOpen());
 
-    assist_RTrigger = new Trigger(createBooleanSupplier(assistController, Constants.PS4_RTriggerPort, Constants.PS4_LTriggerPort, -0.9));
+    assist_RTrigger = new Trigger(createBooleanSupplier(assistController, Constants.XBOX_RTriggerPort, Constants.XBOX_LTriggerPort, 0.1));
     assist_RTrigger.onTrue(new ClampCone());
     assist_RTrigger.onFalse(new ClampOpen());
   }
