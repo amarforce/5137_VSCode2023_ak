@@ -9,7 +9,8 @@ import java.util.function.BooleanSupplier;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.subsystems.Arm_Subsystem;
 //Subsystems
 import frc.robot.subsystems.DriveBase_Subsystem;
 import frc.robot.subsystems.Intake_Subystem;
@@ -22,6 +23,8 @@ import frc.robot.commands.Intake_Commands.IntakeOnReverse;
 
 //Compressor Commands 
 import frc.robot.commands.Compressor_Commands.CompressorOn;
+import frc.robot.commands.Arm_Commands.ArmRevert;
+import frc.robot.commands.Arm_Commands.TopCubePreset;
 import frc.robot.commands.Compressor_Commands.CompressorOff;
 
 /**
@@ -35,6 +38,7 @@ public class RobotContainer {
   public static DriveBase_Subsystem driveBase_Subsystem;
   public static Intake_Subystem intake_Subystem;
   public static Pneumatics_Subsystem pneumatics_Subsystem;
+  public static Arm_Subsystem arm_Subsystem;
 
   //Controllers
   public static Joystick driverController;
@@ -47,12 +51,15 @@ public class RobotContainer {
   //Buttons
   public static JoystickButton StartButton;
   public static JoystickButton BackButton;
+  public static JoystickButton XButton;
+  public static POVButton UpDButton;
 
   public RobotContainer() {
     //Subsystems
     driveBase_Subsystem = new DriveBase_Subsystem();
     intake_Subystem = new Intake_Subystem(); 
     pneumatics_Subsystem = new Pneumatics_Subsystem();
+    arm_Subsystem = new Arm_Subsystem();
 
     //Controllers
     driverController = new Joystick(Constants.driverControllerPort);
@@ -76,6 +83,13 @@ public class RobotContainer {
 
     BackButton = new JoystickButton(driverController, Constants.XBOX_BackPort);
     BackButton.onTrue(new CompressorOff());
+
+    //Arm
+    XButton = new JoystickButton(assistController, Constants.XBOX_XPort);
+    XButton.onTrue(new TopCubePreset());
+
+    UpDButton = new POVButton(assistController, 0);
+    UpDButton.onTrue(new ArmRevert());
   }
 
   private BooleanSupplier createBooleanSupplier(Joystick controller, int requiredPort, int dependentPort, double requirement) {

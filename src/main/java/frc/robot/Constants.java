@@ -35,8 +35,10 @@ public final class Constants {
   public final static int XBOX_RXStickAxisPort = 4;
   public final static int XBOX_RYStickAxisPort = 5;
   public final static int XBOX_APort = 1;
+  public final static int XBOX_XPort = 3;
   public final static int XBOX_StartPort = 8;
   public final static int XBOX_BackPort = 7;
+  //public final static int XBOX_UpDButtonPort = 
 
   //PS4 Controller Ports
   public final static int PS4_LXStickAxisPort = 0;
@@ -64,4 +66,20 @@ public final class Constants {
   public static final int intakeSolChannel = 0;
   public static final int clampSolChannel = 1;
   public static final int feetSolChannel = 2;
+
+  //Arm
+  public final static int armRotatePort = 8; //filler number, change later
+  public final static int armExtendPort = 9; //filler number, change later
+
+  public final static double armExtendSpeed = 0.2; //needs testing
+  public final static double armRotateSpeed = 0.2; //needs testing
+
+  //all of these are how many rotations of the motor is needed to get to the set position
+  //all of these values need testing to finalize
+  public final static int topCubeRotations = 100;
+  public final static int middleCubeRotations = 100;
+  public final static int topConeRotations = 100;
+  public final static int middleConeRotations = 100;
+  public final static int hybridRotations = 100;
+
 }
