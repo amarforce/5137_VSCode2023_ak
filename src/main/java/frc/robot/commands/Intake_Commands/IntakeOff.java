@@ -3,7 +3,7 @@ package frc.robot.commands.Intake_Commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-public class IntakeOff extends CommandBase{
+public class IntakeOff extends CommandBase {
     public IntakeOff() {
         addRequirements(RobotContainer.intake_Subystem);
      }

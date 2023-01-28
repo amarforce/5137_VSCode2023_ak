@@ -11,18 +11,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 //Subsystems
-import frc.robot.subsystems.DriveBase_Subsystem;
-import frc.robot.subsystems.Intake_Subystem;
-import frc.robot.subsystems.Pneumatics_Subsystem;
+import frc.robot.subsystems.*;
 
-//Intake Commands
-import frc.robot.commands.Intake_Commands.IntakeOff;
-import frc.robot.commands.Intake_Commands.IntakeOn;
-import frc.robot.commands.Intake_Commands.IntakeOnReverse;
-
-//Compressor Commands 
-import frc.robot.commands.Compressor_Commands.CompressorOn;
-import frc.robot.commands.Compressor_Commands.CompressorOff;
+//Commands
+import frc.robot.commands.Intake_Commands.*;
+import frc.robot.commands.Compressor_Commands.*;
+import frc.robot.commands.Clamp_Commands.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -35,24 +29,28 @@ public class RobotContainer {
   public static DriveBase_Subsystem driveBase_Subsystem;
   public static Intake_Subystem intake_Subystem;
   public static Pneumatics_Subsystem pneumatics_Subsystem;
+  public static Clamp_Subsystem clamp_Subsystem;
 
   //Controllers
   public static Joystick driverController;
   public static Joystick assistController;
 
   //Triggers
-  public static Trigger LTrigger;
-  public static Trigger RTrigger;
+  public static Trigger driver_LTrigger;
+  public static Trigger driver_RTrigger;
+  public static Trigger assist_LTrigger;
+  public static Trigger assist_RTrigger;
 
   //Buttons
-  public static JoystickButton StartButton;
-  public static JoystickButton BackButton;
+  public static JoystickButton driver_StartButton; //Maybe switch these to assist
+  public static JoystickButton driver_BackButton;
 
   public RobotContainer() {
     //Subsystems
     driveBase_Subsystem = new DriveBase_Subsystem();
     intake_Subystem = new Intake_Subystem(); 
     pneumatics_Subsystem = new Pneumatics_Subsystem();
+    clamp_Subsystem = new Clamp_Subsystem();
 
     //Controllers
     driverController = new Joystick(Constants.driverControllerPort);
@@ -60,22 +58,32 @@ public class RobotContainer {
 
     configureBindings();    // Configures the trigger bindings
   }
+
   private void configureBindings() {
     //Intake 
-    LTrigger = new Trigger(createBooleanSupplier(driverController, Constants.XBOX_LTriggerPort, Constants.XBOX_RTriggerPort, 0.1));
-    LTrigger.whileTrue(new IntakeOnReverse());
-    LTrigger.onFalse(new IntakeOff());
+    driver_LTrigger = new Trigger(createBooleanSupplier(driverController, Constants.XBOX_LTriggerPort, Constants.XBOX_RTriggerPort, 0.1));
+    driver_LTrigger.whileTrue(new IntakeOnReverse());
+    driver_LTrigger.onFalse(new IntakeOff());
 
-    RTrigger = new Trigger(createBooleanSupplier(driverController, Constants.XBOX_RTriggerPort, Constants.XBOX_LTriggerPort, 0.1));
-    RTrigger.whileTrue(new IntakeOn());
-    RTrigger.onFalse(new IntakeOff());
+    driver_RTrigger = new Trigger(createBooleanSupplier(driverController, Constants.XBOX_RTriggerPort, Constants.XBOX_LTriggerPort, 0.1));
+    driver_RTrigger.whileTrue(new IntakeOn());
+    driver_RTrigger.onFalse(new IntakeOff());
 
     //Compressor 
-    StartButton = new JoystickButton(driverController, Constants.XBOX_StartPort);
-    StartButton.onTrue(new CompressorOn());
+    driver_StartButton = new JoystickButton(driverController, Constants.XBOX_StartPort);
+    driver_StartButton.onTrue(new CompressorOn());
 
-    BackButton = new JoystickButton(driverController, Constants.XBOX_BackPort);
-    BackButton.onTrue(new CompressorOff());
+    driver_BackButton = new JoystickButton(driverController, Constants.XBOX_BackPort);
+    driver_BackButton.onTrue(new CompressorOff());
+
+    //Clamp
+    assist_LTrigger = new Trigger(createBooleanSupplier(assistController, Constants.PS4_LTriggerPort, Constants.PS4_RTriggerPort, -0.9));
+    assist_LTrigger.onTrue(new ClampCube());
+    assist_LTrigger.onFalse(new ClampOpen());
+
+    assist_RTrigger = new Trigger(createBooleanSupplier(assistController, Constants.PS4_RTriggerPort, Constants.PS4_LTriggerPort, -0.9));
+    assist_RTrigger.onTrue(new ClampCone());
+    assist_RTrigger.onFalse(new ClampOpen());
   }
 
   private BooleanSupplier createBooleanSupplier(Joystick controller, int requiredPort, int dependentPort, double requirement) {

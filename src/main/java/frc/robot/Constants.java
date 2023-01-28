@@ -18,9 +18,6 @@ public final class Constants {
   public final static double turnSensitivity = 3.0;
   public final static double errormargin = 0.1;
 
-  //Controller Type "xbox" or "ps4"
-  public final static String controllerType = "ps4";
-
   //Ports
 
   //Controllers

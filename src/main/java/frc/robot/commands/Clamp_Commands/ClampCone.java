@@ -1,22 +1,18 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
-package frc.robot.commands.Compressor_Commands;
+package frc.robot.commands.Clamp_Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-public class CompressorOff extends CommandBase {
-  /** Creates a new CompressorOff. */
-  public CompressorOff() {
-    addRequirements(RobotContainer.pneumatics_Subsystem);
+public class ClampCone extends CommandBase {
+
+ public ClampCone () {
+     addRequirements(RobotContainer.clamp_Subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.pneumatics_Subsystem.compress(false);
+    RobotContainer.clamp_Subsystem.Clamp(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,5 +27,5 @@ public class CompressorOff extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
-  }
+  } 
 }
