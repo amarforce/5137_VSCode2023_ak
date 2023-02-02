@@ -5,13 +5,13 @@
 package frc.robot.commands.Arm_Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.*;
 
-public class ArmRevert extends CommandBase {
-  /** Creates a new ArmRevert. */
-  public ArmRevert() {
+public class TopConePreset extends CommandBase {
+  /** Creates a new TopConePreset. */
+  public TopConePreset() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.arm_Subsystem);
   }
@@ -23,16 +23,13 @@ public class ArmRevert extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.arm_Subsystem.armExtend(-Arm_Subsystem.currentExtension);
-    RobotContainer.arm_Subsystem.armRotate(-Arm_Subsystem.currentRotation);
+    RobotContainer.arm_Subsystem.armRotate(Constants.topConeDegrees);
+    RobotContainer.arm_Subsystem.armExtend(Constants.topConeExtension);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    Arm_Subsystem.currentExtension = 0;
-    Arm_Subsystem.currentRotation = 0;
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

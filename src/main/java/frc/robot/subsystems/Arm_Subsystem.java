@@ -24,6 +24,9 @@ public class Arm_Subsystem extends SubsystemBase {
   public static int currentRotation;
   public static int currentExtension;
 
+  //int pulse = rotateEncoder.getCountsPerRevolution() / 4;         //converts counts into pulses 
+  //int pulsePerDegree = pulse / 360;    
+
   //final EncoderSim rotateEncoderSim = new EncoderSim(rotateEncoder);
   //final EncoderSim extendEncoderSim = new EncoderSim(extendEncoder);
 
@@ -34,24 +37,32 @@ public class Arm_Subsystem extends SubsystemBase {
     //delete these if it creates issues
     armRotateMotor.restoreFactoryDefaults();
     armExtendMotor.restoreFactoryDefaults();
-  }
+
+    rotateEncoder.setPositionConversionFactor(0.0);          //sets origin 
+
+    int pulse = rotateEncoder.getCountsPerRevolution() / 4;         //converts counts into pulses 
+    int pulsePerDegree = pulse / 360;                               //figures out how many pulses per degree, so we can use that
+    }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
 
-  public void armRotate(int desiredNumRotations){
-    double rotatePosition = rotateEncoder.getPosition();
+  public void armRotate(int desiredDegrees){
+    double rotatePosition = rotateEncoder.getPosition() * Constants.rotationToDegreeConversion; //gear ratio TT
     
-    if (rotatePosition < desiredNumRotations){
+    if (rotatePosition == desiredDegrees){
+      //should end the command
+    }
+    else if (rotatePosition < desiredDegrees){
       armRotateMotor.set(Constants.armRotateSpeed);
       //System.out.println("Current rotate position: " + rotatePosition);
     } 
-    if (rotatePosition >= desiredNumRotations) {
-      armRotateMotor.set(0);
+    else if (rotatePosition > desiredDegrees) {
+      armRotateMotor.set(-Constants.armRotateSpeed);
 
-      currentRotation = desiredNumRotations;
+      currentRotation = desiredDegrees;
       //System.out.println("Rotation counter is at: " + currentRotation);
     }
   }

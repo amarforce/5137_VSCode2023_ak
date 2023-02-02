@@ -9,9 +9,9 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.*;
 
-public class TopCubePreset extends CommandBase {
-  /** Creates a new TopCubePreset. */
-  public TopCubePreset() {
+public class HybridPreset extends CommandBase {
+  /** Creates a new HybridPreset. */
+  public HybridPreset() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.arm_Subsystem);
   }
@@ -23,8 +23,8 @@ public class TopCubePreset extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.arm_Subsystem.armRotate(Constants.topCubeDegrees);
-    RobotContainer.arm_Subsystem.armExtend(Constants.topCubeExtension);
+    RobotContainer.arm_Subsystem.armRotate(Constants.hybridDegrees);
+    RobotContainer.arm_Subsystem.armExtend(Constants.hybridExtension);
   }
 
   // Called once the command ends or is interrupted.

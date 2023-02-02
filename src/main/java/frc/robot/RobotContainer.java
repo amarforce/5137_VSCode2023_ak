@@ -23,7 +23,6 @@ import frc.robot.commands.Intake_Commands.IntakeOnReverse;
 
 //Compressor Commands 
 import frc.robot.commands.Compressor_Commands.CompressorOn;
-import frc.robot.commands.Arm_Commands.ArmRevert;
 import frc.robot.commands.Arm_Commands.TopCubePreset;
 import frc.robot.commands.Compressor_Commands.CompressorOff;
 
@@ -88,8 +87,6 @@ public class RobotContainer {
     XButton = new JoystickButton(assistController, Constants.XBOX_XPort);
     XButton.onTrue(new TopCubePreset());
 
-    UpDButton = new POVButton(assistController, 0);
-    UpDButton.onTrue(new ArmRevert());
   }
 
   private BooleanSupplier createBooleanSupplier(Joystick controller, int requiredPort, int dependentPort, double requirement) {

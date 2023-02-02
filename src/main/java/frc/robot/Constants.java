@@ -70,16 +70,23 @@ public final class Constants {
   //Arm
   public final static int armRotatePort = 8; //filler number, change later
   public final static int armExtendPort = 9; //filler number, change later
+  public final static double rotationToDegreeConversion = 1; //filler number, will change when mechanical knows what theyre doing 
 
   public final static double armExtendSpeed = 0.2; //needs testing
   public final static double armRotateSpeed = 0.2; //needs testing
 
-  //all of these are how many rotations of the motor is needed to get to the set position
+  //all of these are how many degrees the arm needs to turn to be in the optimal position
   //all of these values need testing to finalize
-  public final static int topCubeRotations = 100;
-  public final static int middleCubeRotations = 100;
-  public final static int topConeRotations = 100;
-  public final static int middleConeRotations = 100;
-  public final static int hybridRotations = 100;
+  public final static int topCubeDegrees = 100;
+  public final static int middleCubeDegrees = 100;
+  public final static int topConeDegrees = 100;
+  public final static int middleConeDegrees = 100;
+  public final static int hybridDegrees = 100;
+
+  public final static int topCubeExtension = 100;
+  public final static int middleCubeExtension = 100;
+  public final static int topConeExtension = 100;
+  public final static int middleConeExtension = 100;
+  public final static int hybridExtension = 100;
 
 }
