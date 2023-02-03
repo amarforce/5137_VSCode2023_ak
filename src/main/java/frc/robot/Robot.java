@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -17,6 +18,11 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  public static Joystick driverController;
+  public static Joystick assistController;
+  public static String driverControllerType;
+  public static String assistControllerType;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -25,6 +31,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    driverController = new Joystick(Constants.driverControllerPort);
+    assistController = new Joystick(Constants.assistControllerPort);
     m_robotContainer = new RobotContainer();
   }
 
@@ -63,6 +71,12 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    driverControllerType = setControllerType(driverController); //Defaults to xbox
+    //driverControllerType = "xbox"; --For competitions
+    assistControllerType = setControllerType(assistController); //Defaults to xbox
+    //driverControllerType = "xbox"; --For competition
+    Constants.updateDepConstants();
+    RobotContainer.configureBindings();
   }
 
   /** This function is called periodically during operator control. */
@@ -86,4 +100,12 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
+  private String setControllerType(Joystick controller) {
+    switch (controller.getButtonCount()) {
+      case (14): return "ps4";
+      case (10): return "xbox";
+      default: return "xbox";
+    }
+  }
 }

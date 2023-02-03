@@ -18,47 +18,52 @@ public final class Constants {
   public final static double turnSensitivity = 3.0;
   public final static double errormargin = 0.1;
 
-  //Ports
-
   //Controllers
   public final static int driverControllerPort = 0;
   public final static int assistControllerPort = 1;
 
-  //XBOX Controller Ports
-  public final static int XBOX_LXStickAxisPort = 0;
-  public final static int XBOX_LYStickAxisPort = 1;
-  public final static int XBOX_LTriggerPort = 2;
-  public final static int XBOX_RTriggerPort = 3;
-  public final static int XBOX_RXStickAxisPort = 4;
-  public final static int XBOX_RYStickAxisPort = 5;
-  public final static int XBOX_APort = 1;
-  public final static int XBOX_StartPort = 8;
-  public final static int XBOX_BackPort = 7;
-
-  //PS4 Controller Ports
-  public final static int PS4_LXStickAxisPort = 0;
-  public final static int PS4_LYStickAxisPort = 1;
-  public final static int PS4_RXStickAxisPort = 2;
-  public final static int PS4_LTriggerPort = 3;
-  public final static int PS4_RTriggerPort = 4;
-  public final static int PS4_RYStickAxisPort = 5;
-  public final static int PS4_SPort = 1;
+  //Controller Ports
+  public final static int g_LXStickAxisPort = 0;
+  public final static int g_LYStickAxisPort = 1;
+  public static int d_RXStickAxisPort;
+  public static int a_RXStickAxisPort;
+  public final static int g_RYStickAxisPort = 5;
+  public static int d_LTriggerPort;
+  public static int a_LTriggerPort;
+  public static int d_RTriggerPort;
+  public static int a_RTriggerPort;
+  public static int d_ShackPort; //Shack =
+  public static int a_ShackPort; //Share + Back
+  public static int d_StoptionsPort; //Stoptions =
+  public static int a_StoptionsPort; //Start + Options
 
   //DriveBase Motors - CAN Numbers
-  public final static int leftTalonPort = 1;
-  public final static int leftFrontVicPort = 3;
-  public final static int leftBackVicPort = 5;
+  public final static int leftFrontTalonPort = 1;
+  public final static int leftBackTalonPort = 2;
   
-  public final static int rightTalonPort = 2;
-  public final static int rightFrontVicPort = 4;
-  public final static int rightBackVicPort = 6;
+  public final static int rightFrontTalonPort = 3;
+  public final static int rightBackTalonPort = 4;
 
   //Intake
-  public final static int intakePort = 7;
+  public final static int intakePort = 5;
   public final static double intakeSpeed = 1.0;
 
   //Solenoids
   public static final int intakeSolChannel = 0;
   public static final int clampSolChannel = 1;
   public static final int feetSolChannel = 2;
+
+  //It's a lot more simple than it seems
+  public static void updateDepConstants() {
+    d_RXStickAxisPort = Supplier.DriverIS(4, 2).getAsInt();
+    a_RXStickAxisPort = Supplier.AssistIS(4, 2).getAsInt();
+    d_LTriggerPort = Supplier.DriverIS(2, 3).getAsInt();
+    a_LTriggerPort = Supplier.AssistIS(2, 3).getAsInt();
+    d_RTriggerPort = Supplier.DriverIS(3, 4).getAsInt();
+    a_RTriggerPort = Supplier.AssistIS(3, 4).getAsInt();
+    d_ShackPort = Supplier.DriverIS(7, 9).getAsInt(); //Shack =
+    a_ShackPort = Supplier.DriverIS(7, 9).getAsInt(); //Share + Back
+    d_StoptionsPort = Supplier.DriverIS(8, 10).getAsInt(); //Stoptions =
+    a_StoptionsPort = Supplier.DriverIS(8, 10).getAsInt(); //Start + Options
+  }
 }

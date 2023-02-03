@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import java.util.function.BooleanSupplier;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -34,6 +32,7 @@ public class RobotContainer {
   //Controllers
   public static Joystick driverController;
   public static Joystick assistController;
+  public static String controllerType;
 
   //Triggers
   public static Trigger driver_LTrigger;
@@ -53,48 +52,34 @@ public class RobotContainer {
     clamp_Subsystem = new Clamp_Subsystem();
 
     //Controllers
-    driverController = new Joystick(Constants.driverControllerPort);
-    assistController = new Joystick(Constants.assistControllerPort);
-
-    configureBindings();    // Configures the trigger bindings
+    driverController = Robot.driverController;
+    assistController = Robot.assistController;
   }
 
-  private void configureBindings() {
+  public static void configureBindings() {
     //Intake 
-    driver_LTrigger = new Trigger(createBooleanSupplier(driverController, Constants.XBOX_LTriggerPort, Constants.XBOX_RTriggerPort, 0.1));
+    driver_LTrigger = new Trigger(Supplier.createBooleanSupplier(driverController, Constants.d_LTriggerPort, Constants.d_RTriggerPort));
     driver_LTrigger.whileTrue(new IntakeOnReverse());
     driver_LTrigger.onFalse(new IntakeOff());
 
-    driver_RTrigger = new Trigger(createBooleanSupplier(driverController, Constants.XBOX_RTriggerPort, Constants.XBOX_LTriggerPort, 0.1));
+    driver_RTrigger = new Trigger(Supplier.createBooleanSupplier(driverController, Constants.d_RTriggerPort, Constants.d_LTriggerPort));
     driver_RTrigger.whileTrue(new IntakeOn());
     driver_RTrigger.onFalse(new IntakeOff());
 
     //Compressor 
-    driver_StartButton = new JoystickButton(driverController, Constants.XBOX_StartPort);
+    driver_StartButton = new JoystickButton(driverController, 9);
     driver_StartButton.onTrue(new CompressorOn());
 
-    driver_BackButton = new JoystickButton(driverController, Constants.XBOX_BackPort);
+    driver_BackButton = new JoystickButton(driverController, 10);
     driver_BackButton.onTrue(new CompressorOff());
 
     //Clamp
-    assist_LTrigger = new Trigger(createBooleanSupplier(assistController, Constants.XBOX_LTriggerPort, Constants.XBOX_RTriggerPort, 0.1));
+    assist_LTrigger = new Trigger(Supplier.createBooleanSupplier(assistController, Constants.a_LTriggerPort, Constants.a_RTriggerPort));
     assist_LTrigger.onTrue(new ClampCube());
     assist_LTrigger.onFalse(new ClampOpen());
 
-    assist_RTrigger = new Trigger(createBooleanSupplier(assistController, Constants.XBOX_RTriggerPort, Constants.XBOX_LTriggerPort, 0.1));
+    assist_RTrigger = new Trigger(Supplier.createBooleanSupplier(assistController, Constants.a_RTriggerPort, Constants.a_LTriggerPort));
     assist_RTrigger.onTrue(new ClampCone());
     assist_RTrigger.onFalse(new ClampOpen());
-  }
-
-  private BooleanSupplier createBooleanSupplier(Joystick controller, int requiredPort, int dependentPort, double requirement) {
-    BooleanSupplier booleanSupply;
-    booleanSupply = () -> {
-      if (controller.getRawAxis(requiredPort) > requirement && controller.getRawAxis(dependentPort) < requirement) {
-        return true;
-      } else {
-        return false;
-      }
-    };
-    return booleanSupply;
   }
 }
