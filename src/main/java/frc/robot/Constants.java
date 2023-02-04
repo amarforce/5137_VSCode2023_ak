@@ -75,17 +75,17 @@ public final class Constants {
 
   //all of these are how many degrees the arm needs to turn to be in the optimal position
   //all of these values need testing to finalize
-  public final static int topCubeDegrees = 100;
-  public final static int middleCubeDegrees = 100;
-  public final static int topConeDegrees = 100;
-  public final static int middleConeDegrees = 100;
-  public final static int hybridDegrees = 100;
+  public final static double topCubeRotation = 45;
+  public final static double middleCubeRotation = 30;
+  public final static double topConeRotation = 60;
+  public final static double middleConeRotation = 50;
+  public final static double hybridRotation = 20;
 
-  public final static int topCubeExtension = 100;
-  public final static int middleCubeExtension = 100;
-  public final static int topConeExtension = 100;
-  public final static int middleConeExtension = 100;
-  public final static int hybridExtension = 100;
+  public final static double topCubeExtension = 50;
+  public final static double middleCubeExtension = 40;
+  public final static double topConeExtension = 55;
+  public final static double middleConeExtension = 45;
+  public final static double hybridExtension = 30;
   
   //It's a lot more simple than it seems
   public static void updateDepConstants() {

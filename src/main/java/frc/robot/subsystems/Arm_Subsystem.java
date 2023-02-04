@@ -4,24 +4,26 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.simulation.SparkMaxWrapper;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Arm_Subsystem extends SubsystemBase {
-  CANSparkMax armRotateMotor = new CANSparkMax(Constants.armRotatePort, MotorType.kBrushless);
-  CANSparkMax armExtendMotor = new CANSparkMax(Constants.armExtendPort, MotorType.kBrushless);
+  //CANSparkMax armRotateMotor = new CANSparkMax(Constants.armRotatePort, MotorType.kBrushless);
+  //CANSparkMax armExtendMotor = new CANSparkMax(Constants.armExtendPort, MotorType.kBrushless);
+  SparkMaxWrapper armRotateMotor = new SparkMaxWrapper(Constants.armRotatePort, MotorType.kBrushless);
+  SparkMaxWrapper armExtendMotor = new SparkMaxWrapper(Constants.armExtendPort, MotorType.kBrushless);
   
   RelativeEncoder rotateEncoder = armRotateMotor.getEncoder();
   RelativeEncoder extendEncoder = armExtendMotor.getEncoder();
 
-  public static int currentRotation;
-  public static int currentExtension;
-
-  public static boolean booleanArmFinished = false;
+  public static double desiredRotation = 0.0;
+  public static double desiredExtension = 0.0;
 
   //int pulse = rotateEncoder.getCountsPerRevolution() / 4;         //converts counts into pulses 
   //int pulsePerDegree = pulse / 360;    
@@ -46,45 +48,44 @@ public class Arm_Subsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    arcadeArm();
   }
 
-  public void armRotate(int desiredDegrees){
+  private void arcadeArm() {
+    armRotate();
+    armExtend();
+  }
+
+  private void armRotate() {
     double rotatePosition = rotateEncoder.getPosition() * Constants.rotationToDegreeConversion; //gear ratio TT
-    
-    if (rotatePosition == desiredDegrees){
-      //should end the command
-      booleanArmFinished = true;
+    //System.out.println("Desired Rotation:"+desiredRotation+"Current Rotation:"+rotatePosition);
+    if (Math.abs(rotatePosition-desiredRotation) < 1){
+      armRotateMotor.set(0.0);
     }
-    else if (rotatePosition < desiredDegrees){
+    else if (rotatePosition < desiredRotation){
       armRotateMotor.set(Constants.armRotateSpeed);
-      //System.out.println("Current rotate position: " + rotatePosition);
     } 
-    else if (rotatePosition > desiredDegrees) {
+    else if (rotatePosition > desiredRotation) {
       armRotateMotor.set(-Constants.armRotateSpeed);
-
-      currentRotation = desiredDegrees;
-      //System.out.println("Rotation counter is at: " + currentRotation);
     }
   }
 
-  public void armExtend(int desiredNumRotations){
-    double extendPosition = extendEncoder.getPosition();
-    
-    if (extendPosition < desiredNumRotations){
+  private void armExtend() {
+    double extendPosition = rotateEncoder.getPosition() * Constants.rotationToDegreeConversion; //gear ratio TT
+    //System.out.println("Desired Extension:"+desiredExtension+"Current Extension:"+extendPosition);
+    if (Math.abs(extendPosition-desiredExtension) < 1){
+      armExtendMotor.set(0.0);
+    }
+    else if (extendPosition < desiredExtension){
       armExtendMotor.set(Constants.armExtendSpeed);
-    }
-    if (extendPosition >= desiredNumRotations){
-      armExtendMotor.set(0);
-
-      currentExtension = desiredNumRotations;
+    } 
+    else if (extendPosition > desiredExtension) {
+      armExtendMotor.set(-Constants.armExtendSpeed);
     }
   }
 
-  public void armStop(Boolean stopBoolean){
-    if (stopBoolean == true){
-      armExtendMotor.set(0);
-      armRotateMotor.set(0);
-      stopBoolean = false;
-    }
+  public void moveArm(double rotation, double extension) {
+    desiredRotation = rotation;
+    desiredExtension = extension;
   }
 }

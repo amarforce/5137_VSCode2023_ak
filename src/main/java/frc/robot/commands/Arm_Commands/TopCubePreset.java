@@ -7,7 +7,6 @@ package frc.robot.commands.Arm_Commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.*;
 
 public class TopCubePreset extends CommandBase {
   /** Creates a new TopCubePreset. */
@@ -23,19 +22,18 @@ public class TopCubePreset extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.arm_Subsystem.armRotate(Constants.topCubeDegrees);
-    RobotContainer.arm_Subsystem.armExtend(Constants.topCubeExtension);
+    RobotContainer.arm_Subsystem.moveArm(Constants.topCubeRotation, Constants.topCubeExtension);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.arm_Subsystem.armStop(Arm_Subsystem.booleanArmFinished);
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

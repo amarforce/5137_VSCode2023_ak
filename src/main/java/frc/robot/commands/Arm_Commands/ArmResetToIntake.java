@@ -20,8 +20,8 @@ public class ArmResetToIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.arm_Subsystem.armExtend(0);
-    RobotContainer.arm_Subsystem.armRotate(0);
+    RobotContainer.arm_Subsystem.moveArm(0.0, 0.0);
+    System.out.println("Reset");
   }
 
   // Called once the command ends or is interrupted.
@@ -31,6 +31,6 @@ public class ArmResetToIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
