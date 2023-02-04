@@ -37,7 +37,7 @@ public class SparkMaxWrapper extends CANSparkMax {
     public void set(double speed){
         if (simSparkMax != null){
             simSpeed.set(speed);
-        }else{
+        } else {
             super.set(speed);
         }
     }

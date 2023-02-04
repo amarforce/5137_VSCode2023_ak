@@ -3,9 +3,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Clamp_Subsystem extends SubsystemBase {
 
-    public Clamp_Subsystem() {
-
-    }
+    public Clamp_Subsystem() {}
 
     public void Clamp(boolean type) {
         if (type) {

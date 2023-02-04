@@ -12,14 +12,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Pneumatics_Subsystem extends SubsystemBase {
-  public static Compressor comp = new Compressor(PneumaticsModuleType.CTREPCM);
-  public static Solenoid intakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.intakeSolChannel);
-  public static Solenoid clampSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.clampSolChannel);
-  public static Solenoid feetSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.feetSolChannel);
-
+  public static Compressor comp;
+  public static Solenoid intakeSolenoid;
+  public static Solenoid clampSolenoid;
+  public static Solenoid feetSolenoid;
  
   public Pneumatics_Subsystem() {
-    
+    comp = new Compressor(PneumaticsModuleType.CTREPCM);
+    intakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.intakeSolChannel);
+    clampSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.clampSolChannel);
+    feetSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.feetSolChannel);
   }
 
   @Override
@@ -39,5 +41,4 @@ public class Pneumatics_Subsystem extends SubsystemBase {
       comp.disable();
     } 
   } 
-
 }

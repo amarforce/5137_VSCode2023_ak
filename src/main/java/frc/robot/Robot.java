@@ -45,9 +45,11 @@ public class Robot extends TimedRobot {
     driverControlChooser.setDefaultOption("XBOX", "xbox");
     driverControlChooser.addOption("XBOX", "xbox");
     driverControlChooser.addOption("PLAY_STATION", "ps4");
+
     assistControlChooser.setDefaultOption("XBOX", "xbox");
     assistControlChooser.addOption("XBOX", "xbox");
     assistControlChooser.addOption("PLAY_STATION", "ps4");
+    
     SmartDashboard.putData("Driver Controller Type", driverControlChooser);
     SmartDashboard.putData("Assist Controller Type", assistControlChooser);
   }

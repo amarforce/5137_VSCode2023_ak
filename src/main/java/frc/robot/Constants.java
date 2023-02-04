@@ -37,12 +37,15 @@ public final class Constants {
   public static int d_StoptionsPort; //Stoptions =
   public static int a_StoptionsPort; //Start + Options
 
-  public final static int XBOX_APort = 1;
-  public final static int XBOX_BPort = 2;
-  public final static int XBOX_XPort = 3;
-  public final static int XBOX_YPort = 4;
-  public final static int XBOX_UpDPad = 0;
-  public final static int XBOX_DownDPad = 180;
+  public static int d_AxePort;
+  public static int a_AxePort;
+  public static int d_BirclePort;
+  public static int a_BirclePort;
+  public static int d_XSquaredPort;
+  public static int a_XSquaredPort;
+  public static int g_Yangle = 4;
+  public final static int UpDPad = 0;
+  public final static int DownDPad = 180;
 
   //DriveBase Motors - CAN Numbers
   public final static int leftFrontTalonPort = 1;
@@ -88,13 +91,26 @@ public final class Constants {
   public static void updateDepConstants() {
     d_RXStickAxisPort = Supplier.DriverIS(4, 2).getAsInt();
     a_RXStickAxisPort = Supplier.AssistIS(4, 2).getAsInt();
+
     d_LTriggerPort = Supplier.DriverIS(2, 3).getAsInt();
     a_LTriggerPort = Supplier.AssistIS(2, 3).getAsInt();
+
     d_RTriggerPort = Supplier.DriverIS(3, 4).getAsInt();
     a_RTriggerPort = Supplier.AssistIS(3, 4).getAsInt();
+
+    d_AxePort = Supplier.DriverIS(1, 2).getAsInt();
+    a_AxePort = Supplier.AssistIS(1, 2).getAsInt();
+
+    d_BirclePort = Supplier.DriverIS(2, 3).getAsInt();
+    a_BirclePort = Supplier.AssistIS(2, 3).getAsInt();
+
+    d_XSquaredPort = Supplier.DriverIS(3, 1).getAsInt();
+    a_XSquaredPort = Supplier.AssistIS(3, 1).getAsInt();
+
     d_ShackPort = Supplier.DriverIS(7, 9).getAsInt(); //Shack =
-    a_ShackPort = Supplier.DriverIS(7, 9).getAsInt(); //Share + Back
+    a_ShackPort = Supplier.AssistIS(7, 9).getAsInt(); //Share + Back
+
     d_StoptionsPort = Supplier.DriverIS(8, 10).getAsInt(); //Stoptions =
-    a_StoptionsPort = Supplier.DriverIS(8, 10).getAsInt(); //Start + Options
+    a_StoptionsPort = Supplier.AssistIS(8, 10).getAsInt(); //Start + Options
   }
 }

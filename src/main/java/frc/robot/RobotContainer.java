@@ -46,18 +46,18 @@ public class RobotContainer {
   //Buttons
   public static JoystickButton driver_StartButton; //Maybe switch these to assist
   public static JoystickButton driver_BackButton;
-  public static JoystickButton XButton;
-  public static JoystickButton AButton;
-  public static JoystickButton YButton;
-  public static JoystickButton BButton;
+  public static JoystickButton assist_XButton;
+  public static JoystickButton assist_AButton;
+  public static JoystickButton assist_YButton;
+  public static JoystickButton assist_BButton;
   public static POVButton DownDPad;
   public static POVButton UpDPad;
 
   public RobotContainer() {
     //Subsystems
+    pneumatics_Subsystem = new Pneumatics_Subsystem();
     driveBase_Subsystem = new DriveBase_Subsystem();
     intake_Subystem = new Intake_Subystem(); 
-    pneumatics_Subsystem = new Pneumatics_Subsystem();
     clamp_Subsystem = new Clamp_Subsystem();
     arm_Subsystem = new Arm_Subsystem();
 
@@ -84,23 +84,22 @@ public class RobotContainer {
     driver_BackButton.onTrue(new CompressorOff());
 
     //Arm
-    XButton = new JoystickButton(assistController, Constants.XBOX_XPort);
-    XButton.onTrue(new TopConePreset());
+    assist_XButton = new JoystickButton(assistController, Constants.a_XSquaredPort);
+    assist_XButton.onTrue(new TopConePreset());
 
-    AButton = new JoystickButton(assistController, Constants.XBOX_APort);
-    AButton.onTrue(new MidConePreset());
+    assist_AButton = new JoystickButton(assistController, Constants.a_AxePort);
+    assist_AButton.onTrue(new MidConePreset());
 
-    
-    YButton = new JoystickButton(assistController, Constants.XBOX_YPort);
-    YButton.onTrue(new TopCubePreset());
+    assist_YButton = new JoystickButton(assistController, Constants.g_Yangle);
+    assist_YButton.onTrue(new TopCubePreset());
 
-    BButton = new JoystickButton(assistController, Constants.XBOX_BPort);
-    BButton.onTrue(new MidCubePreset());
+    assist_BButton = new JoystickButton(assistController, Constants.a_BirclePort);
+    assist_BButton.onTrue(new MidCubePreset());
 
-    UpDPad = new POVButton(assistController, Constants.XBOX_UpDPad);
+    UpDPad = new POVButton(assistController, Constants.UpDPad);
     UpDPad.onTrue(new ArmResetToIntake());
 
-    DownDPad = new POVButton(assistController, Constants.XBOX_DownDPad);
+    DownDPad = new POVButton(assistController, Constants.DownDPad);
     DownDPad.onTrue(new HybridPreset());
 
     //Clamp
