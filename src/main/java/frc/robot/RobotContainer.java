@@ -7,7 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.subsystems.Arm_Subsystem;
 //Subsystems
 import frc.robot.subsystems.*;
 
@@ -15,6 +16,7 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.Intake_Commands.*;
 import frc.robot.commands.Compressor_Commands.*;
 import frc.robot.commands.Clamp_Commands.*;
+import frc.robot.commands.Arm_Commands.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -28,6 +30,7 @@ public class RobotContainer {
   public static Intake_Subystem intake_Subystem;
   public static Pneumatics_Subsystem pneumatics_Subsystem;
   public static Clamp_Subsystem clamp_Subsystem;
+  public static Arm_Subsystem arm_Subsystem;
 
   //Controllers
   public static Joystick driverController;
@@ -43,6 +46,12 @@ public class RobotContainer {
   //Buttons
   public static JoystickButton driver_StartButton; //Maybe switch these to assist
   public static JoystickButton driver_BackButton;
+  public static JoystickButton XButton;
+  public static JoystickButton AButton;
+  public static JoystickButton YButton;
+  public static JoystickButton BButton;
+  public static POVButton DownDPad;
+  public static POVButton UpDPad;
 
   public RobotContainer() {
     //Subsystems
@@ -50,6 +59,7 @@ public class RobotContainer {
     intake_Subystem = new Intake_Subystem(); 
     pneumatics_Subsystem = new Pneumatics_Subsystem();
     clamp_Subsystem = new Clamp_Subsystem();
+    arm_Subsystem = new Arm_Subsystem();
 
     //Controllers
     driverController = Robot.driverController;
@@ -72,6 +82,26 @@ public class RobotContainer {
 
     driver_BackButton = new JoystickButton(driverController, 10);
     driver_BackButton.onTrue(new CompressorOff());
+
+    //Arm
+    XButton = new JoystickButton(assistController, Constants.XBOX_XPort);
+    XButton.onTrue(new TopConePreset());
+
+    AButton = new JoystickButton(assistController, Constants.XBOX_APort);
+    AButton.onTrue(new MidConePreset());
+
+    
+    YButton = new JoystickButton(assistController, Constants.XBOX_YPort);
+    YButton.onTrue(new TopCubePreset());
+
+    BButton = new JoystickButton(assistController, Constants.XBOX_BPort);
+    BButton.onTrue(new MidCubePreset());
+
+    UpDPad = new POVButton(assistController, Constants.XBOX_UpDPad);
+    UpDPad.onTrue(new ArmResetToIntake());
+
+    DownDPad = new POVButton(assistController, Constants.XBOX_DownDPad);
+    DownDPad.onTrue(new HybridPreset());
 
     //Clamp
     assist_LTrigger = new Trigger(Supplier.createBooleanSupplier(assistController, Constants.a_LTriggerPort, Constants.a_RTriggerPort));
