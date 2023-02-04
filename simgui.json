@@ -1,42 +1,12 @@
 {
   "HALProvider": {
     "Other Devices": {
-      "Compressor[0]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [8]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [9]": {
-        "header": {
-          "open": true
-        }
-      },
       "SparkMax[7]": {
         "header": {
           "open": true
         }
       },
       "SparkMax[8]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon SRX[1]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon SRX[3]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Victor SPX[5]": {
         "header": {
           "open": true
         }
