@@ -8,6 +8,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.Joystick;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
+
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -23,6 +27,9 @@ public class Robot extends TimedRobot {
   public static String driverControllerType;
   public static String assistControllerType;
 
+  SendableChooser<String> driverControlChooser = new SendableChooser<>();
+  SendableChooser<String> assistControlChooser = new SendableChooser<>();
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -34,6 +41,15 @@ public class Robot extends TimedRobot {
     driverController = new Joystick(Constants.driverControllerPort);
     assistController = new Joystick(Constants.assistControllerPort);
     m_robotContainer = new RobotContainer();
+
+    driverControlChooser.setDefaultOption("XBOX", "xbox");
+    driverControlChooser.addOption("XBOX", "xbox");
+    driverControlChooser.addOption("PLAY_STATION", "ps4");
+    assistControlChooser.setDefaultOption("XBOX", "xbox");
+    assistControlChooser.addOption("XBOX", "xbox");
+    assistControlChooser.addOption("PLAY_STATION", "ps4");
+    SmartDashboard.putData("Driver Controller Type", driverControlChooser);
+    SmartDashboard.putData("Assist Controller Type", assistControlChooser);
   }
 
   /**
@@ -71,10 +87,8 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    driverControllerType = setControllerType(driverController); //Defaults to xbox
-    //driverControllerType = "xbox"; --For competitions
-    assistControllerType = setControllerType(assistController); //Defaults to xbox
-    //driverControllerType = "xbox"; --For competition
+    driverControllerType = driverControlChooser.getSelected();
+    assistControllerType = assistControlChooser.getSelected();
     Constants.updateDepConstants();
     RobotContainer.configureBindings();
   }
@@ -100,12 +114,4 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
-
-  private String setControllerType(Joystick controller) {
-    switch (controller.getButtonCount()) {
-      case (14): return "ps4";
-      case (10): return "xbox";
-      default: return "xbox";
-    }
-  }
 }
