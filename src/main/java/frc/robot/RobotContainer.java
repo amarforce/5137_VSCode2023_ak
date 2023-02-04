@@ -23,7 +23,7 @@ import frc.robot.commands.Intake_Commands.IntakeOnReverse;
 
 //Compressor Commands 
 import frc.robot.commands.Compressor_Commands.CompressorOn;
-import frc.robot.commands.Arm_Commands.TopCubePreset;
+import frc.robot.commands.Arm_Commands.*;
 import frc.robot.commands.Compressor_Commands.CompressorOff;
 
 /**
@@ -51,7 +51,11 @@ public class RobotContainer {
   public static JoystickButton StartButton;
   public static JoystickButton BackButton;
   public static JoystickButton XButton;
-  public static POVButton UpDButton;
+  public static JoystickButton AButton;
+  public static JoystickButton YButton;
+  public static JoystickButton BButton;
+  public static POVButton DownDPad;
+  public static POVButton UpDPad;
 
   public RobotContainer() {
     //Subsystems
@@ -85,8 +89,24 @@ public class RobotContainer {
 
     //Arm
     XButton = new JoystickButton(assistController, Constants.XBOX_XPort);
-    XButton.onTrue(new TopCubePreset());
+    XButton.onTrue(new TopConePreset());
 
+    AButton = new JoystickButton(assistController, Constants.XBOX_APort);
+    AButton.onTrue(new MidConePreset());
+
+    
+    YButton = new JoystickButton(assistController, Constants.XBOX_YPort);
+    YButton.onTrue(new TopCubePreset());
+
+    BButton = new JoystickButton(assistController, Constants.XBOX_BPort);
+    BButton.onTrue(new MidCubePreset());
+
+    UpDPad = new POVButton(assistController, Constants.XBOX_UpDPad);
+    UpDPad.onTrue(new ArmResetToIntake());
+
+    DownDPad = new POVButton(assistController, Constants.XBOX_DownDPad);
+    DownDPad.onTrue(new HybridPreset());
+    
   }
 
   private BooleanSupplier createBooleanSupplier(Joystick controller, int requiredPort, int dependentPort, double requirement) {

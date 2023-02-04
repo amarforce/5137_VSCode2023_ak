@@ -24,6 +24,8 @@ public class Arm_Subsystem extends SubsystemBase {
   public static int currentRotation;
   public static int currentExtension;
 
+  public static boolean booleanArmFinished = false;
+
   //int pulse = rotateEncoder.getCountsPerRevolution() / 4;         //converts counts into pulses 
   //int pulsePerDegree = pulse / 360;    
 
@@ -54,6 +56,7 @@ public class Arm_Subsystem extends SubsystemBase {
     
     if (rotatePosition == desiredDegrees){
       //should end the command
+      booleanArmFinished = true;
     }
     else if (rotatePosition < desiredDegrees){
       armRotateMotor.set(Constants.armRotateSpeed);
@@ -77,6 +80,14 @@ public class Arm_Subsystem extends SubsystemBase {
       armExtendMotor.set(0);
 
       currentExtension = desiredNumRotations;
+    }
+  }
+
+  public void armStop(Boolean stopBoolean){
+    if (stopBoolean == true){
+      armExtendMotor.set(0);
+      armRotateMotor.set(0);
+      stopBoolean = false;
     }
   }
 }

@@ -35,9 +35,14 @@ public final class Constants {
   public final static int XBOX_RXStickAxisPort = 4;
   public final static int XBOX_RYStickAxisPort = 5;
   public final static int XBOX_APort = 1;
+  public final static int XBOX_BPort = 2;
   public final static int XBOX_XPort = 3;
+  public final static int XBOX_YPort = 4;
+  public final static int XBOX_UpDPad = 0;
+  public final static int XBOX_DownDPad = 180;
   public final static int XBOX_StartPort = 8;
   public final static int XBOX_BackPort = 7;
+   
   //public final static int XBOX_UpDButtonPort = 
 
   //PS4 Controller Ports
@@ -70,7 +75,8 @@ public final class Constants {
   //Arm
   public final static int armRotatePort = 8; //filler number, change later
   public final static int armExtendPort = 9; //filler number, change later
-  public final static double rotationToDegreeConversion = 1; //filler number, will change when mechanical knows what theyre doing 
+  //rotationToDegreeConversion was originally 1, I think it should be 360 degrees per one rotation (possibly multiplied by gear ratio)
+  public final static double rotationToDegreeConversion = 360; //filler number, will change when mechanical knows what theyre doing 
 
   public final static double armExtendSpeed = 0.2; //needs testing
   public final static double armRotateSpeed = 0.2; //needs testing
