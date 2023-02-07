@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -25,11 +26,15 @@ public class DriveBase_Subsystem extends SubsystemBase {
   public static WPI_TalonSRX rightBackTalon;
   public static MotorControllerGroup rightDrive;
 
+
   //DriveTrain
   DifferentialDrive testDrive;
 
   //Controller
   Joystick controller;
+
+  //gyros
+  ADXRS450_Gyro horizontalGyro;
 
   public DriveBase_Subsystem() {
     //left motors
@@ -49,6 +54,9 @@ public class DriveBase_Subsystem extends SubsystemBase {
 
     //Controller
     controller = Robot.driverController;
+
+    //Gyros
+    horizontalGyro = new ADXRS450_Gyro();
   }
 
   @Override

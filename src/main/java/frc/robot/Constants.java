@@ -4,6 +4,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -86,7 +91,75 @@ public final class Constants {
   public final static double topConeExtension = 55;
   public final static double middleConeExtension = 45;
   public final static double hybridExtension = 30;
+
+
+
+  //Vision Constants
+  public final static double pi = Math.PI;
+  public final static double nodeSpacing = Units.inchesToMeters(22);
+  public final static double scoreDistance = Units.inchesToMeters(36);
   
+  //change these later to put actual values when we know them
+  public final static double CAMERA_HEIGHT_METERS = 1.27;
+  public final static double TARGET_HEIGHT_METERS = 1.46;
+  public final static double CAMERA_PITCH_RADIANS = 0;
+  public final static double GOAL_RANGE_METERS = 0.5;//0.0254;//1 inch, can change later
+
+  //pid for forward speed/vision
+  public final static double dKP = 0.5;
+  public final static double dKD = 0;
+  public final static double dKI = 0;
+
+  //pid for rotation speed/vision
+  public final static double rKP = 0.5;
+  public final static double rKD = 0;
+  public final static double rKI = 0;
+
+  //Initial robot values
+  public final static Rotation2d initialGyro = new Rotation2d();
+  public final static Pose2d initialPose = new Pose2d();
+  public final static double initialLeftDistance = 0;
+  public final static double initialRightDistance = 0;
+  public final static DifferentialDriveKinematics trackWidth = new DifferentialDriveKinematics(Units.inchesToMeters(20.25));
+
+  //TagField - tag4 & tag5 are the loading station targets
+
+  //Red Alliance
+  public final static Pose2d tag1 = new Pose2d(15.513558, 1.071626, new Rotation2d(pi));
+  public final static Pose2d tag2 = new Pose2d(15.513558, 2.748026, new Rotation2d(pi));
+  public final static Pose2d tag3 = new Pose2d(15.513558,4.424426, new Rotation2d(pi));
+  public final static Pose2d tag4 = new Pose2d(16.178784, 6.749796, new Rotation2d(pi));
+
+  //Blue Alliance 
+  public final static Pose2d tag5 = new Pose2d(0.36195, 6.749796, new Rotation2d(0));
+  public final static Pose2d tag6 = new Pose2d(1.02743, 4.424426, new Rotation2d(0));
+  public final static Pose2d tag7 = new Pose2d(1.02743, 2.748026, new Rotation2d(0));
+  public final static Pose2d tag8 = new Pose2d(1.02743, 1.071626, new Rotation2d(0));
+
+  //AlignField 
+  
+  //Red Alliance Align Spots
+  public final static Pose2d pose1a = new Pose2d(15.513558 - scoreDistance, 1.071626 - nodeSpacing, new Rotation2d(pi));
+  public final static Pose2d pose1b = new Pose2d(15.513558 - scoreDistance, 1.071626, new Rotation2d(pi));
+  public final static Pose2d pose1c = new Pose2d(15.513558 - scoreDistance, 1.071626 + nodeSpacing, new Rotation2d(pi));
+  public final static Pose2d pose2a = new Pose2d(15.513558 - scoreDistance, 2.748026 - nodeSpacing, new Rotation2d(pi));
+  public final static Pose2d pose2b = new Pose2d(15.513558 - scoreDistance, 2.748026, new Rotation2d(pi));
+  public final static Pose2d pose2c = new Pose2d(15.513558 - scoreDistance, 2.748026 + nodeSpacing, new Rotation2d(pi));
+  public final static Pose2d pose3a = new Pose2d(15.513558 - scoreDistance,4.424426 - nodeSpacing, new Rotation2d(pi));
+  public final static Pose2d pose3b = new Pose2d(15.513558 - scoreDistance,4.424426, new Rotation2d(pi));
+  public final static Pose2d pose3c = new Pose2d(15.513558 - scoreDistance,4.424426 + nodeSpacing, new Rotation2d(pi));
+   
+  //Blue Alliance align spots
+  public final static Pose2d pose6a = new Pose2d(1.02743 + scoreDistance, 4.424426 + nodeSpacing, new Rotation2d(0));
+  public final static Pose2d pose6b = new Pose2d(1.02743 + scoreDistance, 4.424426, new Rotation2d(0));
+  public final static Pose2d pose6c = new Pose2d(1.02743 + scoreDistance, 4.424426 - nodeSpacing, new Rotation2d(0));
+  public final static Pose2d pose7a = new Pose2d(1.02743 + scoreDistance, 2.748026 + nodeSpacing, new Rotation2d(0));
+  public final static Pose2d pose7b = new Pose2d(1.02743 + scoreDistance, 2.748026, new Rotation2d(0));
+  public final static Pose2d pose7c = new Pose2d(1.02743 + scoreDistance, 2.748026 - nodeSpacing, new Rotation2d(0));
+  public final static Pose2d pose8a = new Pose2d(1.02743 + scoreDistance, 1.071626 + nodeSpacing, new Rotation2d(0));
+  public final static Pose2d pose8b = new Pose2d(1.02743 + scoreDistance, 1.071626, new Rotation2d(0));
+  public final static Pose2d pose8c = new Pose2d(1.02743 + scoreDistance, 1.071626 - nodeSpacing, new Rotation2d(0));
+
   //It's a lot more simple than it seems
   public static void updateDepConstants() {
     d_RXStickAxisPort = Supplier.DriverIS(4, 2).getAsInt();
