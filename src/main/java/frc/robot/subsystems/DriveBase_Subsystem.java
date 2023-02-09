@@ -28,7 +28,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
 
 
   //DriveTrain
-  DifferentialDrive testDrive;
+  DifferentialDrive jMoney_Drive;
 
   //Controller
   Joystick controller;
@@ -50,7 +50,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     rightDrive = new MotorControllerGroup(rightFrontTalon, rightBackTalon);
 
     //DriveTrain
-    testDrive = new DifferentialDrive(leftDrive, rightDrive);
+    jMoney_Drive = new DifferentialDrive(leftDrive, rightDrive);
 
     //Controller
     controller = Robot.driverController;
@@ -73,7 +73,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     double rotate = controller.getRawAxis(Constants.d_RXStickAxisPort);
     speed = adjust(speed);
     rotate = adjust(rotate);
-    testDrive.curvatureDrive(-speed/Constants.driveSensitivity, -rotate/Constants.turnSensitivity, true);
+    jMoney_Drive.curvatureDrive(-speed/Constants.driveSensitivity, -rotate/Constants.turnSensitivity, true);
   }
 
   //Also not required but stops drifiting and gurantees max speed
@@ -81,5 +81,9 @@ public class DriveBase_Subsystem extends SubsystemBase {
     if (Math.abs(axis)<Constants.errormargin) {return 0.0;}
     if (Math.abs(axis)>(1-Constants.errormargin)) {return (Math.abs(axis)/axis);}
     return axis;
+  }
+
+  public void drive(double speed, double rotate) {
+    jMoney_Drive.curvatureDrive(-speed/Constants.driveSensitivity, -rotate/Constants.turnSensitivity, true);
   }
 }

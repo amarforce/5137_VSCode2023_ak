@@ -26,11 +26,11 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.math.controller;
 
-public class AprilTag_Subsystem extends SubsystemBase{
+public class AprilTag_Subsystem extends SubsystemBase {
     
 //Creates the camera that will be used 
 PhotonCamera photonCamera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
@@ -39,12 +39,10 @@ private double previousPipelineTimestamp = 0;
 private int currentId = 0;
 public AprilTagFieldLayout aprilTagFieldLayout;
 
-public XboxController xboxc = new XboxController(0);
 //Calculates forward motor speed using distance to target
 PIDController distanceController = new PIDController(Constants.dKP,Constants.dKI, Constants.dKD); //pid controller
 //Calculates rotation speed using yaw 
 PIDController rotationController = new PIDController(Constants.rKP,Constants.rKI, Constants.rKD);
-
 
 //Where our Camera is on the robot 
 Transform3d robotToCam = new Transform3d(new Translation3d(0.22, 0.0, 0.0), new Rotation3d(0,0,0)); 
@@ -55,7 +53,7 @@ Pose2d robotPose;
 public AprilTag_Subsystem()
 {
 
-  poseEstimator = new DifferentialDrivePoseEstimator(Constants.trackWidth, Constants.initialGyro, Constants.initialLeftDistance,Constants.initialRightDistance, Constants.initialPose);
+  poseEstimator = new DifferentialDrivePoseEstimator(Constants.trackWidth, Constants.initialGyro, Constants.initialLeftDistance, Constants.initialRightDistance, Constants.initialPose);
   driveBaseSubsystem = RobotContainer.driveBase_Subsystem;
   //Sets LED/"Lime" to off 
 photonCamera.setLED(VisionLEDMode.kOff);
@@ -65,12 +63,11 @@ photonCamera.setDriverMode(false);
   //Sets the April Tag field to the 2023 field
   try {
     aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
-    System.out.println ("Set the field");
+    System.out.println("Set the field");
     System.out.println(aprilTagFieldLayout);
   } catch (IOException e) {
-    
     e.printStackTrace();
-    System.out.println ("Field Load Didn't Work");
+    System.out.println("Field Load Didn't Work");
   }
 }
 
@@ -135,14 +132,13 @@ photonCamera.setDriverMode(false);
 
   public void autoRotate(Pose2d targetPose)
   {
-    while(PhotonUtils.getYawToPose(robotPose, targetPose).getDegrees() != 0 )
-    {
+    while (PhotonUtils.getYawToPose(robotPose, targetPose).getDegrees() != 0) {
     double rotationSpeed = -rotationController.calculate(PhotonUtils.getYawToPose(robotPose, targetPose).getDegrees(), 0.0);
     
-    driveBaseSubsystem.testDrive.tankDrive(-rotationSpeed,rotationSpeed);
-    if(rotationSpeed == 0)
+    driveBaseSubsystem.drive(0,rotationSpeed);
+    if (rotationSpeed == 0)
     {
-    break;
+      break;
     }
     }
   }
@@ -150,14 +146,13 @@ photonCamera.setDriverMode(false);
 
   public void autoDriveForward(Pose2d targetPose)
   {
-    while(PhotonUtils.getDistanceToPose(robotPose, targetPose) != 0 )
-    {
+    while (PhotonUtils.getDistanceToPose(robotPose, targetPose) != 0) {
     double forwardSpeed = -distanceController.calculate(PhotonUtils.getDistanceToPose(robotPose, targetPose), 0.0);
     
-    driveBaseSubsystem.testDrive.curvatureDrive(forwardSpeed, 0,false);
-    if(forwardSpeed == 0)
+    driveBaseSubsystem.drive(forwardSpeed, 0);
+    if (forwardSpeed == 0) 
     {
-    break;
+      break;
     }
     }
   }

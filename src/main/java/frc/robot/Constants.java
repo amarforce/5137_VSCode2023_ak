@@ -48,7 +48,7 @@ public final class Constants {
   public static int a_BirclePort;
   public static int d_XSquaredPort;
   public static int a_XSquaredPort;
-  public static int g_Yangle = 4;
+  public final static int g_Yangle = 4;
   public final static int UpDPad = 0;
   public final static int DownDPad = 180;
 

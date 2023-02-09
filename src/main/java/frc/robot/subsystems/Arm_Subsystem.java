@@ -59,10 +59,10 @@ public class Arm_Subsystem extends SubsystemBase {
   private void armRotate() {
     double rotatePosition = rotateEncoder.getPosition() * Constants.rotationToDegreeConversion; //gear ratio TT
     //System.out.println("Desired Rotation:"+desiredRotation+"Current Rotation:"+rotatePosition);
-    if (Math.abs(rotatePosition-desiredRotation) < 1){
+    if (Math.abs(rotatePosition-desiredRotation) < 1) {
       armRotateMotor.set(0.0);
     }
-    else if (rotatePosition < desiredRotation){
+    else if (rotatePosition < desiredRotation) {
       armRotateMotor.set(Constants.armRotateSpeed);
     } 
     else if (rotatePosition > desiredRotation) {
