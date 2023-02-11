@@ -75,9 +75,7 @@ public final class Constants {
   //Arm
   public final static int armRotatePort = 8; //filler number, change later
   public final static int armExtendPort = 9; //filler number, change later
-  //rotationToDegreeConversion was originally 1, I think it should be 360 degrees per one rotation (possibly multiplied by gear ratio)
-  public final static double rotationToDegreeConversion = 360; //filler number, will change when mechanical knows what theyre doing 
-
+  public final static double rotationToDegreeConversion = 100; //gear ratio for rotation moter
   public final static double armExtendSpeed = 0.2; //needs testing
   public final static double armRotateSpeed = 0.2; //needs testing
 
