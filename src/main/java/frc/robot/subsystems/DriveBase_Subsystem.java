@@ -34,7 +34,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
   Joystick controller;
 
   //gyros
-  ADXRS450_Gyro horizontalGyro;
+  public static ADXRS450_Gyro horizontalGyro;
 
   public DriveBase_Subsystem() {
     //left motors

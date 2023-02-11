@@ -6,6 +6,9 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
@@ -94,33 +97,31 @@ public final class Constants {
 
 
 
-  //Vision Constants
+    //april tags/vision
+  //Change values to match 2023 bot
+  public final static Transform3d robotToCam = new Transform3d(new Translation3d(-Units.inchesToMeters(9.5), -Units.inchesToMeters(1), -Units.inchesToMeters(16)), new Rotation3d(0,0,0));
   public final static double pi = Math.PI;
   public final static double nodeSpacing = Units.inchesToMeters(22);
-  public final static double scoreDistance = Units.inchesToMeters(36);
-  
-  //change these later to put actual values when we know them
-  public final static double CAMERA_HEIGHT_METERS = 1.27;
-  public final static double TARGET_HEIGHT_METERS = 1.46;
-  public final static double CAMERA_PITCH_RADIANS = 0;
-  public final static double GOAL_RANGE_METERS = 0.5;//0.0254;//1 inch, can change later
-
+  public final static double scoreDistance = Units.inchesToMeters(36); 
+  //Encoder values
+    public final static double wheelDiameter = Units.inchesToMeters(6); //Wheel diamter - used in encoder
+    public static final double distancePerPulse = (wheelDiameter * Math.PI) / 4096.0; //Used for encoder
   //pid for forward speed/vision
-  public final static double dKP = 0.5;
-  public final static double dKD = 0;
-  public final static double dKI = 0;
-
+    public final static double dKP = 0.2;
+    public final static double dKD = 0.0;
+    public final static double dKI = 0.0;
   //pid for rotation speed/vision
-  public final static double rKP = 0.5;
-  public final static double rKD = 0;
-  public final static double rKI = 0;
-
+    public final static double rKP = 0.02;
+    public final static double rKD = 0.;
+    public final static double rKI = 0.;
   //Initial robot values
-  public final static Rotation2d initialGyro = new Rotation2d();
-  public final static Pose2d initialPose = new Pose2d();
-  public final static double initialLeftDistance = 0;
-  public final static double initialRightDistance = 0;
-  public final static DifferentialDriveKinematics trackWidth = new DifferentialDriveKinematics(Units.inchesToMeters(20.25));
+    public final static Rotation2d initialGyro = new Rotation2d();
+    public final static Pose2d initialPose = new Pose2d();
+    public final static double initialLeftDistance = 0;
+    public final static double initialRightDistance = 0;
+    public final static DifferentialDriveKinematics trackWidth = new DifferentialDriveKinematics(Units.inchesToMeters(20.25));
+
+    
 
   //TagField - tag4 & tag5 are the loading station targets
 
@@ -149,6 +150,11 @@ public final class Constants {
   public final static Pose2d pose3b = new Pose2d(15.513558 - scoreDistance,4.424426, new Rotation2d(pi));
   public final static Pose2d pose3c = new Pose2d(15.513558 - scoreDistance,4.424426 + nodeSpacing, new Rotation2d(pi));
    
+
+  //Loading stations
+  public final static Pose2d pose4 = new Pose2d(16.178784 - scoreDistance, 6.749796, new Rotation2d(pi));
+  public final static Pose2d pose5 = new Pose2d(0.36195 + scoreDistance, 6.749796, new Rotation2d(0));
+
   //Blue Alliance align spots
   public final static Pose2d pose6a = new Pose2d(1.02743 + scoreDistance, 4.424426 + nodeSpacing, new Rotation2d(0));
   public final static Pose2d pose6b = new Pose2d(1.02743 + scoreDistance, 4.424426, new Rotation2d(0));
@@ -160,6 +166,16 @@ public final class Constants {
   public final static Pose2d pose8b = new Pose2d(1.02743 + scoreDistance, 1.071626, new Rotation2d(0));
   public final static Pose2d pose8c = new Pose2d(1.02743 + scoreDistance, 1.071626 - nodeSpacing, new Rotation2d(0));
 
+
+  public final static Pose2d[][] alignArray= 
+  {{pose1a, pose1b, pose1c},
+   {pose2a, pose2b, pose2c},
+   {pose3a, pose3b, pose3c},
+   {pose4 , pose4 , pose4 },
+   {pose5 , pose5, pose5  }, 
+   {pose6a, pose6b, pose6c},
+   {pose7a, pose7b, pose7c},
+   {pose8a, pose8b, pose8c}};
   //It's a lot more simple than it seems
   public static void updateDepConstants() {
     d_RXStickAxisPort = Supplier.DriverIS(4, 2).getAsInt();
