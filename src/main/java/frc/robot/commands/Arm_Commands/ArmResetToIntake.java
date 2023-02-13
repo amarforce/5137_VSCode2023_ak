@@ -5,6 +5,7 @@
 package frc.robot.commands.Arm_Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class ArmResetToIntake extends CommandBase {
@@ -20,7 +21,7 @@ public class ArmResetToIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.arm_Subsystem.moveArm(0.0, 0.0);
+    RobotContainer.arm_Subsystem.moveArm(Constants.armIntakeRotation, Constants.armIntakeExtention);
     System.out.println("Reset");
   }
 
@@ -31,6 +32,9 @@ public class ArmResetToIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    if (RobotContainer.arm_Subsystem.armFinished(Constants.armIntakeRotation, Constants.armIntakeExtention)){
+      return true;
+    }
+    return false;
   }
 }

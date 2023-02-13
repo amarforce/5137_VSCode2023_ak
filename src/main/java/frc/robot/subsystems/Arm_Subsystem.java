@@ -39,55 +39,70 @@ public class Arm_Subsystem extends SubsystemBase {
     armRotateMotor.restoreFactoryDefaults();
     armExtendMotor.restoreFactoryDefaults();
 
-    rotateEncoder.setPositionConversionFactor(0.0);          //sets origin 
+    rotateEncoder.setPositionConversionFactor(Constants.rotationToDegreeConversion);          
+    extendEncoder.setPositionConversionFactor(Constants.rotationToDegreeConversion);
 
-    int pulse = rotateEncoder.getCountsPerRevolution() / 4;         //converts counts into pulses 
-    int pulsePerDegree = pulse / 360;                               //figures out how many pulses per degree, so we can use that
+    // Sets origin 
+    rotateEncoder.setPosition(0.0);
+    extendEncoder.setPosition(0.0);
+
+    //int pulse = rotateEncoder.getCountsPerRevolution() / 4;         //converts counts into pulses 
+    //int pulsePerDegree = pulse / 360;                               //figures out how many pulses per degree, so we can use that
     }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    arcadeArm();
-  }
-
-  private void arcadeArm() {
-    armRotate();
-    armExtend();
-  }
-
-  private void armRotate() {
-    double rotatePosition = rotateEncoder.getPosition() * Constants.rotationToDegreeConversion; //gear ratio TT
-    //System.out.println("Desired Rotation:"+desiredRotation+"Current Rotation:"+rotatePosition);
-    if (Math.abs(rotatePosition-desiredRotation) < 1) {
-      armRotateMotor.set(0.0);
+    @Override
+    public void periodic() {
+      // This method will be called once per scheduler run
+      arcadeArm();
     }
-    else if (rotatePosition < desiredRotation) {
-      armRotateMotor.set(Constants.armRotateSpeed);
-    } 
-    else if (rotatePosition > desiredRotation) {
-      armRotateMotor.set(-Constants.armRotateSpeed);
-    }
-  }
 
-  private void armExtend() {
-    double extendPosition = rotateEncoder.getPosition() * Constants.rotationToDegreeConversion; //gear ratio TT
-    //System.out.println("Desired Extension:"+desiredExtension+"Current Extension:"+extendPosition);
-    if (Math.abs(extendPosition-desiredExtension) < 1){
-      armExtendMotor.set(0.0);
+    private void arcadeArm() {
+      armRotate();
+      armExtend();
     }
-    else if (extendPosition < desiredExtension){
-      armExtendMotor.set(Constants.armExtendSpeed);
-    } 
-    else if (extendPosition > desiredExtension) {
-      armExtendMotor.set(-Constants.armExtendSpeed);
-    }
-  }
 
-  public void moveArm(double rotation, double extension) {
-    desiredRotation = rotation;
-    desiredExtension = extension;
-  }
+    public void moveArm(double rotation, double extension) {
+      desiredRotation = rotation;
+      desiredExtension = extension;
+    }
+
+    private void armRotate() {
+      double rotatePosition = rotateEncoder.getPosition();
+      //System.out.println("Desired Rotation:"+desiredRotation+"Current Rotation:"+rotatePosition);
+      if (Math.abs(rotatePosition-desiredRotation) < 1) {
+        armRotateMotor.stopMotor();
+      }
+      else if (rotatePosition < desiredRotation) {
+        armRotateMotor.set(Constants.armRotateSpeed);
+      } 
+      else if (rotatePosition > desiredRotation) {
+        armRotateMotor.set(-Constants.armRotateSpeed);
+      }
+    }
+
+    private void armExtend() {
+      double extendPosition = rotateEncoder.getPosition();
+      //System.out.println("Desired Extension:"+desiredExtension+"Current Extension:"+extendPosition);
+      if (Math.abs(extendPosition-desiredExtension) < 1){
+        armExtendMotor.stopMotor();
+      }
+      else if (extendPosition < desiredExtension){
+        armExtendMotor.set(Constants.armExtendSpeed);
+      } 
+      else if (extendPosition > desiredExtension) {
+        armExtendMotor.set(-Constants.armExtendSpeed);
+      }
+    }
+
+    public boolean armFinished(double rotation, double extention ){
+      double rotatePosition = rotateEncoder.getPosition();
+      double extendPosition = rotateEncoder.getPosition();
+      if ((rotatePosition == rotation) && (extendPosition == extention)){
+        return true;
+      }
+      return false;
+     }
+    
 
   
 }
