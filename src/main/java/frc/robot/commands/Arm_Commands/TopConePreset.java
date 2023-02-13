@@ -34,9 +34,6 @@ public class TopConePreset extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (RobotContainer.arm_Subsystem.armFinished(Constants.topConeRotation, Constants.topConeExtension)){
-      return true;
-    }
-    return false;
+    return RobotContainer.arm_Subsystem.armFinished(Constants.topConeRotation, Constants.topConeExtension);
   }
 }

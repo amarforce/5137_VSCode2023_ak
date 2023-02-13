@@ -105,7 +105,7 @@ public final class Constants {
   public final static double scoreDistance = Units.inchesToMeters(36); 
   //Encoder values
     public final static double wheelDiameter = Units.inchesToMeters(6); //Wheel diamter - used in encoder
-    public static final double distancePerPulse = (wheelDiameter * Math.PI) / 4096.0; //Used for encoder
+    public static final double distancePerPulse_TalonSRX = (wheelDiameter * Math.PI) / 4096.0; //4096 is the ticks per rotation for TalonSRX
   //pid for forward speed/vision
     public final static double dKP = 0.2;
     public final static double dKD = 0.0;

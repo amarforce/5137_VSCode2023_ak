@@ -32,7 +32,6 @@ public class DriveBase_Subsystem extends SubsystemBase {
   public static WPI_TalonSRX rightBackTalon;
   public static MotorControllerGroup rightDrive;
 
-
   //DriveTrain
   DifferentialDrive jMoney_Drive;
 
@@ -53,12 +52,13 @@ public class DriveBase_Subsystem extends SubsystemBase {
     leftBackTalon = new WPI_TalonSRX(Constants.leftBackTalonPort);
     leftDrive = new MotorControllerGroup(leftFrontTalon, leftBackTalon);
 
-
-
     //right motors
     rightFrontTalon = new WPI_TalonSRX(Constants.rightFrontTalonPort);
     rightBackTalon = new WPI_TalonSRX(Constants.leftBackTalonPort);
     rightDrive = new MotorControllerGroup(rightFrontTalon, rightBackTalon);
+
+    //Encoders 
+    leftFrontTalon.setSelectedSensorPosition(0);
 
     //DriveTrain
     jMoney_Drive = new DifferentialDrive(leftDrive, rightDrive);
@@ -123,7 +123,9 @@ public class DriveBase_Subsystem extends SubsystemBase {
 
   public void updatePoseEstimator(){
     //Make sure timer delay is added if needed, could need because of motor delays from inversion
-    poseEstimator.updateWithTime(Timer.getFPGATimestamp(), horizontalGyro.getRotation2d(), 0, 0);
+    double leftFrontEncoder = leftFrontTalon.getSelectedSensorPosition() * Constants.distancePerPulse_TalonSRX;
+    double rightFrontEncoder = rightFrontTalon.getSelectedSensorPosition() * Constants.distancePerPulse_TalonSRX;
+    poseEstimator.updateWithTime(Timer.getFPGATimestamp(), horizontalGyro.getRotation2d(), leftFrontEncoder, rightFrontEncoder);
   } 
    
   public void addVisionMeasurement(Pose2d visionMeasurement, double timestampSeconds)

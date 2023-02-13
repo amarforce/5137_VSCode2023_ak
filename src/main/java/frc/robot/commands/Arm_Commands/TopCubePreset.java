@@ -34,9 +34,6 @@ public class TopCubePreset extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (RobotContainer.arm_Subsystem.armFinished(Constants.topCubeRotation, Constants.topCubeExtension)){
-      return true;
-    }
-    return false;
+    return RobotContainer.arm_Subsystem.armFinished(Constants.topCubeRotation, Constants.topCubeExtension);
   }
 }
