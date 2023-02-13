@@ -34,6 +34,9 @@ public class MidConePreset extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    if (RobotContainer.arm_Subsystem.armFinished(Constants.middleConeRotation, Constants.middleConeExtension)){
+      return true;
+    }
+    return false;
   }
 }

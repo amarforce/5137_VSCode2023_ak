@@ -80,13 +80,15 @@ public final class Constants {
   public final static double armRotateSpeed = 0.2; //needs testing
 
   //all of these are how many degrees the arm needs to turn to be in the optimal position
-  //all of these values need testing to finalize
+  //all of these values need testing to finalize (are cuurently all made up)
+  public final static double armIntakeRotation = 0;
   public final static double topCubeRotation = 45;
   public final static double middleCubeRotation = 30;
   public final static double topConeRotation = 60;
   public final static double middleConeRotation = 50;
   public final static double hybridRotation = 20;
 
+  public final static double armIntakeExtention = 0;
   public final static double topCubeExtension = 50;
   public final static double middleCubeExtension = 40;
   public final static double topConeExtension = 55;
