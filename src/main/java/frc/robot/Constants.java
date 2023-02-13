@@ -97,7 +97,7 @@ public final class Constants {
 
     //april tags/vision
   //Change values to match 2023 bot
-  public final static Transform3d robotToCam = new Transform3d(new Translation3d(-Units.inchesToMeters(9.5), -Units.inchesToMeters(1), -Units.inchesToMeters(16)), new Rotation3d(0,0,0));
+  public final static Transform3d robotToLifeCam = new Transform3d(new Translation3d(-Units.inchesToMeters(9.5), -Units.inchesToMeters(1), -Units.inchesToMeters(16)), new Rotation3d(0,0,0));
   public final static double pi = Math.PI;
   public final static double nodeSpacing = Units.inchesToMeters(22);
   public final static double scoreDistance = Units.inchesToMeters(36); 
@@ -108,6 +108,7 @@ public final class Constants {
     public final static double dKP = 0.2;
     public final static double dKD = 0.0;
     public final static double dKI = 0.0;
+
   //pid for rotation speed/vision
     public final static double rKP = 0.02;
     public final static double rKD = 0.;

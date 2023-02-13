@@ -4,10 +4,16 @@
 
 package frc.robot.subsystems;
 
+import org.photonvision.PhotonUtils;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,8 +36,13 @@ public class DriveBase_Subsystem extends SubsystemBase {
   //DriveTrain
   DifferentialDrive jMoney_Drive;
 
+  //Position Estimator
+  private DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(Constants.trackWidth, horizontalGyro.getRotation2d(),Constants.initialLeftDistance ,Constants.initialRightDistance, new Pose2d());
+
   //Controller
   Joystick controller;
+  PIDController distanceController;
+  PIDController rotationController;
 
   //gyros
   public static ADXRS450_Gyro horizontalGyro;
@@ -57,6 +68,12 @@ public class DriveBase_Subsystem extends SubsystemBase {
 
     //Gyros
     horizontalGyro = new ADXRS450_Gyro();
+
+    //PID
+    distanceController = new PIDController(Constants.dKP,Constants.dKI, Constants.dKD);
+    rotationController = new PIDController(Constants.rKP,Constants.rKI, Constants.rKD);
+
+
   }
 
   @Override
@@ -65,6 +82,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     if (controller != null) {
       arcadeDrive(controller);
     }
+    updatePoseEstimator();
   }
 
   public void arcadeDrive(Joystick controller) {
@@ -83,7 +101,45 @@ public class DriveBase_Subsystem extends SubsystemBase {
     return axis;
   }
 
-  public void drive(double speed, double rotate) {
-    jMoney_Drive.curvatureDrive(-speed/Constants.driveSensitivity, -rotate/Constants.turnSensitivity, true);
+  public double autoDrive(Pose2d targetPose) 
+  {
+    double forwardSpeed = distanceController.calculate(PhotonUtils.getDistanceToPose(getPose(), targetPose), 0); //Calculates forward speed using PID
+    double rotateSpeed =  -rotationController.calculate(PhotonUtils.getYawToPose(getPose(), targetPose).getDegrees(), 0.0);
+    jMoney_Drive.curvatureDrive(forwardSpeed, rotateSpeed, false);; //Sets the drivetraub to drive forward/backwards using PID speed
+    return forwardSpeed;
   }
-}
+
+  public double autoRotate(Pose2d targetPose)
+  {
+    double rotateSpeed =  -rotationController.calculate(PhotonUtils.getYawToPose(getPose(), targetPose).getDegrees(), 0.0);
+    jMoney_Drive.curvatureDrive(0, rotateSpeed, true);
+    return rotateSpeed;
+  }
+  
+  public Pose2d getPose()
+  {
+    return poseEstimator.getEstimatedPosition();
+  }
+
+  public void updatePoseEstimator(){
+    //Make sure timer delay is added if needed, could need because of motor delays from inversion
+    poseEstimator.updateWithTime(Timer.getFPGATimestamp(), horizontalGyro.getRotation2d(), 0, 0);
+  } 
+   
+  public void addVisionMeasurement(Pose2d visionMeasurement, double timestampSeconds)
+  {
+  poseEstimator.addVisionMeasurement(visionMeasurement, timestampSeconds);
+  }
+
+  public void resetPose(Pose2d pose)
+  {
+    poseEstimator.resetPosition(horizontalGyro.getRotation2d(), 0, 0, pose);
+  }
+  
+  
+
+  }
+
+
+
+
