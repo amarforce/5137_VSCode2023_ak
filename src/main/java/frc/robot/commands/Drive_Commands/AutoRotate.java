@@ -13,6 +13,7 @@ public class AutoRotate extends CommandBase{
     {
         this.targetPose = targetPose;
         this.driveBase_Subsystem = driveBase_Subsystem;
+        addRequirements(driveBase_Subsystem);
     }
 
 
