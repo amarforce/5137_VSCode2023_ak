@@ -39,6 +39,7 @@ public class AutoDrive extends CommandBase {
   public void execute()
   {
     motorSpeed = driveBase_Subsystem.autoDrive(targetPose);
+    addRequirements(driveBase_Subsystem);
   }
 
   @Override
