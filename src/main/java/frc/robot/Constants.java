@@ -113,8 +113,14 @@ public final class Constants {
 
   //pid for rotation speed/vision
     public final static double rKP = 0.02;
-    public final static double rKD = 0.;
-    public final static double rKI = 0.;
+    public final static double rKD = 0;
+    public final static double rKI = 0;
+
+     //pid for charge station
+     public final static double bKP = 0.02;
+     public final static double bKD = 0.;
+     public final static double bKI = 0.;
+
   //Initial robot values
     public final static Rotation2d initialGyro = new Rotation2d();
     public final static Pose2d initialPose = new Pose2d();
