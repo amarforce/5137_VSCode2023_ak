@@ -16,6 +16,7 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.Intake_Commands.*;
 import frc.robot.commands.Vision_Commands.AddVisionMeasurement;
 import frc.robot.commands.Compressor_Commands.*;
+import frc.robot.commands.Drive_Commands.AutoBalance;
 import frc.robot.commands.Drive_Commands.AutoDrive;
 import frc.robot.commands.Drive_Commands.AutoRotate;
 import frc.robot.commands.Clamp_Commands.*;
@@ -51,6 +52,7 @@ public class RobotContainer {
   public static JoystickButton driver_StartButton; //Maybe switch these to assist
   public static JoystickButton driver_BackButton;
   public static JoystickButton driver_XButton;
+  public static JoystickButton driver_AButton;
   public static JoystickButton driver_BButton;
   public static JoystickButton assist_XButton;
   public static JoystickButton assist_AButton;
@@ -81,7 +83,9 @@ public class RobotContainer {
 
     driver_BButton = new JoystickButton(driverController, Constants.d_BirclePort);
     driver_BButton.whileTrue(new AutoDrive(driveBase_Subsystem, Constants.pose2b));
-
+    
+    driver_AButton = new JoystickButton(driverController, Constants.d_AxePort);
+    driver_AButton.whileTrue(new AutoBalance(driveBase_Subsystem));
 
     //Intake 
     driver_LTrigger = new Trigger(Supplier.createBooleanSupplier(driverController, Constants.d_LTriggerPort, Constants.d_RTriggerPort));
