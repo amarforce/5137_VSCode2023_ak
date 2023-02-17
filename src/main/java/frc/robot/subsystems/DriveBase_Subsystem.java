@@ -37,8 +37,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
   DifferentialDrive jMoney_Drive;
 
   //Position Estimator
-  private DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(Constants.trackWidth, new Rotation2d(gyro.getRoll()),Constants.initialLeftDistance ,Constants.initialRightDistance, new Pose2d());
-
+  private DifferentialDrivePoseEstimator poseEstimator;
   //Controller
   Joystick controller;
   PIDController distanceController;
@@ -59,6 +58,13 @@ public class DriveBase_Subsystem extends SubsystemBase {
     rightBackTalon = new WPI_TalonSRX(Constants.leftBackTalonPort);
     rightDrive = new MotorControllerGroup(rightFrontTalon, rightBackTalon);
 
+    //Gyros
+    gyro = new PigeonIMU(0);
+
+    //position estimator 
+    poseEstimator = new DifferentialDrivePoseEstimator(Constants.trackWidth, new Rotation2d(gyro.getRoll()),Constants.initialLeftDistance ,Constants.initialRightDistance, new Pose2d());
+
+
     //Encoders 
     leftFrontTalon.setSelectedSensorPosition(0);
 
@@ -68,9 +74,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     //Controller
     controller = Robot.driverController;
 
-    //Gyros
     
-    gyro = new PigeonIMU(0);
 
     //PID
     distanceController = new PIDController(Constants.dKP,Constants.dKI, Constants.dKD);
