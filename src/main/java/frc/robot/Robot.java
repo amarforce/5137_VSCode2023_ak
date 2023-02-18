@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import java.io.IOException;
@@ -29,6 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
+  private Command m_autonomousCommand;
 
   public static Joystick driverController;
   public static Joystick assistController;
@@ -98,10 +100,20 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {}
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+  @Override
+  public void autonomousInit()
+  {
+    m_autonomousCommand = m_robotContainer.getAutoCommand();
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
+    }
+  }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {}
+
+  
 
   @Override
   public void teleopInit() {

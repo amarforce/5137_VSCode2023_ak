@@ -4,12 +4,27 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.commons.collections4.sequence.SequencesComparator;
 import org.photonvision.PhotonUtils;
 
+import com.ctre.phoenix.motorcontrol.can.MotControllerJNI;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
+import com.pathplanner.lib.auto.RamseteAutoBuilder;
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
+import com.pathplanner.lib.commands.PPRamseteCommand;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -17,10 +32,18 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
+import frc.robot.commands.Arm_Commands.TopCubePreset;
+import frc.robot.commands.Drive_Commands.AutoBalance;
+import frc.robot.commands.Intake_Commands.IntakeOn;
 
 public class DriveBase_Subsystem extends SubsystemBase {
   //left motors
@@ -37,7 +60,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
   DifferentialDrive jMoney_Drive;
 
   //Position Estimator
-  private DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(Constants.trackWidth, new Rotation2d(gyro.getRoll()),Constants.initialLeftDistance ,Constants.initialRightDistance, new Pose2d());
+  private DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(Constants.trackWidth, new Rotation2d(0),Constants.initialLeftDistance ,Constants.initialRightDistance, new Pose2d());
 
   //Controller
   Joystick controller;
@@ -48,8 +71,41 @@ public class DriveBase_Subsystem extends SubsystemBase {
   //gyros
   public static PigeonIMU gyro;
 
+  //Paths
+  public ArrayList<PathPlannerTrajectory> score_mobility_chargeEngage;
+  public ArrayList<PathPlannerTrajectory> score_mobility_intake_score;
+  public ArrayList<PathPlannerTrajectory> score_chargeEngage;
+
+  //AutoBuilder
+  public RamseteAutoBuilder autoBuilder;
+
   public DriveBase_Subsystem() {
-    //left motors
+
+    score_mobility_chargeEngage = (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("score_mobility_chargeEngage", new PathConstraints(4, 3));
+    score_mobility_intake_score = (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("score_mobility_intake_score", new PathConstraints(4, 3));
+    score_chargeEngage =  (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("score_chargeEngage", new PathConstraints(4, 3));
+
+
+    //Maps for the path groups
+    HashMap<String, Command> eventMap = new HashMap<>();
+    eventMap.put("Intake1", new IntakeOn());
+    eventMap.put("Score1", new TopCubePreset());
+    eventMap.put("Balance1", new AutoBalance(RobotContainer.driveBase_Subsystem));
+    
+    
+ 
+    
+    autoBuilder = new RamseteAutoBuilder(
+    this::getPose, // Pose2d supplier
+    this::resetPose, // Pose2d consumer, used to reset odometry at the beginning of auto
+    new RamseteController(), 
+    Constants.trackWidth,
+    this::drive, // Module states consumer used to output to the drive subsystem
+    eventMap,
+    true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
+    this); // The drive subsystem. Used to properly set the requirements of path following commands );
+    
+
     leftFrontTalon = new WPI_TalonSRX(Constants.leftFrontTalonPort);
     leftBackTalon = new WPI_TalonSRX(Constants.leftBackTalonPort);
     leftDrive = new MotorControllerGroup(leftFrontTalon, leftBackTalon);
@@ -86,6 +142,13 @@ public class DriveBase_Subsystem extends SubsystemBase {
       arcadeDrive(controller);
     }
     updatePoseEstimator();
+
+  }
+
+
+  public void drive(double leftSpeed, double rightSpeed)
+  {
+    jMoney_Drive.tankDrive(leftSpeed, rightSpeed);
   }
 
   public void arcadeDrive(Joystick controller) {
@@ -94,7 +157,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     double rotate = controller.getRawAxis(Constants.d_RXStickAxisPort);
     speed = adjust(speed);
     rotate = adjust(rotate);
-    jMoney_Drive.curvatureDrive(-speed/Constants.driveSensitivity, -rotate/Constants.turnSensitivity, true);
+    jMoney_Drive.curvatureDrive(speed/Constants.driveSensitivity, rotate/Constants.turnSensitivity, true);
   }
 
   //Also not required but stops drifiting and gurantees max speed
@@ -135,11 +198,13 @@ public class DriveBase_Subsystem extends SubsystemBase {
     
   }
 
+  
+  
   public void updatePoseEstimator(){
     //Make sure timer delay is added if needed, could need because of motor delays from inversion
     double leftFrontEncoder = leftFrontTalon.getSelectedSensorPosition() * Constants.distancePerPulse_TalonSRX;
     double rightFrontEncoder = rightFrontTalon.getSelectedSensorPosition() * Constants.distancePerPulse_TalonSRX;
-    poseEstimator.updateWithTime(Timer.getFPGATimestamp(), new Rotation2d(gyro.getRoll()), leftFrontEncoder, rightFrontEncoder);
+    poseEstimator.updateWithTime(Timer.getFPGATimestamp(), new Rotation2d(0), leftFrontEncoder, rightFrontEncoder); //ad gyro value
   } 
    
   public void addVisionMeasurement(Pose2d visionMeasurement, double timestampSeconds)

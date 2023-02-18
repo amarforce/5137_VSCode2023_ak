@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.subsystems.Arm_Subsystem;
@@ -130,5 +131,10 @@ public class RobotContainer {
     assist_RTrigger = new Trigger(Supplier.createBooleanSupplier(assistController, Constants.a_RTriggerPort, Constants.a_LTriggerPort));
     assist_RTrigger.onTrue(new ClampCone());
     assist_RTrigger.onFalse(new ClampOpen());
+  }
+
+  public Command getAutoCommand()
+  {
+    return driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.score_chargeEngage);
   }
 }
