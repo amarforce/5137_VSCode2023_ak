@@ -7,12 +7,16 @@ package frc.robot.commands.Arm_Commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Arm_Subsystem;
 
 public class HybridPreset extends CommandBase {
   /** Creates a new HybridPreset. */
-  public HybridPreset() {
+  Arm_Subsystem arm_Subsystem;
+  
+  public HybridPreset(Arm_Subsystem arm_Subsystem) {
+    this.arm_Subsystem = arm_Subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.arm_Subsystem);
+    addRequirements(arm_Subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -22,7 +26,7 @@ public class HybridPreset extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.arm_Subsystem.moveArm(Constants.hybridRotation, Constants.hybridExtension);
+    arm_Subsystem.moveArm(Constants.hybridRotation, Constants.hybridExtension);
     System.out.println("Hybrid");
   }
 
@@ -35,6 +39,6 @@ public class HybridPreset extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.arm_Subsystem.armFinished(Constants.hybridRotation, Constants.hybridExtension);
+    return arm_Subsystem.armFinished(Constants.hybridRotation, Constants.hybridExtension);
   }
 }

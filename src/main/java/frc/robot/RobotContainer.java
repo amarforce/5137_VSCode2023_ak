@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+
 //import java.util.ArrayList;
 
 //import com.pathplanner.lib.PathPlannerTrajectory;
@@ -34,13 +36,13 @@ import frc.robot.commands.Arm_Commands.*;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  //Subsystems
-  public static DriveBase_Subsystem driveBase_Subsystem;
-  public static Intake_Subystem intake_Subystem;
-  public static Pneumatics_Subsystem pneumatics_Subsystem;
-  public static Clamp_Subsystem clamp_Subsystem;
-  public static Arm_Subsystem arm_Subsystem;
-  public Vision_Subsystem vision_Subsystem;
+  
+  private final  Pneumatics_Subsystem pneumatics_Subsystem = new Pneumatics_Subsystem();
+  private final  DriveBase_Subsystem driveBase_Subsystem = new DriveBase_Subsystem();
+  private final  Intake_Subystem intake_Subystem = new Intake_Subystem(); 
+  private final  Clamp_Subsystem clamp_Subsystem = new Clamp_Subsystem();
+  private final  Arm_Subsystem arm_Subsystem = new Arm_Subsystem();
+  private final  Vision_Subsystem vision_Subsystem = new Vision_Subsystem();
 
   //Controllers
   public static Joystick driverController;
@@ -65,22 +67,22 @@ public class RobotContainer {
   public static JoystickButton assist_BButton;
   public static POVButton DownDPad;
   public static POVButton UpDPad;
+  public static HashMap<String, Command> eventMap = new HashMap<>();
+ 
+  
 
   public RobotContainer() {
     //Subsystems
-    pneumatics_Subsystem = new Pneumatics_Subsystem();
-    driveBase_Subsystem = new DriveBase_Subsystem();
-    intake_Subystem = new Intake_Subystem(); 
-    clamp_Subsystem = new Clamp_Subsystem();
-    arm_Subsystem = new Arm_Subsystem();
-    vision_Subsystem = new Vision_Subsystem();
+    eventMap.put("Intake1", new IntakeOn(intake_Subystem));
+  //eventMap.put("Score1", new Score(new TopConePreset()));
+  eventMap.put("Balance1", new AutoBalance(driveBase_Subsystem));
     //Controllers
     driverController = Robot.driverController;
     assistController = Robot.assistController;
     vision_Subsystem.setDefaultCommand(new AddVisionMeasurement(driveBase_Subsystem, vision_Subsystem));
   }
 
-  public static void configureBindings() {
+  public void configureBindings() {
 
     //Align Testing 
     driver_XButton = new JoystickButton(driverController, Constants.d_XSquaredPort);
@@ -94,47 +96,47 @@ public class RobotContainer {
 
     //Intake 
     driver_LTrigger = new Trigger(Supplier.createBooleanSupplier(driverController, Constants.d_LTriggerPort, Constants.d_RTriggerPort));
-    driver_LTrigger.whileTrue(new IntakeOnReverse());
-    driver_LTrigger.onFalse(new IntakeOff());
+    driver_LTrigger.whileTrue(new IntakeOnReverse(intake_Subystem));
+    driver_LTrigger.onFalse(new IntakeOff(intake_Subystem));
 
     driver_RTrigger = new Trigger(Supplier.createBooleanSupplier(driverController, Constants.d_RTriggerPort, Constants.d_LTriggerPort));
-    driver_RTrigger.whileTrue(new IntakeOn());
-    driver_RTrigger.onFalse(new IntakeOff());
+    driver_RTrigger.whileTrue(new IntakeOn(intake_Subystem));
+    driver_RTrigger.onFalse(new IntakeOff(intake_Subystem));
 
     //Compressor 
     driver_StartButton = new JoystickButton(driverController, 9);
-    driver_StartButton.onTrue(new CompressorOn());
+    driver_StartButton.onTrue(new CompressorOn(pneumatics_Subsystem));
 
     driver_BackButton = new JoystickButton(driverController, 10);
-    driver_BackButton.onTrue(new CompressorOff());
+    driver_BackButton.onTrue(new CompressorOff(pneumatics_Subsystem));
 
-    //Arm
+    //Arm 
     assist_XButton = new JoystickButton(assistController, Constants.a_XSquaredPort);
-    assist_XButton.onTrue(new TopConePreset());
+    assist_XButton.onTrue(new TopConePreset(arm_Subsystem));
 
     assist_AButton = new JoystickButton(assistController, Constants.a_AxePort);
-    assist_AButton.onTrue(new MidConePreset());
+    assist_AButton.onTrue(new MidConePreset(arm_Subsystem));
 
     assist_YButton = new JoystickButton(assistController, Constants.g_Yangle);
-    assist_YButton.onTrue(new TopCubePreset());
+    assist_YButton.onTrue(new TopCubePreset(arm_Subsystem));
 
     assist_BButton = new JoystickButton(assistController, Constants.a_BirclePort);
-    assist_BButton.onTrue(new MidCubePreset());
+    assist_BButton.onTrue(new MidCubePreset(arm_Subsystem));
 
     UpDPad = new POVButton(assistController, Constants.UpDPad);
-    UpDPad.onTrue(new ArmResetToIntake());
+    UpDPad.onTrue(new ArmResetToIntake(arm_Subsystem));
 
     DownDPad = new POVButton(assistController, Constants.DownDPad);
-    DownDPad.onTrue(new HybridPreset());
+    DownDPad.onTrue(new HybridPreset(arm_Subsystem));
 
-    //Clamp
+    //Clamp 
     assist_LTrigger = new Trigger(Supplier.createBooleanSupplier(assistController, Constants.a_LTriggerPort, Constants.a_RTriggerPort));
-    assist_LTrigger.onTrue(new ClampCube());
-    assist_LTrigger.onFalse(new ClampOpen());
+    assist_LTrigger.onTrue(new ClampCube(clamp_Subsystem));
+    assist_LTrigger.onFalse(new ClampOpen(clamp_Subsystem));
 
     assist_RTrigger = new Trigger(Supplier.createBooleanSupplier(assistController, Constants.a_RTriggerPort, Constants.a_LTriggerPort));
-    assist_RTrigger.onTrue(new ClampCone());
-    assist_RTrigger.onFalse(new ClampOpen());
+    assist_RTrigger.onTrue(new ClampCone(clamp_Subsystem));
+    assist_RTrigger.onFalse(new ClampOpen(clamp_Subsystem));
   }
 
   public Command getAutoCommand(String autoChose){

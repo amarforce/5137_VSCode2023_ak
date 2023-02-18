@@ -7,12 +7,16 @@ package frc.robot.commands.Arm_Commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Arm_Subsystem;
 
 public class TopConePreset extends CommandBase {
   /** Creates a new TopConePreset. */
-  public TopConePreset() {
+  Arm_Subsystem arm_Subsystem;
+  
+  public TopConePreset(Arm_Subsystem arm_Subsystem) {
+    this.arm_Subsystem = arm_Subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.arm_Subsystem);
+    addRequirements(arm_Subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -22,7 +26,7 @@ public class TopConePreset extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.arm_Subsystem.moveArm(Constants.topConeRotation, Constants.topConeExtension);
+    arm_Subsystem.moveArm(Constants.topConeRotation, Constants.topConeExtension);
   }
 
   // Called once the command ends or is interrupted.
@@ -34,6 +38,6 @@ public class TopConePreset extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return RobotContainer.arm_Subsystem.armFinished(Constants.topConeRotation, Constants.topConeExtension);
+    return arm_Subsystem.armFinished(Constants.topConeRotation, Constants.topConeExtension);
   }
 }

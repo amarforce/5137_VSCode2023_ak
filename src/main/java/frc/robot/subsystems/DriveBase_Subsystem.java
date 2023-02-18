@@ -90,10 +90,8 @@ public class DriveBase_Subsystem extends SubsystemBase {
     Goal_Path = (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("Goal_Path", new PathConstraints(4, 3));
 
     //Maps for the path groups
-    HashMap<String, Command> eventMap = new HashMap<>();
-    eventMap.put("Intake1", new IntakeOn());
-    eventMap.put("Score1", new Score(new TopConePreset()));
-    eventMap.put("Balance1", new AutoBalance(RobotContainer.driveBase_Subsystem));
+    
+   
     
     
  
@@ -104,7 +102,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     new RamseteController(), 
     Constants.trackWidth,
     this::drive, // Module states consumer used to output to the drive subsystem
-    eventMap,
+    RobotContainer.eventMap,
     true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
     this); // The drive subsystem. Used to properly set the requirements of path following commands );
     

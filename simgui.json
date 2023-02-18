@@ -52,6 +52,7 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Assist Controller Type": "String Chooser",
+      "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/Driver Controller Type": "String Chooser"
     },
     "windows": {

@@ -134,7 +134,7 @@ public class Robot extends TimedRobot {
     driverControllerType = driverControlChooser.getSelected();
     assistControllerType = assistControlChooser.getSelected();
     Constants.updateDepConstants();
-    RobotContainer.configureBindings();
+    m_robotContainer.configureBindings();
   }
 
   /** This function is called periodically during operator control. */

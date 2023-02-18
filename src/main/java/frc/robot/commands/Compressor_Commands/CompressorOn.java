@@ -6,11 +6,16 @@ package frc.robot.commands.Compressor_Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Pneumatics_Subsystem;
 
 public class CompressorOn extends CommandBase {
   /** Creates a new CompressorOn. */
-  public CompressorOn() {
-    addRequirements(RobotContainer.pneumatics_Subsystem);
+  Pneumatics_Subsystem pneumatics_Subsystem;
+
+  public CompressorOn(Pneumatics_Subsystem pneumatics_Subsystem) {
+    this.pneumatics_Subsystem = pneumatics_Subsystem;
+
+    addRequirements(pneumatics_Subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -20,7 +25,7 @@ public class CompressorOn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.pneumatics_Subsystem.compress(true);
+    pneumatics_Subsystem.compress(true);
   }
 
   // Called once the command ends or is interrupted.

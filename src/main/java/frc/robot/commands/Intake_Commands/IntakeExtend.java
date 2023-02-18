@@ -3,18 +3,22 @@ package frc.robot.commands.Intake_Commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Intake_Subystem;
 
 public class IntakeExtend extends CommandBase {
     double timestamp;
-    public IntakeExtend() {
-        addRequirements(RobotContainer.intake_Subystem);
-        
+    private Intake_Subystem intake_Subystem;
+
+    public IntakeExtend(Intake_Subystem intake_Subystem) {
+
+        this.intake_Subystem = intake_Subystem;
+        addRequirements(this.intake_Subystem);
      }
  
      @Override
      public void execute() {
         //doesn't toggle intake on unless intake is currently off  
-         RobotContainer.intake_Subystem.extendIntake();
+         intake_Subystem.extendIntake();
          timestamp = Timer.getFPGATimestamp();
      }
  
