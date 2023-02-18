@@ -13,6 +13,7 @@ import java.util.HashMap;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.subsystems.Arm_Subsystem;
@@ -72,16 +73,17 @@ public class RobotContainer {
   
 
   public RobotContainer() {
+    SequentialCommandGroup score = new SequentialCommandGroup(new IntakeExtend(intake_Subystem),new ClampCone(clamp_Subsystem), new TopConePreset(arm_Subsystem) ,  new ClampOpen(clamp_Subsystem));
     //Subsystems
     eventMap.put("Intake1", new IntakeOn(intake_Subystem));
-  //eventMap.put("Score1", new Score(new TopConePreset()));
-  eventMap.put("Balance1", new AutoBalance(driveBase_Subsystem));
+    eventMap.put("Score1", score);
+    eventMap.put("Balance1", new AutoBalance(driveBase_Subsystem));
     //Controllers
     driverController = Robot.driverController;
     assistController = Robot.assistController;
     vision_Subsystem.setDefaultCommand(new AddVisionMeasurement(driveBase_Subsystem, vision_Subsystem));
   }
-
+  
   public void configureBindings() {
 
     //Align Testing 
