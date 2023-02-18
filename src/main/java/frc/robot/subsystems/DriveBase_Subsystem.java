@@ -6,25 +6,25 @@ package frc.robot.subsystems;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+//import java.util.List;
 
-import org.apache.commons.collections4.sequence.SequencesComparator;
+//import org.apache.commons.collections4.sequence.SequencesComparator;
 import org.photonvision.PhotonUtils;
 
-import com.ctre.phoenix.motorcontrol.can.MotControllerJNI;
+//import com.ctre.phoenix.motorcontrol.can.MotControllerJNI;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
+//import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 import com.pathplanner.lib.auto.RamseteAutoBuilder;
-import com.pathplanner.lib.auto.SwerveAutoBuilder;
-import com.pathplanner.lib.commands.PPRamseteCommand;
+//import com.pathplanner.lib.auto.SwerveAutoBuilder;
+//import com.pathplanner.lib.commands.PPRamseteCommand;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+//import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -33,17 +33,17 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+//import edu.wpi.first.wpilibj2.command.InstantCommand;
+//import edu.wpi.first.wpilibj2.command.PrintCommand;
+//import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.commands.Score;
+import frc.robot.CommandGroups.Score;
 import frc.robot.commands.Arm_Commands.TopConePreset;
-import frc.robot.commands.Arm_Commands.TopCubePreset;
+//import frc.robot.commands.Arm_Commands.TopCubePreset;
 import frc.robot.commands.Drive_Commands.AutoBalance;
 import frc.robot.commands.Intake_Commands.IntakeOn;
 
@@ -77,6 +77,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
   public ArrayList<PathPlannerTrajectory> score_mobility_chargeEngage;
   public ArrayList<PathPlannerTrajectory> score_mobility_intake_score;
   public ArrayList<PathPlannerTrajectory> score_chargeEngage;
+  public ArrayList<PathPlannerTrajectory> Goal_Path;
 
   //AutoBuilder
   public RamseteAutoBuilder autoBuilder;
@@ -86,7 +87,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     score_mobility_chargeEngage = (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("score_mobility_chargeEngage", new PathConstraints(4, 3));
     score_mobility_intake_score = (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("score_mobility_intake_score", new PathConstraints(4, 3));
     score_chargeEngage =  (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("score_chargeEngage", new PathConstraints(4, 3));
-
+    Goal_Path = (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("Goal_Path", new PathConstraints(4, 3));
 
     //Maps for the path groups
     HashMap<String, Command> eventMap = new HashMap<>();

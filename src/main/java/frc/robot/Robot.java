@@ -36,9 +36,11 @@ public class Robot extends TimedRobot {
   public static Joystick assistController;
   public static String driverControllerType;
   public static String assistControllerType;
+  public static String autoChosen;
 
   SendableChooser<String> driverControlChooser = new SendableChooser<>();
   SendableChooser<String> assistControlChooser = new SendableChooser<>();
+  SendableChooser<String> autoChooser = new SendableChooser<>();
 
   String trajectoryJSON = "paths/YourPath.wpilib.json"; //change to path name later
   Trajectory trajectory = new Trajectory();
@@ -62,9 +64,16 @@ public class Robot extends TimedRobot {
     assistControlChooser.setDefaultOption("XBOX", "xbox");
     assistControlChooser.addOption("XBOX", "xbox");
     assistControlChooser.addOption("PLAY_STATION", "ps4");
+
+    autoChooser.addOption("score_chargeEngage", "score_chargeEngage");
+    autoChooser.addOption("score_mobility_chargeEngage", "score_mobility_chargeEngage");
+    autoChooser.addOption("score_mobility_intake_score", "score_mobility_intake_score");
+    autoChooser.addOption("Goal_Path", "Goal_Path");
     
     SmartDashboard.putData("Driver Controller Type", driverControlChooser);
     SmartDashboard.putData("Assist Controller Type", assistControlChooser);
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+
 
     //loads in paths from PathWeaver
     try {
@@ -103,7 +112,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit()
   {
-    m_autonomousCommand = m_robotContainer.getAutoCommand();
+    autoChosen = autoChooser.getSelected();
+    m_autonomousCommand = m_robotContainer.getAutoCommand(autoChosen);
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }

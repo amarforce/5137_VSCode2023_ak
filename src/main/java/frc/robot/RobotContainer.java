@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+//import java.util.ArrayList;
+
+//import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -133,8 +137,19 @@ public class RobotContainer {
     assist_RTrigger.onFalse(new ClampOpen());
   }
 
-  public Command getAutoCommand()
-  {
-    return driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.score_chargeEngage);
+  public Command getAutoCommand(String autoChose){
+    if (autoChose == "score_chargeEngage"){
+      return driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.score_chargeEngage);
+    } 
+    else if (autoChose == "score_mobility_chargeEngage"){
+      return driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_chargeEngage);
+    } 
+    else if (autoChose == "score_mobility_intake_score"){
+      return driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_intake_score);
+    } 
+    else if (autoChose == "Goal_Path"){
+      return driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.Goal_Path);
+    }
+    return null;
   }
 }
