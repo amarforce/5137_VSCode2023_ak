@@ -1,6 +1,7 @@
 package frc.robot.commands.Intake_Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Intake_Subystem;
 
@@ -27,4 +28,4 @@ public class IntakeOff extends CommandBase {
      public boolean isFinished() {
          return true;
      }
-}
+} 

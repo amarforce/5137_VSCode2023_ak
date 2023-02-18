@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 //import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.simulation.SparkMaxWrapper;
 
 //import com.revrobotics.CANSparkMax;
@@ -19,7 +20,7 @@ public class Arm_Subsystem extends SubsystemBase {
   SparkMaxWrapper armRotateMotor = new SparkMaxWrapper(Constants.armRotatePort, MotorType.kBrushless);
   SparkMaxWrapper armExtendMotor = new SparkMaxWrapper(Constants.armExtendPort, MotorType.kBrushless);
   
-  RelativeEncoder rotateEncoder = armRotateMotor.getEncoder();
+  public RelativeEncoder rotateEncoder = armRotateMotor.getEncoder();
   RelativeEncoder extendEncoder = armExtendMotor.getEncoder();
 
   public static double desiredRotation = 0.0;
@@ -80,6 +81,13 @@ public class Arm_Subsystem extends SubsystemBase {
       }
     }
 
+    public void armRotate (int direction){
+      double rotatePosition = rotateEncoder.getPosition();
+      if (rotatePosition >= Constants.maxRotationBack && rotatePosition <= Constants.maxRotationFront) {
+        armRotateMotor.set(Constants.manualRotateSpeed * direction);
+      }
+    }
+
     private void armExtend() {
       double extendPosition = rotateEncoder.getPosition();
       //System.out.println("Desired Extension:"+desiredExtension+"Current Extension:"+extendPosition);
@@ -98,6 +106,15 @@ public class Arm_Subsystem extends SubsystemBase {
       double rotatePosition = rotateEncoder.getPosition();
       double extendPosition = rotateEncoder.getPosition();
       if ((rotatePosition == rotation) && (extendPosition == extention)){
+        return true;
+      }
+      return false;
+     }
+
+         
+    //checks that arm is "above" motor or that intake is extended before moving. 
+     public boolean armMovementClear(){
+      if (rotateEncoder.getPosition() >= Constants.intakeRotationSafe || RobotContainer.intake_Subystem.intakeActive){
         return true;
       }
       return false;

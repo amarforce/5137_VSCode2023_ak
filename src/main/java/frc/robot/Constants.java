@@ -24,7 +24,7 @@ public final class Constants {
   //Driving
   public final static double driveSensitivity = 1.0;
   public final static double turnSensitivity = 3.0;
-  public final static double errormargin = 0.1;
+  public final static double errormargin = 0.1; 
 
   //Controllers
   public final static int driverControllerPort = 0;
@@ -75,12 +75,18 @@ public final class Constants {
   //Arm
   public final static int armRotatePort = 8; //filler number, change later
   public final static int armExtendPort = 9; //filler number, change later
-  public final static double rotationToDegreeConversion = 100; //gear ratio for rotation moter
+  public final static double rotationToDegreeConversion = 275; //gear ratio for rotation moter
   public final static double armExtendSpeed = 0.2; //needs testing
   public final static double armRotateSpeed = 0.2; //needs testing
+  public final static double manualExtendSpeed = 0.1;
+  public final static double manualRotateSpeed = 0.1;
 
   //all of these are how many degrees the arm needs to turn to be in the optimal position
   //all of these values need testing to finalize (are cuurently all made up)
+  public final static double maxRotationFront = 0;          //the maximum degrees the robot can turn back/front from the origin point before breaking
+  public final static double maxRotationBack = 0;
+  public final static double intakeRotationSafe = 0;        //the minimum degree at which the arm is "safe" from the intake wheels 
+
   public final static double armIntakeRotation = 0;
   public final static double topCubeRotation = 45;
   public final static double middleCubeRotation = 30;
