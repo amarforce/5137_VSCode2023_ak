@@ -41,6 +41,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.commands.Score;
+import frc.robot.commands.Arm_Commands.TopConePreset;
 import frc.robot.commands.Arm_Commands.TopCubePreset;
 import frc.robot.commands.Drive_Commands.AutoBalance;
 import frc.robot.commands.Intake_Commands.IntakeOn;
@@ -89,7 +91,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     //Maps for the path groups
     HashMap<String, Command> eventMap = new HashMap<>();
     eventMap.put("Intake1", new IntakeOn());
-    eventMap.put("Score1", new TopCubePreset());
+    eventMap.put("Score1", new Score(new TopConePreset()));
     eventMap.put("Balance1", new AutoBalance(RobotContainer.driveBase_Subsystem));
     
     
