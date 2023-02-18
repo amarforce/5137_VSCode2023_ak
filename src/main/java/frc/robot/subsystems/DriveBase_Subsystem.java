@@ -19,6 +19,7 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 import com.pathplanner.lib.auto.RamseteAutoBuilder;
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.pathplanner.lib.commands.PPRamseteCommand;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -71,10 +72,12 @@ public class DriveBase_Subsystem extends SubsystemBase {
   public static PigeonIMU gyro;
 
   //Paths
-  ArrayList<PathPlannerTrajectory> score_mobility_chargeEngage;
-  ArrayList<PathPlannerTrajectory> score_mobility_intake_score;
-  ArrayList<PathPlannerTrajectory> score_chargeEngage;
+  public ArrayList<PathPlannerTrajectory> score_mobility_chargeEngage;
+  public ArrayList<PathPlannerTrajectory> score_mobility_intake_score;
+  public ArrayList<PathPlannerTrajectory> score_chargeEngage;
 
+  //AutoBuilder
+  public RamseteAutoBuilder autoBuilder;
 
   public DriveBase_Subsystem() {
 
@@ -88,21 +91,21 @@ public class DriveBase_Subsystem extends SubsystemBase {
     eventMap.put("Intake1", new IntakeOn());
     eventMap.put("Score1", new TopCubePreset());
     eventMap.put("Balance1", new AutoBalance(RobotContainer.driveBase_Subsystem));
-
-
-
-    /*RamseteAutoBuilder autoBuilder = new RamseteAutoBuilder(
+    
+    
+ 
+    
+    autoBuilder = new RamseteAutoBuilder(
     this::getPose, // Pose2d supplier
     this::resetPose, // Pose2d consumer, used to reset odometry at the beginning of auto
-    ramsete controllerhere, 
-    Constants.trackWidth,// SwerveDriveKinematics
+    new RamseteController(), 
+    Constants.trackWidth,
     this::drive, // Module states consumer used to output to the drive subsystem
     eventMap,
     true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
-    this // The drive subsystem. Used to properly set the requirements of path following commands );
-    */
+    this); // The drive subsystem. Used to properly set the requirements of path following commands );
     
-    //left motors
+
     leftFrontTalon = new WPI_TalonSRX(Constants.leftFrontTalonPort);
     leftBackTalon = new WPI_TalonSRX(Constants.leftBackTalonPort);
     leftDrive = new MotorControllerGroup(leftFrontTalon, leftBackTalon);
