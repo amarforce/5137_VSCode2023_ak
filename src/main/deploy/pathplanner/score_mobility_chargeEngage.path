@@ -49,16 +49,16 @@
     },
     {
       "anchorPoint": {
-        "x": 6.520357399330251,
-        "y": 2.1693260789950397
+        "x": 5.264160528321057,
+        "y": 1.029866226399121
       },
       "prevControl": {
-        "x": 5.2155720515325585,
-        "y": 2.1723052106043443
+        "x": 4.802671160980383,
+        "y": 0.5972199445172389
       },
       "nextControl": {
-        "x": 5.2155720515325585,
-        "y": 2.1723052106043443
+        "x": 5.709508085682838,
+        "y": 1.4473795614257912
       },
       "holonomicAngle": 0,
       "isReversal": true,
@@ -76,12 +76,62 @@
     },
     {
       "anchorPoint": {
-        "x": 3.915891456620153,
-        "y": 2.730635065762319
+        "x": 5.626005418677504,
+        "y": 1.8788100076200165
       },
       "prevControl": {
-        "x": 4.58031210257299,
-        "y": 2.719307479576331
+        "x": 5.653839641012616,
+        "y": 1.4195453390906794
+      },
+      "nextControl": {
+        "x": 5.587525138012797,
+        "y": 2.5137346385876853
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 5.319828972991281,
+        "y": 2.7555880111760236
+      },
+      "prevControl": {
+        "x": 5.5425027516721705,
+        "y": 2.518997121327577
+      },
+      "nextControl": {
+        "x": 5.035274228500349,
+        "y": 3.0579274271976407
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 3.89,
+        "y": 3.0
+      },
+      "prevControl": {
+        "x": 4.890000000000001,
+        "y": 3.0
       },
       "nextControl": null,
       "holonomicAngle": 0,
