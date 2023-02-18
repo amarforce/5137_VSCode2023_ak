@@ -67,9 +67,10 @@ public final class Constants {
   public final static double intakeSpeed = 1.0;
 
   //Solenoids
-  public static final int intakeSolChannel = 0;
-  public static final int clampSolChannel = 1;
-  public static final int feetSolChannel = 2;
+  //these are the channels we will be using, don't know what solenoid will go to which yet
+  public static final int intakeSolChannel = 7;
+  public static final int clampSolChannel = 8;
+  public static final int feetSolChannel = 9;
 
   
   //Arm
