@@ -81,6 +81,10 @@ public final class Constants {
 
   //all of these are how many degrees the arm needs to turn to be in the optimal position
   //all of these values need testing to finalize (are cuurently all made up)
+  public final static double maxRotationFront = 0;          //the maximum degrees the robot can turn back/front from the origin point before breaking
+  public final static double maxRotationBack = 0;
+  public final static double intakeRotationSafe = 0;        //the minimum degree at which the arm is "safe" from the intake wheels 
+
   public final static double armIntakeRotation = 0;
   public final static double topCubeRotation = 45;
   public final static double middleCubeRotation = 30;

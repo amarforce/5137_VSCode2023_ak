@@ -22,7 +22,9 @@ public class TopCubePreset extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.arm_Subsystem.moveArm(Constants.topCubeRotation, Constants.topCubeExtension);
+    if (RobotContainer.arm_Subsystem.armMovementClear()){
+      RobotContainer.arm_Subsystem.moveArm(Constants.topCubeRotation, Constants.topCubeExtension);
+    }
   }
 
   // Called once the command ends or is interrupted.

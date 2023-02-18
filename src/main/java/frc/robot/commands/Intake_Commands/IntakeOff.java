@@ -11,11 +11,16 @@ public class IntakeOff extends CommandBase {
  
      @Override
      public void execute() {
-        //doesn't toggle intake off unless intake is currently on
-        //technically unnecessary but we're keeping it 
-        if (RobotContainer.intake_Subystem.intakeActive) { //whenever we get limitsitches add that here to make sure arm isn't in intake position.
+        //makes sure intake isn't in intake position before retracting 
+        if (RobotContainer.arm_Subsystem.rotateEncoder.getPosition() < Constants.intakeRotationSafe) {
+
+            //doesn't toggle intake off unless intake is currently on
+            //technically unnecessary but we're keeping it 
+            if (RobotContainer.intake_Subystem.intakeActive) { //whenever we get limitsitches add that here to make sure arm isn't in intake position
             RobotContainer.intake_Subystem.retractIntake();
+            }
         }
+        
         RobotContainer.intake_Subystem.stopIntake();
      }
  
@@ -23,4 +28,4 @@ public class IntakeOff extends CommandBase {
      public boolean isFinished() {
          return true;
      }
-}
+} 

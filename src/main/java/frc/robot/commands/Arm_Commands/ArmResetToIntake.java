@@ -21,10 +21,9 @@ public class ArmResetToIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.pneumatics_Subsystem.intakeSolenoid.get()){   //ensures intake is extended before moving arm  
+    if (RobotContainer.intake_Subystem.intakeActive){   //ensures intake is extended before moving arm  RobotContainer.pneumatics_Subsystem.intakeSolenoid.get()
       RobotContainer.arm_Subsystem.moveArm(Constants.armIntakeRotation, Constants.armIntakeExtention);
       System.out.println("Reset");
-      
     }
   }
 

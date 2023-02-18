@@ -22,8 +22,10 @@ public class HybridPreset extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.arm_Subsystem.moveArm(Constants.hybridRotation, Constants.hybridExtension);
-    System.out.println("Hybrid");
+    if (RobotContainer.arm_Subsystem.armMovementClear()){ 
+      RobotContainer.arm_Subsystem.moveArm(Constants.hybridRotation, Constants.hybridExtension);
+      System.out.println("Hybrid");
+    }
   }
 
   // Called once the command ends or is interrupted.
