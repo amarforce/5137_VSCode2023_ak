@@ -29,9 +29,10 @@ public class AutoBalance extends CommandBase {
 
     public AutoBalance(DriveBase_Subsystem driveBase_Subsystem)
     {
-        this.driveBase_Subsystem = driveBase_Subsystem;
-        gyro = DriveBase_Subsystem.gyro;
-        addRequirements(driveBase_Subsystem);
+      addRequirements(driveBase_Subsystem);
+
+      this.driveBase_Subsystem = driveBase_Subsystem;
+      gyro = DriveBase_Subsystem.gyro;
     }
 
 

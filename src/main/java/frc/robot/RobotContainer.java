@@ -122,6 +122,13 @@ public class RobotContainer {
     DownDPad = new POVButton(assistController, Constants.DownDPad);
     DownDPad.onTrue(new HybridPreset());
 
+    if (assistController.getRawAxis(Constants.g_RYStickAxisPort) > 0.1) {
+      new manualArmForward();
+    }
+    else if (assistController.getRawAxis(Constants.g_RYStickAxisPort) < -0.1){
+      new manualArmBack();
+    }
+
     //Clamp
     assist_LTrigger = new Trigger(Supplier.createBooleanSupplier(assistController, Constants.a_LTriggerPort, Constants.a_RTriggerPort));
     assist_LTrigger.onTrue(new ClampCube());

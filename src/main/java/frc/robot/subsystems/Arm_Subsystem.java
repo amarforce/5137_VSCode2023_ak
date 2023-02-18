@@ -81,6 +81,13 @@ public class Arm_Subsystem extends SubsystemBase {
       }
     }
 
+    public void armRotate (int direction){
+      double rotatePosition = rotateEncoder.getPosition();
+      if (rotatePosition >= Constants.maxRotationBack && rotatePosition <= Constants.maxRotationFront) {
+        armRotateMotor.set(Constants.manualRotateSpeed * direction);
+      }
+    }
+
     private void armExtend() {
       double extendPosition = rotateEncoder.getPosition();
       //System.out.println("Desired Extension:"+desiredExtension+"Current Extension:"+extendPosition);

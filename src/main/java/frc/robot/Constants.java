@@ -24,7 +24,7 @@ public final class Constants {
   //Driving
   public final static double driveSensitivity = 1.0;
   public final static double turnSensitivity = 3.0;
-  public final static double errormargin = 0.1;
+  public final static double errormargin = 0.1; 
 
   //Controllers
   public final static int driverControllerPort = 0;
@@ -78,6 +78,8 @@ public final class Constants {
   public final static double rotationToDegreeConversion = 275; //gear ratio for rotation moter
   public final static double armExtendSpeed = 0.2; //needs testing
   public final static double armRotateSpeed = 0.2; //needs testing
+  public final static double manualExtendSpeed = 0.1;
+  public final static double manualRotateSpeed = 0.1;
 
   //all of these are how many degrees the arm needs to turn to be in the optimal position
   //all of these values need testing to finalize (are cuurently all made up)
