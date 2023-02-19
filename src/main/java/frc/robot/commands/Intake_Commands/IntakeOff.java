@@ -14,12 +14,12 @@ public class IntakeOff extends CommandBase {
  
      @Override
      public void execute() {
-        //doesn't toggle intake off unless intake is currently on
-        //technically unnecessary but we're keeping it 
+        
         if (intake_Subystem.intakeActive) {
-            intake_Subystem.retractIntake();
+            intake_Subystem.stopIntake(); // Turns off intake
         }
-        intake_Subystem.stopIntake();
+        intake_Subystem.retractIntake(); //Pulls intake in
+
      }
  
      @Override
