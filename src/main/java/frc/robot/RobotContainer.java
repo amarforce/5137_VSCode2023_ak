@@ -38,12 +38,12 @@ import frc.robot.commands.Arm_Commands.*;
  */
 public class RobotContainer {
   
-  private final  Pneumatics_Subsystem pneumatics_Subsystem = new Pneumatics_Subsystem();
-  private final  DriveBase_Subsystem driveBase_Subsystem = new DriveBase_Subsystem();
-  private final  Intake_Subystem intake_Subystem = new Intake_Subystem(); 
-  private final  Clamp_Subsystem clamp_Subsystem = new Clamp_Subsystem();
-  private final  Arm_Subsystem arm_Subsystem = new Arm_Subsystem();
-  private final  Vision_Subsystem vision_Subsystem = new Vision_Subsystem();
+  public static final  Pneumatics_Subsystem pneumatics_Subsystem = new Pneumatics_Subsystem();
+  public static final  DriveBase_Subsystem driveBase_Subsystem = new DriveBase_Subsystem();
+  public static final  Intake_Subystem intake_Subystem = new Intake_Subystem(); 
+  public static final  Clamp_Subsystem clamp_Subsystem = new Clamp_Subsystem();
+  public static final  Arm_Subsystem arm_Subsystem = new Arm_Subsystem();
+  public static final  Vision_Subsystem vision_Subsystem = new Vision_Subsystem();
 
   //Controllers
   public static Joystick driverController;
