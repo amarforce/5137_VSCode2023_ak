@@ -11,6 +11,7 @@ import java.util.HashMap;
 //import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -37,7 +38,7 @@ import frc.robot.commands.Arm_Commands.*;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  
+
   public static final  Pneumatics_Subsystem pneumatics_Subsystem = new Pneumatics_Subsystem();
   public static final  DriveBase_Subsystem driveBase_Subsystem = new DriveBase_Subsystem();
   public static final  Intake_Subystem intake_Subystem = new Intake_Subystem(); 
@@ -70,17 +71,36 @@ public class RobotContainer {
   public static POVButton UpDPad;
   public static HashMap<String, Command> eventMap = new HashMap<>();
  
+
+  //New chooser for the auto mode
+  SendableChooser<Command> autoChooser = new SendableChooser<>();
+
   
 
   public RobotContainer() {
+
+    //Adds option for the autochooser
+    autoChooser.setDefaultOption("score_chargeEngage", driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.score_chargeEngage));
+    autoChooser.addOption("score_mobility_chargeEngage", driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_chargeEngage));
+    autoChooser.addOption("score_mobility_intake_score", driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_intake_score));
+    autoChooser.addOption("Goal_Path", driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.Goal_Path));
+
+
+
+    //Command group for scoring, relies on the isFinished of each command
     SequentialCommandGroup score = new SequentialCommandGroup(new IntakeExtend(intake_Subystem),new ClampCone(clamp_Subsystem), new TopConePreset(arm_Subsystem) ,  new ClampOpen(clamp_Subsystem));
-    //Subsystems
+   
+   
+    //Adds commands to be used at event markers during auto path. Used as a parameter in autoBuilder
     eventMap.put("Intake1", new IntakeOn(intake_Subystem));
     eventMap.put("Score1", score);
     eventMap.put("Balance1", new AutoBalance(driveBase_Subsystem));
+    
     //Controllers
     driverController = Robot.driverController;
     assistController = Robot.assistController;
+
+    //Sets the defasult command to run continously for the vision subsystem
     vision_Subsystem.setDefaultCommand(new AddVisionMeasurement(driveBase_Subsystem, vision_Subsystem));
   }
   
@@ -141,19 +161,7 @@ public class RobotContainer {
     assist_RTrigger.onFalse(new ClampOpen(clamp_Subsystem));
   }
 
-  public Command getAutoCommand(String autoChose){
-    if (autoChose == "score_chargeEngage"){
-      return driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.score_chargeEngage);
-    } 
-    else if (autoChose == "score_mobility_chargeEngage"){
-      return driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_chargeEngage);
-    } 
-    else if (autoChose == "score_mobility_intake_score"){
-      return driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_intake_score);
-    } 
-    else if (autoChose == "Goal_Path"){
-      return driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.Goal_Path);
-    }
-    return null;
+  public Command getAutoCommand(){
+    return autoChooser.getSelected();
   }
 }

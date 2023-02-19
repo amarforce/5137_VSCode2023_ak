@@ -113,8 +113,8 @@ public class Arm_Subsystem extends SubsystemBase {
 
          
     //checks that arm is "above" motor or that intake is extended before moving. 
-     public boolean armMovementClear(){
-      if (rotateEncoder.getPosition() >= Constants.intakeRotationSafe || RobotContainer.intake_Subystem.intakeActive){
+     public boolean armMovementClear(Intake_Subystem intake_Subystem){
+      if (rotateEncoder.getPosition() >= Constants.intakeRotationSafe || intake_Subystem.intakeActive){
         return true;
       }
       return false;
