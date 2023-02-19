@@ -20,14 +20,20 @@ import edu.wpi.first.math.geometry.Pose2d;
 public class Vision_Subsystem extends SubsystemBase
 {
   AprilTagFieldLayout aprilTagFieldLayout;
-  PhotonPoseEstimator lifeCamPoseEstimator;
+  PhotonPoseEstimator ar1CamPoseEstimator;
+  PhotonPoseEstimator ar2CamPoseEstimator;
   
   public Vision_Subsystem()
   {
   
     //Initializes the camera being run with photonVision, using the proper camera name 
-    PhotonCamera lifeCamera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
-    lifeCamPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, lifeCamera, Constants.robotToLifeCam);
+    PhotonCamera ar1Camera = new PhotonCamera("AR1");
+    PhotonCamera ar2Camera = new PhotonCamera("AR2");
+
+    //Pose estimators using each camera instance, make sure to update where the camera is on the robot in Constants
+    ar1CamPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, ar1Camera, Constants.robotToAR1Cam);
+    ar2CamPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, ar2Camera, Constants.robotToAR2Cam);
+
 
     
     //Sets the April Tag field to the 2023 field. Uses try and catch to make sure field loading doesn't crash program. 
@@ -46,11 +52,18 @@ public class Vision_Subsystem extends SubsystemBase
 
 
 
-
-  public Optional<EstimatedRobotPose> getPoseFromLifeCamCamera(Pose2d referencePose) 
+  //Returns estimated pose from "AR1" Camera based on robots current pose estimate
+  public Optional<EstimatedRobotPose> getPoseFromAR1CamCamera(Pose2d referencePose) 
   {
-    lifeCamPoseEstimator.setReferencePose(referencePose);
-    return lifeCamPoseEstimator.update();
+    ar1CamPoseEstimator.setReferencePose(referencePose);
+    return ar1CamPoseEstimator.update();
+  }
+
+    //Returns estimated pose from "AR2" Camera based on robots current pose estimate
+  public Optional<EstimatedRobotPose> getPoseFromAR2CamCamera(Pose2d referencePose) 
+  {
+    ar2CamPoseEstimator.setReferencePose(referencePose);
+    return ar2CamPoseEstimator.update();
   }
   
   

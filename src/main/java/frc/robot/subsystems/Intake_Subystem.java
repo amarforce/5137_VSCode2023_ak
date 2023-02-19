@@ -1,13 +1,11 @@
 package frc.robot.subsystems;
 
-//import frc.robot.simulation.SparkMaxWrapper;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
-//import frc.robot.RobotContainer;
 
 public class Intake_Subystem extends SubsystemBase {
     public boolean intakeActive = false;

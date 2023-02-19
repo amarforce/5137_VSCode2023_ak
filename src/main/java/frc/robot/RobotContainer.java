@@ -173,6 +173,7 @@ public class RobotContainer {
     assist_RTrigger.onFalse(new ClampOpen(clamp_Subsystem));
   }
 
+  //Returns the current selected auto command based on sendable. If none is selected goes to default command. If no default returns null. 
   public Command getAutoCommand(){
     return autoChooser.getSelected();
   }

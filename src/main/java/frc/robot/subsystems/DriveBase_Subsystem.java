@@ -5,23 +5,17 @@
 package frc.robot.subsystems;
 
 import java.util.ArrayList;
-//import java.util.List;
 
-//import org.apache.commons.collections4.sequence.SequencesComparator;
 import org.photonvision.PhotonUtils;
 
-//import com.ctre.phoenix.motorcontrol.can.MotControllerJNI;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-//import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
-//import com.pathplanner.lib.auto.SwerveAutoBuilder;
-//import com.pathplanner.lib.commands.PPRamseteCommand;
+
 
 import edu.wpi.first.math.controller.PIDController;
-//import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -29,14 +23,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-//import edu.wpi.first.wpilibj2.command.InstantCommand;
-//import edu.wpi.first.wpilibj2.command.PrintCommand;
-//import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
 import frc.robot.Robot;
-//import frc.robot.commands.Arm_Commands.TopCubePreset;
 
 public class DriveBase_Subsystem extends SubsystemBase {
   //left motors

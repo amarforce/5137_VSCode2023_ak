@@ -21,12 +21,12 @@
           "open": true
         }
       },
-      "SparkMax[8]": {
+      "Talon SRX[1]": {
         "header": {
           "open": true
         }
       },
-      "SparkMax[9]": {
+      "Talon SRX[2]": {
         "header": {
           "open": true
         }
