@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 //import java.util.List;
 
 //import org.apache.commons.collections4.sequence.SequencesComparator;
@@ -18,12 +17,10 @@ import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 //import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
-import com.pathplanner.lib.auto.RamseteAutoBuilder;
 //import com.pathplanner.lib.auto.SwerveAutoBuilder;
 //import com.pathplanner.lib.commands.PPRamseteCommand;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
 //import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -32,7 +29,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj2.command.Command;
 //import edu.wpi.first.wpilibj2.command.InstantCommand;
 //import edu.wpi.first.wpilibj2.command.PrintCommand;
 //import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -40,12 +36,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.RobotContainer;
-import frc.robot.CommandGroups.Score;
-import frc.robot.commands.Arm_Commands.TopConePreset;
 //import frc.robot.commands.Arm_Commands.TopCubePreset;
-import frc.robot.commands.Drive_Commands.AutoBalance;
-import frc.robot.commands.Intake_Commands.IntakeOn;
 
 public class DriveBase_Subsystem extends SubsystemBase {
   //left motors
@@ -80,7 +71,8 @@ public class DriveBase_Subsystem extends SubsystemBase {
   public ArrayList<PathPlannerTrajectory> Goal_Path;
 
   //AutoBuilder
-  public RamseteAutoBuilder autoBuilder;
+
+  //RobotContainer
 
   public DriveBase_Subsystem() {
 
@@ -93,20 +85,6 @@ public class DriveBase_Subsystem extends SubsystemBase {
     
    
     
-    
- 
-    
-    autoBuilder = new RamseteAutoBuilder(
-    this::getPose, // Pose2d supplier
-    this::resetPose, // Pose2d consumer, used to reset odometry at the beginning of auto
-    new RamseteController(), 
-    Constants.trackWidth,
-    this::drive, // Module states consumer used to output to the drive subsystem
-    RobotContainer.eventMap,
-    true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
-    this); // The drive subsystem. Used to properly set the requirements of path following commands );
-    
-
     leftFrontTalon = new WPI_TalonSRX(Constants.leftFrontTalonPort);
     leftBackTalon = new WPI_TalonSRX(Constants.leftBackTalonPort);
     leftDrive = new MotorControllerGroup(leftFrontTalon, leftBackTalon);

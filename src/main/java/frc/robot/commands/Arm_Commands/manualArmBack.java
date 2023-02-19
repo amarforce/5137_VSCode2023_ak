@@ -5,8 +5,6 @@
 package frc.robot.commands.Arm_Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.Arm_Subsystem;
 
 public class manualArmBack extends CommandBase {
@@ -26,7 +24,6 @@ public class manualArmBack extends CommandBase {
   @Override
   public void execute() {
     arm_Subsystem.armRotate(-1);
-
   }
 
   // Called once the command ends or is interrupted.

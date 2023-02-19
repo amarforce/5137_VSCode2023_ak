@@ -6,6 +6,10 @@ package frc.robot;
 
 import java.util.HashMap;
 
+import com.pathplanner.lib.auto.RamseteAutoBuilder;
+
+import edu.wpi.first.math.controller.RamseteController;
+
 //import java.util.ArrayList;
 
 //import com.pathplanner.lib.PathPlannerTrajectory;
@@ -39,12 +43,13 @@ import frc.robot.commands.Arm_Commands.*;
  */
 public class RobotContainer {
 
-  public static final  Pneumatics_Subsystem pneumatics_Subsystem = new Pneumatics_Subsystem();
-  public static final  DriveBase_Subsystem driveBase_Subsystem = new DriveBase_Subsystem();
-  public static final  Intake_Subystem intake_Subystem = new Intake_Subystem(); 
-  public static final  Clamp_Subsystem clamp_Subsystem = new Clamp_Subsystem();
-  public static final  Arm_Subsystem arm_Subsystem = new Arm_Subsystem();
-  public static final  Vision_Subsystem vision_Subsystem = new Vision_Subsystem();
+  //All subsystems - WPILIB examples say they should be private final?
+  public final  Pneumatics_Subsystem pneumatics_Subsystem = new Pneumatics_Subsystem();
+  public final  DriveBase_Subsystem driveBase_Subsystem = new DriveBase_Subsystem();
+  public final  Intake_Subystem intake_Subystem = new Intake_Subystem(); 
+  public final  Clamp_Subsystem clamp_Subsystem = new Clamp_Subsystem();
+  public final  Arm_Subsystem arm_Subsystem = new Arm_Subsystem();
+  public final  Vision_Subsystem vision_Subsystem = new Vision_Subsystem();
 
   //Controllers
   public static Joystick driverController;
@@ -69,39 +74,46 @@ public class RobotContainer {
   public static JoystickButton assist_BButton;
   public static POVButton DownDPad;
   public static POVButton UpDPad;
-  public static HashMap<String, Command> eventMap = new HashMap<>();
  
+  //Variables for running auto
+  SendableChooser<Command> autoChooser = new SendableChooser<>(); //Chooser for auto mode
+  public RamseteAutoBuilder autoBuilder; //Allows auto to drive a path
+  public HashMap<String, Command> eventMap = new HashMap<>(); //Maps out events during autoPath
 
-  //New chooser for the auto mode
-  SendableChooser<Command> autoChooser = new SendableChooser<>();
-
-  
 
   public RobotContainer() {
 
-    //Adds option for the autochooser
-    autoChooser.setDefaultOption("score_chargeEngage", driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.score_chargeEngage));
-    autoChooser.addOption("score_mobility_chargeEngage", driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_chargeEngage));
-    autoChooser.addOption("score_mobility_intake_score", driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_intake_score));
-    autoChooser.addOption("Goal_Path", driveBase_Subsystem.autoBuilder.fullAuto(driveBase_Subsystem.Goal_Path));
-
-
-
-    //Command group for scoring, relies on the isFinished of each command
-    SequentialCommandGroup score = new SequentialCommandGroup(new IntakeExtend(intake_Subystem),new ClampCone(clamp_Subsystem), new TopConePreset(arm_Subsystem) ,  new ClampOpen(clamp_Subsystem));
-   
-   
-    //Adds commands to be used at event markers during auto path. Used as a parameter in autoBuilder
-    eventMap.put("Intake1", new IntakeOn(intake_Subystem));
-    eventMap.put("Score1", score);
-    eventMap.put("Balance1", new AutoBalance(driveBase_Subsystem));
-    
     //Controllers
     driverController = Robot.driverController;
     assistController = Robot.assistController;
 
     //Sets the defasult command to run continously for the vision subsystem
     vision_Subsystem.setDefaultCommand(new AddVisionMeasurement(driveBase_Subsystem, vision_Subsystem));
+    
+    //Command group for scoring, relies on the isFinished of each command
+    SequentialCommandGroup score = new SequentialCommandGroup(new IntakeExtend(intake_Subystem),new ClampCone(clamp_Subsystem), new TopConePreset(arm_Subsystem) ,  new ClampOpen(clamp_Subsystem));
+
+    //Adds commands to be used at event markers during auto path. Used as a parameter in autoBuilder
+    eventMap.put("Intake1", new IntakeOn(intake_Subystem));
+    eventMap.put("Score1", score);
+    eventMap.put("Balance1", new AutoBalance(driveBase_Subsystem));
+    
+    //initializes the auto builder which runs an autoPath
+    autoBuilder = new RamseteAutoBuilder(
+      driveBase_Subsystem::getPose, // Pose2d supplier method from drivetrain
+      driveBase_Subsystem::resetPose, // Pose2d consume method used to reset odometry at the beginning of auto
+      new RamseteController(), 
+      Constants.trackWidth, //Kinematics for our drivebase
+      driveBase_Subsystem::drive, // Method used to drive the bot with left and right speeds
+      eventMap, //Event map that maps out commands to specific keywords in autoPath markers
+      true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
+      driveBase_Subsystem); // The drive subsystem. Used to properly set the requirements of path following commands
+
+     //Adds option for the autochooser
+     autoChooser.setDefaultOption("score_chargeEngage", autoBuilder.fullAuto(driveBase_Subsystem.score_chargeEngage)); //.fullAuto() method runs the autoBuilder using a specific path
+     autoChooser.addOption("score_mobility_chargeEngage", autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_chargeEngage));
+     autoChooser.addOption("score_mobility_intake_score", autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_intake_score));
+     autoChooser.addOption("Goal_Path", autoBuilder.fullAuto(driveBase_Subsystem.Goal_Path));
   }
   
   public void configureBindings() {

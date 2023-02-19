@@ -1,7 +1,6 @@
 package frc.robot.commands.Clamp_Commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.Clamp_Subsystem;
 
 public class ClampOpen extends CommandBase {
