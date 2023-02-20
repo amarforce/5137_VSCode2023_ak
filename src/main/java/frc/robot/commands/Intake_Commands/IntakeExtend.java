@@ -16,6 +16,7 @@ public class IntakeExtend extends CommandBase {
  
      @Override
      public void execute() {
+      System.out.println("Intake extended");
         //doesn't toggle intake on unless intake is currently off  
          intake_Subystem.extendIntake();
          timestamp = Timer.getFPGATimestamp();

@@ -8,22 +8,31 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake_Subystem extends SubsystemBase {
-    public boolean intakeActive = false;
+    private boolean intakeActive;
 
     public static CANSparkMax intakeMotor;
-    //public static SparkMaxWrapper intakeMotor;
+   
 
     public Intake_Subystem() {
         intakeMotor = new CANSparkMax(Constants.intakePort, MotorType.kBrushless);
         //intakeMotor = new SparkMaxWrapper(Constants.intakePort, MotorType.kBrushless);
+        intakeActive = false;
     }
 
     public void runIntake(boolean direction) {
         if (direction) {
             intakeMotor.set(Constants.intakeSpeed);
-        } else {
+            intakeActive = true;
+        } 
+        else {
             intakeMotor.set(-Constants.intakeSpeed);
+            intakeActive = true;
         }
+    }
+
+    public boolean getIntakeActive()
+    {
+        return intakeActive;
     }
 
     public void stopIntake() {

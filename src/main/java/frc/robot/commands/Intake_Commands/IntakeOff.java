@@ -14,8 +14,7 @@ public class IntakeOff extends CommandBase {
  
      @Override
      public void execute() {
-        
-        if (intake_Subystem.intakeActive) {
+        if (intake_Subystem.getIntakeActive()) {
             intake_Subystem.stopIntake(); // Turns off intake
         }
         intake_Subystem.retractIntake(); //Pulls intake in

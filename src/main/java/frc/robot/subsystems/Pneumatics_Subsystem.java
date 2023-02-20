@@ -16,6 +16,7 @@ public class Pneumatics_Subsystem extends SubsystemBase {
   public static Solenoid intakeSolenoid;
   public static Solenoid clampSolenoid;
   public static Solenoid feetSolenoid;
+  private boolean compressed;
  
   public Pneumatics_Subsystem() {
     comp = new Compressor(PneumaticsModuleType.REVPH);
@@ -37,8 +38,17 @@ public class Pneumatics_Subsystem extends SubsystemBase {
   public void compress(boolean active) {
     if (active) {
       comp.enableDigital();
+      compressed = true;
     } else {
       comp.disable();
+      compressed = false;
     } 
   } 
+  
+  public boolean getCompressed()
+  {
+    return compressed;
+  }
+
+
 }

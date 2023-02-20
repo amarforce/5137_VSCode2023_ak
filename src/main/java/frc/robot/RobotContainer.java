@@ -63,11 +63,15 @@ public class RobotContainer {
   //Controller
 
   //Buttons
+  public static JoystickButton driver_LButton;
+  public static JoystickButton driver_RButton;
   public static JoystickButton driver_StartButton; //Maybe switch these to assist
   public static JoystickButton driver_BackButton;
   public static JoystickButton driver_XButton;
   public static JoystickButton driver_AButton;
   public static JoystickButton driver_BButton;
+  public static JoystickButton assist_LButton;
+  public static JoystickButton assist_RButton;
   public static JoystickButton assist_XButton;
   public static JoystickButton assist_AButton;
   public static JoystickButton assist_YButton;
@@ -146,14 +150,24 @@ public class RobotContainer {
     driver_AButton.whileTrue(new AutoBalance(driveBase_Subsystem));
 
     //Intake 
-    driver_LTrigger = new Trigger(Supplier.createBooleanSupplier(driverController, Constants.d_LTriggerPort, Constants.d_RTriggerPort));
-    driver_LTrigger.whileTrue(new IntakeOnReverse(intake_Subystem));
-    driver_LTrigger.onFalse(new IntakeOff(intake_Subystem));
-
+    driver_LButton = new JoystickButton(driverController, Constants.d_RTriggerPort);
+    driver_LButton.whileTrue(new IntakeOnReverse(intake_Subystem));
+    driver_LButton.whileFalse(new IntakeOff(intake_Subystem));
+    
+    driver_RButton = new JoystickButton(driverController, Constants.d_RTriggerPort);
+    driver_RButton.whileTrue(new IntakeOn(intake_Subystem));
+    driver_RButton.whileFalse(new IntakeOff(intake_Subystem));
+    
+    //Doesn't work, could be issue with supplier or potentially my controller is just diff - Joaquin 
+/* 
     driver_RTrigger = new Trigger(Supplier.createBooleanSupplier(driverController, Constants.d_RTriggerPort, Constants.d_LTriggerPort));
     driver_RTrigger.whileTrue(new IntakeOn(intake_Subystem));
     driver_RTrigger.onFalse(new IntakeOff(intake_Subystem));
 
+     driver_LTrigger = new Trigger(Supplier.createBooleanSupplier(driverController, Constants.d_LTriggerPort, Constants.d_RTriggerPort));
+    driver_LTrigger.whileTrue(new IntakeOnReverse(intake_Subystem));
+    driver_LTrigger.onFalse(new IntakeOff(intake_Subystem));
+*/
     //Compressor 
     driver_StartButton = new JoystickButton(driverController, 9);
     driver_StartButton.onTrue(new CompressorOn(pneumatics_Subsystem));
@@ -181,6 +195,17 @@ public class RobotContainer {
     DownDPad.onTrue(new HybridPreset(arm_Subsystem));
 
     //Clamp 
+
+    assist_LButton = new JoystickButton(assistController, Constants.a_RTriggerPort);
+    assist_LButton.whileTrue(new ClampCube(clamp_Subsystem));
+    assist_LButton.whileFalse(new ClampOpen(clamp_Subsystem));
+    
+    assist_RButton = new JoystickButton(assistController, Constants.a_RTriggerPort);
+    assist_RButton.whileTrue(new ClampCone(clamp_Subsystem));
+    assist_RButton.whileFalse(new ClampOpen(clamp_Subsystem));
+
+    //Doesn't work in simulation, Tested above"buttons" with my controller trigger and they work 
+    /* 
     assist_LTrigger = new Trigger(Supplier.createBooleanSupplier(assistController, Constants.a_LTriggerPort, Constants.a_RTriggerPort));
     assist_LTrigger.onTrue(new ClampCube(clamp_Subsystem));
     assist_LTrigger.onFalse(new ClampOpen(clamp_Subsystem));
@@ -188,6 +213,7 @@ public class RobotContainer {
     assist_RTrigger = new Trigger(Supplier.createBooleanSupplier(assistController, Constants.a_RTriggerPort, Constants.a_LTriggerPort));
     assist_RTrigger.onTrue(new ClampCone(clamp_Subsystem));
     assist_RTrigger.onFalse(new ClampOpen(clamp_Subsystem));
+    */
   }
 
   //Returns the current selected auto command based on sendable. If none is selected goes to default command. If no default returns null. 
