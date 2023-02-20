@@ -10,12 +10,9 @@ import com.pathplanner.lib.auto.RamseteAutoBuilder;
 
 import edu.wpi.first.math.controller.RamseteController;
 
-//import java.util.ArrayList;
-
-//import com.pathplanner.lib.PathPlannerTrajectory;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -32,6 +29,7 @@ import frc.robot.commands.Compressor_Commands.*;
 import frc.robot.commands.Drive_Commands.AutoBalance;
 import frc.robot.commands.Drive_Commands.AutoDrive;
 import frc.robot.commands.Drive_Commands.AutoRotate;
+import frc.robot.commands.Drive_Commands.DefaultDrive;
 import frc.robot.commands.Clamp_Commands.*;
 import frc.robot.commands.Arm_Commands.*;
 
@@ -44,12 +42,12 @@ import frc.robot.commands.Arm_Commands.*;
 public class RobotContainer {
 
   //All subsystems - WPILIB examples say they should be private final?
-  public final  Pneumatics_Subsystem pneumatics_Subsystem = new Pneumatics_Subsystem();
-  public final  DriveBase_Subsystem driveBase_Subsystem = new DriveBase_Subsystem();
-  public final  Intake_Subystem intake_Subystem = new Intake_Subystem(); 
-  public final  Clamp_Subsystem clamp_Subsystem = new Clamp_Subsystem();
-  public final  Arm_Subsystem arm_Subsystem = new Arm_Subsystem();
-  public final  Vision_Subsystem vision_Subsystem = new Vision_Subsystem();
+  private final  Pneumatics_Subsystem pneumatics_Subsystem = new Pneumatics_Subsystem();
+  private final  DriveBase_Subsystem driveBase_Subsystem = new DriveBase_Subsystem();
+  private final  Intake_Subystem intake_Subystem = new Intake_Subystem(); 
+  private final  Clamp_Subsystem clamp_Subsystem = new Clamp_Subsystem();
+  private final  Arm_Subsystem arm_Subsystem = new Arm_Subsystem();
+  private final  Vision_Subsystem vision_Subsystem = new Vision_Subsystem();
 
   //Controllers
   public static Joystick driverController;
@@ -61,6 +59,8 @@ public class RobotContainer {
   public static Trigger driver_RTrigger;
   public static Trigger assist_LTrigger;
   public static Trigger assist_RTrigger;
+
+  //Controller
 
   //Buttons
   public static JoystickButton driver_StartButton; //Maybe switch these to assist
@@ -81,12 +81,14 @@ public class RobotContainer {
   public HashMap<String, Command> eventMap = new HashMap<>(); //Maps out events during autoPath
 
 
+
+
   public RobotContainer() {
 
-    //Controllers
-    driverController = Robot.driverController;
-    assistController = Robot.assistController;
+   
 
+    //Sets the default command for drivebase to drive using controller
+    driveBase_Subsystem.setDefaultCommand(new DefaultDrive(driveBase_Subsystem, driverController));
     //Sets the defasult command to run continously for the vision subsystem
     vision_Subsystem.setDefaultCommand(new AddVisionMeasurement(driveBase_Subsystem, vision_Subsystem));
     
@@ -114,6 +116,7 @@ public class RobotContainer {
      autoChooser.addOption("score_mobility_chargeEngage", autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_chargeEngage));
      autoChooser.addOption("score_mobility_intake_score", autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_intake_score));
      autoChooser.addOption("Goal_Path", autoBuilder.fullAuto(driveBase_Subsystem.Goal_Path));
+     SmartDashboard.putData("Auto Modes", autoChooser);
   }
   
   public void configureBindings() {

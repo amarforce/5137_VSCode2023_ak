@@ -21,7 +21,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  */
 public class Robot extends TimedRobot {
 
-  private RobotContainer m_robotContainer;
+  private RobotContainer m_robotContainer; 
+  private Command m_autonomousCommand; //Will be used to run auto
 
   public static Joystick driverController;
   public static Joystick assistController;
@@ -31,7 +32,6 @@ public class Robot extends TimedRobot {
   SendableChooser<String> driverControlChooser = new SendableChooser<>();
   SendableChooser<String> assistControlChooser = new SendableChooser<>();
 
-  Command m_autonomousCommand;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -94,8 +94,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
+    
+    //Stops auto command when teleop starts
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
+    }
+
     // continue until interrupted by another command, remove
     // this line or comment it out.
     driverControllerType = driverControlChooser.getSelected();

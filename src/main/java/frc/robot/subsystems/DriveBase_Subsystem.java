@@ -26,7 +26,6 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
-import frc.robot.Robot;
 
 public class DriveBase_Subsystem extends SubsystemBase {
   //left motors
@@ -96,11 +95,6 @@ public class DriveBase_Subsystem extends SubsystemBase {
 
     //DriveTrain
     jMoney_Drive = new DifferentialDrive(leftDrive, rightDrive);
-
-    //Controller
-    controller = Robot.driverController;
-
-    
 
     //PID
     distanceController = new PIDController(Constants.dKP,Constants.dKI, Constants.dKD);
