@@ -7,11 +7,14 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class Supplier {
+
+  public static String driverControllerType = "xbox";
+  public static String assistControllerType = "xbox";
     
   public static IntSupplier DriverIS(int xbox, int ps4) {
     IntSupplier newIS;
     newIS = () -> {
-      if (Robot.driverControllerType == "ps4") {
+      if (driverControllerType == "ps4") {
         return ps4;
       } else {
         return xbox;
@@ -23,7 +26,7 @@ public class Supplier {
   public static IntSupplier AssistIS(int xbox, int ps4) {
     IntSupplier newIS;
     newIS = () -> {
-      if (Robot.assistControllerType == "ps4") {
+      if (assistControllerType == "ps4") {
         return ps4;
       } else {
         return xbox;
@@ -35,7 +38,7 @@ public class Supplier {
   public static DoubleSupplier DriverDS(double xbox, double ps4) {
     DoubleSupplier newIS;
     newIS = () -> {
-      if (Robot.driverControllerType == "ps4") {
+      if (driverControllerType == "ps4") {
         return ps4;
       } else {
         return xbox;
@@ -47,7 +50,7 @@ public class Supplier {
   public static DoubleSupplier AssistDS(double xbox, double ps4) {
     DoubleSupplier newIS;
     newIS = () -> {
-      if (Robot.assistControllerType == "ps4") {
+      if (assistControllerType == "ps4") {
         return ps4;
       } else {
         return xbox;

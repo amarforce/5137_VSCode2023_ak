@@ -80,12 +80,26 @@ public class RobotContainer {
   public RamseteAutoBuilder autoBuilder; //Allows auto to drive a path
   public HashMap<String, Command> eventMap = new HashMap<>(); //Maps out events during autoPath
 
-
-
+  public static SendableChooser<String> driverControlChooser = new SendableChooser<>();
+  public static SendableChooser<String> assistControlChooser = new SendableChooser<>();
+  
+  
 
   public RobotContainer() {
+    
+    
 
-   
+    driverController = new Joystick(Constants.driverControllerPort);
+    assistController = new Joystick(Constants.assistControllerPort);
+    
+    driverControlChooser.setDefaultOption("XBOX", "xbox");
+    driverControlChooser.addOption("PLAY_STATION", "ps4");
+
+    assistControlChooser.setDefaultOption("XBOX", "xbox");
+    assistControlChooser.addOption("PLAY_STATION", "ps4");
+    
+    SmartDashboard.putData("Driver Controller Type", driverControlChooser);
+    SmartDashboard.putData("Assist Controller Type", assistControlChooser);
 
     //Sets the default command for drivebase to drive using controller
     driveBase_Subsystem.setDefaultCommand(new DefaultDrive(driveBase_Subsystem, driverController));

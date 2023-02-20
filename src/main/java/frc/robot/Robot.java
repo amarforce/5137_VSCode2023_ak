@@ -7,10 +7,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.commands.ControlCommands.UpdateControllerPorts;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 
 
 /**
@@ -24,13 +23,9 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer; 
   private Command m_autonomousCommand; //Will be used to run auto
 
-  public static Joystick driverController;
-  public static Joystick assistController;
-  public static String driverControllerType;
-  public static String assistControllerType;
+ 
+  
 
-  SendableChooser<String> driverControlChooser = new SendableChooser<>();
-  SendableChooser<String> assistControlChooser = new SendableChooser<>();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -40,20 +35,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    driverController = new Joystick(Constants.driverControllerPort);
-    assistController = new Joystick(Constants.assistControllerPort);
     m_robotContainer = new RobotContainer();
-
-    driverControlChooser.setDefaultOption("XBOX", "xbox");
-    driverControlChooser.addOption("XBOX", "xbox");
-    driverControlChooser.addOption("PLAY_STATION", "ps4");
-
-    assistControlChooser.setDefaultOption("XBOX", "xbox");
-    assistControlChooser.addOption("XBOX", "xbox");
-    assistControlChooser.addOption("PLAY_STATION", "ps4");
     
-    SmartDashboard.putData("Driver Controller Type", driverControlChooser);
-    SmartDashboard.putData("Assist Controller Type", assistControlChooser);
   }
 
   /**
@@ -99,12 +82,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
-    driverControllerType = driverControlChooser.getSelected();
-    assistControllerType = assistControlChooser.getSelected();
-    Constants.updateDepConstants();
+    Command updateControls = new UpdateControllerPorts();
+    updateControls.schedule();
     m_robotContainer.configureBindings();
   }
 
