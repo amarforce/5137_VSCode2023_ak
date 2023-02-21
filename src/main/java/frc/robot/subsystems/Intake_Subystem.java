@@ -11,7 +11,7 @@ public class Intake_Subystem extends SubsystemBase {
     private boolean intakeActive;
 
     public static CANSparkMax intakeMotor;
-   
+   private boolean intakeExtended;
 
     public Intake_Subystem() {
         intakeMotor = new CANSparkMax(Constants.intakePort, MotorType.kBrushless);
@@ -41,11 +41,16 @@ public class Intake_Subystem extends SubsystemBase {
 
     public void extendIntake() {
         Pneumatics_Subsystem.intakeSolenoid.set(true);
-        intakeActive = true;
+        intakeExtended = true;
     }
 
     public void retractIntake() {
         Pneumatics_Subsystem.intakeSolenoid.set(false);
-        intakeActive = false;
+        intakeExtended = false;
+    }
+
+    public boolean getIntakeExtended()
+    {
+        return intakeExtended;
     }
 }

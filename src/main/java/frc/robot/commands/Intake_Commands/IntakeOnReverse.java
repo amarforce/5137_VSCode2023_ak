@@ -27,6 +27,7 @@ public class IntakeOnReverse extends CommandBase {
 
          if(intake_Subystem.getIntakeActive())
          {
+            System.out.println("Intake started in reverse");
             return true;
          }
          return false;

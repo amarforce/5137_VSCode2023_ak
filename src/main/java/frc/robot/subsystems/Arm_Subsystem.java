@@ -25,6 +25,9 @@ public class Arm_Subsystem extends SubsystemBase {
   public static double desiredRotation = 0.0;
   public static double desiredExtension = 0.0;
 
+  private double rotatePosition;
+  private double extendPosition;
+
   //int pulse = rotateEncoder.getCountsPerRevolution() / 4;         //converts counts into pulses 
   //int pulsePerDegree = pulse / 360;    
 
@@ -46,6 +49,8 @@ public class Arm_Subsystem extends SubsystemBase {
     rotateEncoder.setPosition(0.0);
     extendEncoder.setPosition(0.0);
 
+  
+
     //int pulse = rotateEncoder.getCountsPerRevolution() / 4;         //converts counts into pulses 
     //int pulsePerDegree = pulse / 360;                               //figures out how many pulses per degree, so we can use that
     }
@@ -54,6 +59,8 @@ public class Arm_Subsystem extends SubsystemBase {
     public void periodic() {
       // This method will be called once per scheduler run
       arcadeArm();
+      rotatePosition = rotateEncoder.getPosition();
+      extendPosition = extendEncoder.getPosition();
     }
 
     private void arcadeArm() {
@@ -67,7 +74,6 @@ public class Arm_Subsystem extends SubsystemBase {
     }
 
     private void armRotate() {
-      double rotatePosition = rotateEncoder.getPosition();
       //System.out.println("Desired Rotation:"+desiredRotation+"Current Rotation:"+rotatePosition);
       if (Math.abs(rotatePosition-desiredRotation) < 1) {
         armRotateMotor.stopMotor();
@@ -81,14 +87,12 @@ public class Arm_Subsystem extends SubsystemBase {
     }
 
     public void armRotate (int direction){
-      double rotatePosition = rotateEncoder.getPosition();
       if (rotatePosition >= Constants.maxRotationBack && rotatePosition <= Constants.maxRotationFront) {
         armRotateMotor.set(Constants.manualRotateSpeed * direction);
       }
     }
 
     private void armExtend() {
-      double extendPosition = rotateEncoder.getPosition();
       //System.out.println("Desired Extension:"+desiredExtension+"Current Extension:"+extendPosition);
       if (Math.abs(extendPosition-desiredExtension) < 1){
         armExtendMotor.stopMotor();
@@ -102,8 +106,7 @@ public class Arm_Subsystem extends SubsystemBase {
     }
 
     public boolean armFinished(double rotation, double extention ){
-      double rotatePosition = rotateEncoder.getPosition();
-      double extendPosition = rotateEncoder.getPosition();
+      
       if ((rotatePosition == rotation) && (extendPosition == extention)){
         return true;
       }

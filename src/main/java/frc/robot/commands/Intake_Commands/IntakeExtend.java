@@ -1,6 +1,5 @@
 package frc.robot.commands.Intake_Commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake_Subystem;
 
@@ -16,18 +15,18 @@ public class IntakeExtend extends CommandBase {
  
      @Override
      public void execute() {
-      System.out.println("Intake extended");
         //doesn't toggle intake on unless intake is currently off  
          intake_Subystem.extendIntake();
-         timestamp = Timer.getFPGATimestamp();
      }
  
      @Override
      public boolean isFinished() {
         //Returns finished if the time is 0.5 seconds after command called
-         if(Timer.getFPGATimestamp() > timestamp + 0.5)
+         if(intake_Subystem.getIntakeExtended())
          {
+            System.out.println("Intake extended");
             return true;
+
          }
          return false;
      }

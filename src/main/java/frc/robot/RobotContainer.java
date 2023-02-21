@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -111,11 +112,18 @@ public class RobotContainer {
     vision_Subsystem.setDefaultCommand(new AddVisionMeasurement(driveBase_Subsystem, vision_Subsystem));
     
     //Command group for scoring, relies on the isFinished of each command
-    SequentialCommandGroup score = new SequentialCommandGroup(new IntakeExtend(intake_Subystem),new ClampCone(clamp_Subsystem), new TopConePreset(arm_Subsystem) ,  new ClampOpen(clamp_Subsystem));
+    
+    
+    SequentialCommandGroup score = new SequentialCommandGroup(new IntakeExtend(intake_Subystem),new ClampCone(clamp_Subsystem), new TopConePreset(arm_Subsystem) ,  new ClampOpen(clamp_Subsystem), new PrintCommand("Score Finished"));
+    //SIMULATION ONLY 
+    //SequentialCommandGroup score = new SequentialCommandGroup(new IntakeExtend(intake_Subystem),new ClampCone(clamp_Subsystem), new PrintCommand("Arm rotated") ,  new PrintCommand("ClampOpened"), new PrintCommand("Score Finished"));
+
 
     //Adds commands to be used at event markers during auto path. Used as a parameter in autoBuilder
     eventMap.put("Intake1", new IntakeOn(intake_Subystem));
     eventMap.put("Score1", score);
+    //SIMULATION ONLY
+    //eventMap.put("Balance1", new PrintCommand("Balanced"));
     eventMap.put("Balance1", new AutoBalance(driveBase_Subsystem));
     
     //initializes the auto builder which runs an autoPath

@@ -29,6 +29,11 @@ public class ClampCone extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    if(clamp_Subsystem.getClamped())
+    {
+      System.out.println("Cube Clamped");
+      return true;
+    }
+    return false;
   } 
 }

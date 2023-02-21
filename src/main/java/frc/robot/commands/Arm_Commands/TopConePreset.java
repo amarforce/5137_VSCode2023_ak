@@ -37,6 +37,11 @@ public class TopConePreset extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return arm_Subsystem.armFinished(Constants.topConeRotation, Constants.topConeExtension);
+    if(arm_Subsystem.armFinished(Constants.topConeRotation, Constants.topConeExtension))
+    {
+      System.out.println("Arm Finished Rotating");
+      return true;
+    }
+    return false;
   }
 }
