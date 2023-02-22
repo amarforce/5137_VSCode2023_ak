@@ -14,11 +14,8 @@ public class IntakeOnReverse extends CommandBase {
  
      @Override
      public void execute() {
-        System.out.println("Intake started reverse");
         intake_Subystem.extendIntake();
-        if (!intake_Subystem.getIntakeActive()) {
             intake_Subystem.runIntake(false);
-           }
      }
 
  

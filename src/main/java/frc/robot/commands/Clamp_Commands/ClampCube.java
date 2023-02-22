@@ -15,12 +15,14 @@ public class ClampCube extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    clamp_Subsystem.Clamp(false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    clamp_Subsystem.Clamp(false);
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override

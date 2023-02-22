@@ -158,11 +158,11 @@ public class RobotContainer {
     driver_AButton.whileTrue(new AutoBalance(driveBase_Subsystem));
 
     //Intake 
-    driver_LButton = new JoystickButton(driverController, Constants.d_RTriggerPort);
+    driver_LButton = new JoystickButton(driverController, 1);
     driver_LButton.whileTrue(new IntakeOnReverse(intake_Subystem));
     driver_LButton.whileFalse(new IntakeOff(intake_Subystem));
     
-    driver_RButton = new JoystickButton(driverController, Constants.d_RTriggerPort);
+    driver_RButton = new JoystickButton(driverController, 2);
     driver_RButton.whileTrue(new IntakeOn(intake_Subystem));
     driver_RButton.whileFalse(new IntakeOff(intake_Subystem));
     

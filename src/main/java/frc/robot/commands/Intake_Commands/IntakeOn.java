@@ -16,9 +16,9 @@ public class IntakeOn extends CommandBase {
      public void execute() {
         intake_Subystem.extendIntake();
         //doesn't toggle intake on unless intake is currently off
-        if (!intake_Subystem.getIntakeActive()) {
+     
             intake_Subystem.runIntake(true);
-        }
+        
      }
  
      @Override

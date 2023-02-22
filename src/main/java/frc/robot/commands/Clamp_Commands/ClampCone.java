@@ -15,12 +15,14 @@ public class ClampCone extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    clamp_Subsystem.Clamp(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    clamp_Subsystem.Clamp(true);
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -31,7 +33,7 @@ public class ClampCone extends CommandBase {
   public boolean isFinished() {
     if(clamp_Subsystem.getClamped())
     {
-      System.out.println("Cube Clamped");
+      System.out.println("Cone Clamped");
       return true;
     }
     return false;
