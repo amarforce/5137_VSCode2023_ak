@@ -141,6 +141,7 @@ public class RobotContainer {
      autoChooser.setDefaultOption("score_chargeEngage", autoBuilder.fullAuto(driveBase_Subsystem.score_chargeEngage)); //.fullAuto() method runs the autoBuilder using a specific path
      autoChooser.addOption("score_mobility_chargeEngage", autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_chargeEngage));
      autoChooser.addOption("score_mobility_intake_score", autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_intake_score));
+     autoChooser.setDefaultOption("score_mobility_straightChargeEngage", autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_straightChargeEngage)); //.fullAuto() method runs the autoBuilder using a specific path
      autoChooser.addOption("Goal_Path", autoBuilder.fullAuto(driveBase_Subsystem.Goal_Path));
      SmartDashboard.putData("Auto Modes", autoChooser);
   }

@@ -57,6 +57,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
   public ArrayList<PathPlannerTrajectory> score_mobility_chargeEngage;
   public ArrayList<PathPlannerTrajectory> score_mobility_intake_score;
   public ArrayList<PathPlannerTrajectory> score_chargeEngage;
+  public ArrayList<PathPlannerTrajectory> score_mobility_straightChargeEngage;
   public ArrayList<PathPlannerTrajectory> Goal_Path;
 
   //AutoBuilder
@@ -68,6 +69,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     score_mobility_chargeEngage = (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("score_mobility_chargeEngage", new PathConstraints(4, 3));
     score_mobility_intake_score = (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("score_mobility_intake_score", new PathConstraints(4, 3));
     score_chargeEngage =  (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("score_chargeEngage", new PathConstraints(4, 3));
+    score_mobility_straightChargeEngage =  (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("score_mobility_straightChargeEngage", new PathConstraints(4, 3));
     Goal_Path = (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("Goal_Path", new PathConstraints(4, 3));
 
     //Maps for the path groups
