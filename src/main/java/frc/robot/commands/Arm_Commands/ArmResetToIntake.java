@@ -7,15 +7,19 @@ package frc.robot.commands.Arm_Commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Arm_Subsystem;
+import frc.robot.subsystems.Intake_Subystem;
 
 public class ArmResetToIntake extends CommandBase {
   /** Creates a new ArmResetToIntake. */
   Arm_Subsystem arm_Subsystem;
+  Intake_Subystem intake_Subystem;
   
-  public ArmResetToIntake(Arm_Subsystem arm_Subsystem) {
+  public ArmResetToIntake(Arm_Subsystem arm_Subsystem, Intake_Subystem intake_Subystem) {
     this.arm_Subsystem = arm_Subsystem;
+    this.intake_Subystem = intake_Subystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(arm_Subsystem);
+    addRequirements(intake_Subystem);
   }
 
   // Called when the command is initially scheduled.
@@ -25,8 +29,10 @@ public class ArmResetToIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm_Subsystem.moveArm(Constants.armIntakeRotation, Constants.armIntakeExtention);
-    System.out.println("Reset");
+    if (arm_Subsystem.armMovementClear(intake_Subystem)){
+      arm_Subsystem.moveArm(Constants.armIntakeRotation, Constants.armIntakeExtention);
+      System.out.println("Reset");
+    }
   }
 
   // Called once the command ends or is interrupted.

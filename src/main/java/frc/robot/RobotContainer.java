@@ -114,7 +114,7 @@ public class RobotContainer {
     //Command group for scoring, relies on the isFinished of each command
     
     
-    SequentialCommandGroup score = new SequentialCommandGroup(new IntakeExtend(intake_Subystem),new ClampCone(clamp_Subsystem), new TopConePreset(arm_Subsystem) ,  new ClampOpen(clamp_Subsystem), new PrintCommand("Score Finished"));
+    SequentialCommandGroup score = new SequentialCommandGroup(new IntakeExtend(intake_Subystem),new ClampCone(clamp_Subsystem), new TopConePreset(arm_Subsystem, intake_Subystem) ,  new ClampOpen(clamp_Subsystem), new PrintCommand("Score Finished"));
     //SIMULATION ONLY 
     //SequentialCommandGroup score = new SequentialCommandGroup(new IntakeExtend(intake_Subystem),new ClampCone(clamp_Subsystem), new PrintCommand("Arm rotated") ,  new PrintCommand("ClampOpened"), new PrintCommand("Score Finished"));
 
@@ -185,22 +185,22 @@ public class RobotContainer {
 
     //Arm 
     assist_XButton = new JoystickButton(assistController, Constants.a_XSquaredPort);
-    assist_XButton.onTrue(new TopConePreset(arm_Subsystem));
+    assist_XButton.onTrue(new TopConePreset(arm_Subsystem, intake_Subystem));
 
     assist_AButton = new JoystickButton(assistController, Constants.a_AxePort);
-    assist_AButton.onTrue(new MidConePreset(arm_Subsystem));
+    assist_AButton.onTrue(new MidConePreset(arm_Subsystem, intake_Subystem));
 
     assist_YButton = new JoystickButton(assistController, Constants.g_Yangle);
-    assist_YButton.onTrue(new TopCubePreset(arm_Subsystem));
+    assist_YButton.onTrue(new TopCubePreset(arm_Subsystem, intake_Subystem));
 
     assist_BButton = new JoystickButton(assistController, Constants.a_BirclePort);
     assist_BButton.onTrue(new MidCubePreset(arm_Subsystem));
 
     UpDPad = new POVButton(assistController, Constants.UpDPad);
-    UpDPad.onTrue(new ArmResetToIntake(arm_Subsystem));
+    UpDPad.onTrue(new ArmResetToIntake(arm_Subsystem, intake_Subystem));
 
     DownDPad = new POVButton(assistController, Constants.DownDPad);
-    DownDPad.onTrue(new HybridPreset(arm_Subsystem));
+    DownDPad.onTrue(new HybridPreset(arm_Subsystem, intake_Subystem));
 
     //Clamp 
 

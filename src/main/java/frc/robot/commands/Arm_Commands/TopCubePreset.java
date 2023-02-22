@@ -7,13 +7,16 @@ package frc.robot.commands.Arm_Commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Arm_Subsystem;
+import frc.robot.subsystems.Intake_Subystem;
 
 public class TopCubePreset extends CommandBase {
   /** Creates a new TopCubePreset. */
  Arm_Subsystem arm_Subsystem;
+ Intake_Subystem intake_Subystem;
   
-  public TopCubePreset(Arm_Subsystem arm_Subsystem) {
+  public TopCubePreset(Arm_Subsystem arm_Subsystem, Intake_Subystem intake_Subystem) {
     this.arm_Subsystem = arm_Subsystem;
+    this.intake_Subystem = intake_Subystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(arm_Subsystem);
   }

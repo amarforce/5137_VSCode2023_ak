@@ -7,10 +7,12 @@ package frc.robot.commands.Arm_Commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Arm_Subsystem;
+import frc.robot.subsystems.Intake_Subystem;
 
 public class MidCubePreset extends CommandBase {
   /** Creates a new MidCubePreset. */
   Arm_Subsystem arm_Subsystem;
+  Intake_Subystem intake_Subystem;
   
   public MidCubePreset(Arm_Subsystem arm_Subsystem) {
     this.arm_Subsystem = arm_Subsystem;

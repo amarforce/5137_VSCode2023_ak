@@ -7,15 +7,19 @@ package frc.robot.commands.Arm_Commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Arm_Subsystem;
+import frc.robot.subsystems.Intake_Subystem;
 
 public class MidConePreset extends CommandBase {
   /** Creates a new MidConePreset. */
   Arm_Subsystem arm_Subsystem;
+  Intake_Subystem intake_Subystem;
   
-  public MidConePreset(Arm_Subsystem arm_Subsystem) {
+  public MidConePreset(Arm_Subsystem arm_Subsystem, Intake_Subystem intake_Subystem) {
     this.arm_Subsystem = arm_Subsystem;
+    this.intake_Subystem = intake_Subystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(arm_Subsystem);
+    addRequirements(intake_Subystem);
   }
 
   // Called when the command is initially scheduled.
@@ -25,7 +29,9 @@ public class MidConePreset extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm_Subsystem.moveArm(Constants.middleConeRotation, Constants.middleConeExtension);
+    if (arm_Subsystem.armMovementClear(intake_Subystem)){ 
+      arm_Subsystem.moveArm(Constants.middleConeRotation, Constants.middleConeExtension);
+    }
   }
 
   // Called once the command ends or is interrupted.
