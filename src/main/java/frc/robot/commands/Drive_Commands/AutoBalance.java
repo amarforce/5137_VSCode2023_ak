@@ -4,7 +4,7 @@
 
 package frc.robot.commands.Drive_Commands;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import frc.robot.RobotContainer;
@@ -24,7 +24,7 @@ public class AutoBalance extends CommandBase {
 
     DriveBase_Subsystem driveBase_Subsystem;
     double motorSpeed;
-    PigeonIMU gyro;
+    AHRS gyro;
     double gyroAngle;
 
 

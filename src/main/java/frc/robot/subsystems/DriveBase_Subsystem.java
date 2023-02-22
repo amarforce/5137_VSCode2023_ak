@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import org.photonvision.PhotonUtils;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.sensors.PigeonIMU;
+import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -20,6 +20,7 @@ import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -51,7 +52,9 @@ public class DriveBase_Subsystem extends SubsystemBase {
   PIDController balanceController;
 
   //gyros
-  public static PigeonIMU gyro;
+  public static AHRS gyro;
+
+  
 
   //Paths
   public ArrayList<PathPlannerTrajectory> score_mobility_chargeEngage;
@@ -86,7 +89,8 @@ public class DriveBase_Subsystem extends SubsystemBase {
     rightDrive = new MotorControllerGroup(rightFrontTalon, rightBackTalon);
 
     //Gyros
-    gyro = new PigeonIMU(0);
+    gyro = new AHRS(SPI.Port.kMXP);
+    gyro.calibrate();
 
     //position estimator 
     poseEstimator = new DifferentialDrivePoseEstimator(Constants.trackWidth, new Rotation2d(gyro.getRoll()),Constants.initialLeftDistance ,Constants.initialRightDistance, new Pose2d());
@@ -174,7 +178,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     //Make sure timer delay is added if needed, could need because of motor delays from inversion
     double leftFrontEncoder = leftFrontTalon.getSelectedSensorPosition() * Constants.distancePerPulse_TalonSRX;
     double rightFrontEncoder = rightFrontTalon.getSelectedSensorPosition() * Constants.distancePerPulse_TalonSRX;
-    poseEstimator.updateWithTime(Timer.getFPGATimestamp(), new Rotation2d(0), leftFrontEncoder, rightFrontEncoder); //ad gyro value
+    poseEstimator.updateWithTime(Timer.getFPGATimestamp(), new Rotation2d((double)gyro.getRoll()), leftFrontEncoder, rightFrontEncoder); //ad gyro value
   } 
    
   public void addVisionMeasurement(Pose2d visionMeasurement, double timestampSeconds)
