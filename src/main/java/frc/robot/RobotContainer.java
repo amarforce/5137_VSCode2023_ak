@@ -42,7 +42,7 @@ import frc.robot.commands.Arm_Commands.*;
  */
 public class RobotContainer {
 
-  //All subsystems - WPILIB examples say they should be private final?
+  //Subsytems 
   private final  Pneumatics_Subsystem pneumatics_Subsystem = new Pneumatics_Subsystem();
   private final  DriveBase_Subsystem driveBase_Subsystem = new DriveBase_Subsystem();
   private final  Intake_Subystem intake_Subystem = new Intake_Subystem(); 
@@ -51,26 +51,21 @@ public class RobotContainer {
   private final  Vision_Subsystem vision_Subsystem = new Vision_Subsystem();
 
   //Controllers
-  public static Joystick driverController;
-  public static Joystick assistController;
-  public static String controllerType;
+  private final Joystick driverController  = new Joystick(Constants.driverControllerPort);
+  private final Joystick assistController = new Joystick(Constants.assistControllerPort);
 
-  //Triggers
+  /*Triggers - May need, may not need
   public static Trigger driver_LTrigger;
   public static Trigger driver_RTrigger;
   public static Trigger assist_LTrigger;
   public static Trigger assist_RTrigger;
-
-  //Controller
+  */
 
   //Buttons
-  public static JoystickButton driver_LButton;
-  public static JoystickButton driver_RButton;
+  public static JoystickButton driver_LTrigger;
+  public static JoystickButton driver_RTrigger;
   public static JoystickButton driver_StartButton; //Maybe switch these to assist
   public static JoystickButton driver_BackButton;
-  public static JoystickButton driver_XButton;
-  public static JoystickButton driver_AButton;
-  public static JoystickButton driver_BButton;
   public static JoystickButton assist_LButton;
   public static JoystickButton assist_RButton;
   public static JoystickButton assist_XButton;
@@ -81,22 +76,18 @@ public class RobotContainer {
   public static POVButton UpDPad;
  
   //Variables for running auto
-  SendableChooser<Command> autoChooser = new SendableChooser<>(); //Chooser for auto mode
-  public RamseteAutoBuilder autoBuilder; //Allows auto to drive a path
-  public HashMap<String, Command> eventMap = new HashMap<>(); //Maps out events during autoPath
+  private final SendableChooser<Command> autoChooser = new SendableChooser<>(); //Chooser for auto mode
+  private final RamseteAutoBuilder autoBuilder; //Allows auto to drive a path
+  private final HashMap<String, Command> eventMap = new HashMap<>(); //Maps out events during autoPath
 
+  //Used by Supplier statically to decide what the control bindings should be 
   public static SendableChooser<String> driverControlChooser = new SendableChooser<>();
   public static SendableChooser<String> assistControlChooser = new SendableChooser<>();
   
   
 
   public RobotContainer() {
-    
-    
-
-    driverController = new Joystick(Constants.driverControllerPort);
-    assistController = new Joystick(Constants.assistControllerPort);
-    
+  
     driverControlChooser.setDefaultOption("XBOX", "xbox");
     driverControlChooser.addOption("PLAY_STATION", "ps4");
 
@@ -115,15 +106,11 @@ public class RobotContainer {
     
     
     SequentialCommandGroup score = new SequentialCommandGroup(new IntakeExtend(intake_Subystem),new ClampCone(clamp_Subsystem), new TopConePreset(arm_Subsystem, intake_Subystem) ,  new ClampOpen(clamp_Subsystem), new PrintCommand("Score Finished"));
-    //SIMULATION ONLY 
-    //SequentialCommandGroup score = new SequentialCommandGroup(new IntakeExtend(intake_Subystem),new ClampCone(clamp_Subsystem), new PrintCommand("Arm rotated") ,  new PrintCommand("ClampOpened"), new PrintCommand("Score Finished"));
-
-
+    
     //Adds commands to be used at event markers during auto path. Used as a parameter in autoBuilder
     eventMap.put("Intake1", new IntakeOn(intake_Subystem));
     eventMap.put("Score1", score);
-    //SIMULATION ONLY
-    //eventMap.put("Balance1", new PrintCommand("Balanced"));
+    
     eventMap.put("Balance1", new AutoBalance(driveBase_Subsystem));
     
     //initializes the auto builder which runs an autoPath
@@ -148,35 +135,29 @@ public class RobotContainer {
   
   public void configureBindings() {
 
-    //Align Testing 
-    driver_XButton = new JoystickButton(driverController, Constants.d_XSquaredPort);
-    driver_XButton.whileTrue(new AutoRotate(driveBase_Subsystem, Constants.pose2b));
+    //Uses an alternate method of creating bindings from WPILIB and other teams - let me know what you guys think: Simulated and they work
+    //Align Commands 
+    new JoystickButton(driverController, Constants.d_XSquaredPort)
+    .whileTrue(new AutoRotate(driveBase_Subsystem, Constants.pose2b));
 
-    driver_BButton = new JoystickButton(driverController, Constants.d_BirclePort);
-    driver_BButton.whileTrue(new AutoDrive(driveBase_Subsystem, Constants.pose2b));
+    new JoystickButton(driverController, Constants.d_BirclePort)
+    .whileTrue(new AutoDrive(driveBase_Subsystem, Constants.pose2b));
     
-    driver_AButton = new JoystickButton(driverController, Constants.d_AxePort);
-    driver_AButton.whileTrue(new AutoBalance(driveBase_Subsystem));
+    //Balance Command 
+    new JoystickButton(driverController, Constants.d_AxePort)
+    .whileTrue(new AutoBalance(driveBase_Subsystem));
 
+  
     //Intake 
-    driver_LButton = new JoystickButton(driverController, Constants.d_LTriggerPort);
-    driver_LButton.whileTrue(new IntakeOnReverse(intake_Subystem));
-    driver_LButton.whileFalse(new IntakeOff(intake_Subystem));
-    
-    driver_RButton = new JoystickButton(driverController, Constants.d_RTriggerPort);
-    driver_RButton.whileTrue(new IntakeOn(intake_Subystem));
-    driver_RButton.whileFalse(new IntakeOff(intake_Subystem));
-    
-    //Doesn't work, could be issue with supplier or potentially my controller is just diff - Joaquin 
-/* 
-    driver_RTrigger = new Trigger(Supplier.createBooleanSupplier(driverController, Constants.d_RTriggerPort, Constants.d_LTriggerPort));
-    driver_RTrigger.whileTrue(new IntakeOn(intake_Subystem));
-    driver_RTrigger.onFalse(new IntakeOff(intake_Subystem));
-
-     driver_LTrigger = new Trigger(Supplier.createBooleanSupplier(driverController, Constants.d_LTriggerPort, Constants.d_RTriggerPort));
+    driver_LTrigger = new JoystickButton(driverController, Constants.d_LTriggerPort);
     driver_LTrigger.whileTrue(new IntakeOnReverse(intake_Subystem));
-    driver_LTrigger.onFalse(new IntakeOff(intake_Subystem));
-*/
+    driver_LTrigger.whileFalse(new IntakeOff(intake_Subystem));
+     
+    driver_RTrigger = new JoystickButton(driverController, Constants.d_RTriggerPort);
+    driver_RTrigger.whileTrue(new IntakeOn(intake_Subystem));
+    driver_RTrigger.whileFalse(new IntakeOff(intake_Subystem));
+    
+   
     //Compressor 
     driver_StartButton = new JoystickButton(driverController, 9);
     driver_StartButton.onTrue(new CompressorOn(pneumatics_Subsystem));
@@ -213,8 +194,16 @@ public class RobotContainer {
     assist_RButton.whileTrue(new ClampCone(clamp_Subsystem));
     assist_RButton.whileFalse(new ClampOpen(clamp_Subsystem));
 
-    //Doesn't work in simulation, Tested above"buttons" with my controller trigger and they work 
-    /* 
+     //Doesn't work in simulation  
+/* 
+    driver_RTrigger = new Trigger(Supplier.createBooleanSupplier(driverController, Constants.d_RTriggerPort, Constants.d_LTriggerPort));
+    driver_RTrigger.whileTrue(new IntakeOn(intake_Subystem));
+    driver_RTrigger.onFalse(new IntakeOff(intake_Subystem));
+
+     driver_LTrigger = new Trigger(Supplier.createBooleanSupplier(driverController, Constants.d_LTriggerPort, Constants.d_RTriggerPort));
+    driver_LTrigger.whileTrue(new IntakeOnReverse(intake_Subystem));
+    driver_LTrigger.onFalse(new IntakeOff(intake_Subystem));
+    
     assist_LTrigger = new Trigger(Supplier.createBooleanSupplier(assistController, Constants.a_LTriggerPort, Constants.a_RTriggerPort));
     assist_LTrigger.onTrue(new ClampCube(clamp_Subsystem));
     assist_LTrigger.onFalse(new ClampOpen(clamp_Subsystem));
