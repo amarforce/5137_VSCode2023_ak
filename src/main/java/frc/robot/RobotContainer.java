@@ -54,27 +54,6 @@ public class RobotContainer {
   private final Joystick driverController  = new Joystick(Constants.driverControllerPort);
   private final Joystick assistController = new Joystick(Constants.assistControllerPort);
 
-  /*Triggers - May need, may not need
-  public static Trigger driver_LTrigger;
-  public static Trigger driver_RTrigger;
-  public static Trigger assist_LTrigger;
-  public static Trigger assist_RTrigger;
-  */
-
-  //Buttons
-  public static JoystickButton driver_LTrigger;
-  public static JoystickButton driver_RTrigger;
-  public static JoystickButton driver_StartButton; //Maybe switch these to assist
-  public static JoystickButton driver_BackButton;
-  public static JoystickButton assist_LButton;
-  public static JoystickButton assist_RButton;
-  public static JoystickButton assist_XButton;
-  public static JoystickButton assist_AButton;
-  public static JoystickButton assist_YButton;
-  public static JoystickButton assist_BButton;
-  public static POVButton DownDPad;
-  public static POVButton UpDPad;
- 
   //Variables for running auto
   private final SendableChooser<Command> autoChooser = new SendableChooser<>(); //Chooser for auto mode
   private final RamseteAutoBuilder autoBuilder; //Allows auto to drive a path
@@ -135,83 +114,60 @@ public class RobotContainer {
   
   public void configureBindings() {
 
-    //Uses an alternate method of creating bindings from WPILIB and other teams - let me know what you guys think: Simulated and they work
-    //Align Commands 
-    new JoystickButton(driverController, Constants.d_XSquaredPort)
-    .whileTrue(new AutoRotate(driveBase_Subsystem, Constants.pose2b));
+    //Automated Commands
+    new JoystickButton(driverController, Constants.d_XSquaredPort) 
+    .whileTrue(new AutoRotate(driveBase_Subsystem, Constants.pose2b)); //AutoRotate
 
-    new JoystickButton(driverController, Constants.d_BirclePort)
-    .whileTrue(new AutoDrive(driveBase_Subsystem, Constants.pose2b));
+    new JoystickButton(driverController, Constants.d_BirclePort) 
+    .whileTrue(new AutoDrive(driveBase_Subsystem, Constants.pose2b)); //AutoDrive
     
-    //Balance Command 
-    new JoystickButton(driverController, Constants.d_AxePort)
-    .whileTrue(new AutoBalance(driveBase_Subsystem));
+    new JoystickButton(driverController, Constants.d_AxePort) 
+    .whileTrue(new AutoBalance(driveBase_Subsystem)); //Balancing
 
-  
-    //Intake 
-    driver_LTrigger = new JoystickButton(driverController, Constants.d_LTriggerPort);
-    driver_LTrigger.whileTrue(new IntakeOnReverse(intake_Subystem));
-    driver_LTrigger.whileFalse(new IntakeOff(intake_Subystem));
+    //Intake Commands
+    new JoystickButton(driverController, Constants.d_LTriggerPort)
+    .whileTrue(new IntakeOnReverse(intake_Subystem)) //Intake running in reverse
+    .whileFalse(new IntakeOff(intake_Subystem)); 
      
-    driver_RTrigger = new JoystickButton(driverController, Constants.d_RTriggerPort);
-    driver_RTrigger.whileTrue(new IntakeOn(intake_Subystem));
-    driver_RTrigger.whileFalse(new IntakeOff(intake_Subystem));
+    new JoystickButton(driverController, Constants.d_RTriggerPort)
+    .whileTrue(new IntakeOn(intake_Subystem)) //Intake running
+    .whileFalse(new IntakeOff(intake_Subystem));
     
-   
-    //Compressor 
-    driver_StartButton = new JoystickButton(driverController, 9);
-    driver_StartButton.onTrue(new CompressorOn(pneumatics_Subsystem));
+    //Compressor Commands
+    new JoystickButton(driverController, Constants.d_StoptionsPort)
+    .onTrue(new CompressorOn(pneumatics_Subsystem)); //Compressor On
 
-    driver_BackButton = new JoystickButton(driverController, 10);
-    driver_BackButton.onTrue(new CompressorOff(pneumatics_Subsystem));
+    new JoystickButton(driverController, Constants.d_ShackPort)
+    .onTrue(new CompressorOff(pneumatics_Subsystem)); //Compressor Off
 
-    //Arm 
-    assist_XButton = new JoystickButton(assistController, Constants.a_XSquaredPort);
-    assist_XButton.onTrue(new TopConePreset(arm_Subsystem, intake_Subystem));
+    //Arm Commands
+    new JoystickButton(assistController, Constants.a_XSquaredPort)
+    .onTrue(new TopConePreset(arm_Subsystem, intake_Subystem)); //Top Cone
 
-    assist_AButton = new JoystickButton(assistController, Constants.a_AxePort);
-    assist_AButton.onTrue(new MidConePreset(arm_Subsystem, intake_Subystem));
+    new JoystickButton(assistController, Constants.a_AxePort)
+    .onTrue(new MidConePreset(arm_Subsystem, intake_Subystem)); //Mid Cone
 
-    assist_YButton = new JoystickButton(assistController, Constants.g_Yangle);
-    assist_YButton.onTrue(new TopCubePreset(arm_Subsystem, intake_Subystem));
+    new JoystickButton(assistController, Constants.g_Yangle)
+    .onTrue(new TopCubePreset(arm_Subsystem, intake_Subystem)); //Top Cube
 
-    assist_BButton = new JoystickButton(assistController, Constants.a_BirclePort);
-    assist_BButton.onTrue(new MidCubePreset(arm_Subsystem));
+    new JoystickButton(assistController, Constants.a_BirclePort)
+    .onTrue(new MidCubePreset(arm_Subsystem)); //Mid Cube
 
-    UpDPad = new POVButton(assistController, Constants.UpDPad);
-    UpDPad.onTrue(new ArmResetToIntake(arm_Subsystem, intake_Subystem));
+    new POVButton(assistController, Constants.UpDPad)
+    .onTrue(new ArmResetToIntake(arm_Subsystem, intake_Subystem)); //Reset to Intake Position
 
-    DownDPad = new POVButton(assistController, Constants.DownDPad);
-    DownDPad.onTrue(new HybridPreset(arm_Subsystem, intake_Subystem));
+    new POVButton(assistController, Constants.DownDPad)
+    .onTrue(new HybridPreset(arm_Subsystem, intake_Subystem)); //Floor/Hybrid Positon 
 
-    //Clamp 
-
-    assist_LButton = new JoystickButton(assistController, Constants.a_RTriggerPort);
-    assist_LButton.whileTrue(new ClampCube(clamp_Subsystem));
-    assist_LButton.whileFalse(new ClampOpen(clamp_Subsystem));
+    //Clamp Commands
+    new JoystickButton(assistController, Constants.a_RTriggerPort)
+    .whileTrue(new ClampCube(clamp_Subsystem)) //Clamp Cube
+    .whileFalse(new ClampOpen(clamp_Subsystem));
     
-    assist_RButton = new JoystickButton(assistController, Constants.a_RTriggerPort);
-    assist_RButton.whileTrue(new ClampCone(clamp_Subsystem));
-    assist_RButton.whileFalse(new ClampOpen(clamp_Subsystem));
+    new JoystickButton(assistController, Constants.a_RTriggerPort)
+    .whileTrue(new ClampCone(clamp_Subsystem)) //Clamp Cone
+    .whileFalse(new ClampOpen(clamp_Subsystem));
 
-     //Doesn't work in simulation  
-/* 
-    driver_RTrigger = new Trigger(Supplier.createBooleanSupplier(driverController, Constants.d_RTriggerPort, Constants.d_LTriggerPort));
-    driver_RTrigger.whileTrue(new IntakeOn(intake_Subystem));
-    driver_RTrigger.onFalse(new IntakeOff(intake_Subystem));
-
-     driver_LTrigger = new Trigger(Supplier.createBooleanSupplier(driverController, Constants.d_LTriggerPort, Constants.d_RTriggerPort));
-    driver_LTrigger.whileTrue(new IntakeOnReverse(intake_Subystem));
-    driver_LTrigger.onFalse(new IntakeOff(intake_Subystem));
-    
-    assist_LTrigger = new Trigger(Supplier.createBooleanSupplier(assistController, Constants.a_LTriggerPort, Constants.a_RTriggerPort));
-    assist_LTrigger.onTrue(new ClampCube(clamp_Subsystem));
-    assist_LTrigger.onFalse(new ClampOpen(clamp_Subsystem));
-
-    assist_RTrigger = new Trigger(Supplier.createBooleanSupplier(assistController, Constants.a_RTriggerPort, Constants.a_LTriggerPort));
-    assist_RTrigger.onTrue(new ClampCone(clamp_Subsystem));
-    assist_RTrigger.onFalse(new ClampOpen(clamp_Subsystem));
-    */
   }
 
   //Returns the current selected auto command based on sendable. If none is selected goes to default command. If no default returns null. 

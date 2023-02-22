@@ -87,7 +87,9 @@ public class DriveBase_Subsystem extends SubsystemBase {
     rightFrontTalon = new WPI_TalonSRX(Constants.rightFrontTalonPort);
     rightBackTalon = new WPI_TalonSRX(Constants.leftBackTalonPort);
     rightDrive = new MotorControllerGroup(rightFrontTalon, rightBackTalon);
+    rightDrive.setInverted(true);
 
+    
     //Gyros
     gyro = new AHRS(SPI.Port.kMXP);
     gyro.calibrate();
@@ -116,6 +118,10 @@ public class DriveBase_Subsystem extends SubsystemBase {
       arcadeDrive(controller);
     }
     updatePoseEstimator();
+    System.out.println(getPose());
+    System.out.println("Roll (Horizontal)" + gyro.getRoll());
+    System.out.println("Pitch (Vertical)" + gyro.getPitch());
+
 
   }
 
@@ -172,6 +178,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     
   }
 
+  
   
   
   public void updatePoseEstimator(){
