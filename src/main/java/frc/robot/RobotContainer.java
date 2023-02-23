@@ -67,6 +67,7 @@ public class RobotContainer {
 
   public RobotContainer() {
   
+    //SmartDashboard values for choosing controller type, will be overwritten by Joseph's shuffleboard
     driverControlChooser.setDefaultOption("XBOX", "xbox");
     driverControlChooser.addOption("PLAY_STATION", "ps4");
 
@@ -82,14 +83,11 @@ public class RobotContainer {
     vision_Subsystem.setDefaultCommand(new AddVisionMeasurement(driveBase_Subsystem, vision_Subsystem));
     
     //Command group for scoring, relies on the isFinished of each command
-    
-    
     SequentialCommandGroup score = new SequentialCommandGroup(new IntakeExtend(intake_Subystem),new ClampCone(clamp_Subsystem), new TopConePreset(arm_Subsystem, intake_Subystem) ,  new ClampOpen(clamp_Subsystem), new PrintCommand("Score Finished"));
     
     //Adds commands to be used at event markers during auto path. Used as a parameter in autoBuilder
     eventMap.put("Intake1", new IntakeOn(intake_Subystem));
     eventMap.put("Score1", score);
-    
     eventMap.put("Balance1", new AutoBalance(driveBase_Subsystem));
     
     //initializes the auto builder which runs an autoPath
@@ -103,7 +101,7 @@ public class RobotContainer {
       true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
       driveBase_Subsystem); // The drive subsystem. Used to properly set the requirements of path following commands
 
-     //Adds option for the autochooser
+     //Adds auto options to SmartDashboard, will be replaced by Shuffleboard
      autoChooser.setDefaultOption("score_chargeEngage", autoBuilder.fullAuto(driveBase_Subsystem.score_chargeEngage)); //.fullAuto() method runs the autoBuilder using a specific path
      autoChooser.addOption("score_mobility_chargeEngage", autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_chargeEngage));
      autoChooser.addOption("score_mobility_intake_score", autoBuilder.fullAuto(driveBase_Subsystem.score_mobility_intake_score));
@@ -118,18 +116,18 @@ public class RobotContainer {
     new JoystickButton(driverController, Constants.d_XSquaredPort) 
     .whileTrue(new AutoRotate(driveBase_Subsystem, Constants.pose2b)); //AutoRotate
 
-    new JoystickButton(driverController, Constants.d_BirclePort) 
+    new JoystickButton(driverController, Constants.d_BirclePort)  
     .whileTrue(new AutoDrive(driveBase_Subsystem, Constants.pose2b)); //AutoDrive
     
-    new JoystickButton(driverController, Constants.d_AxePort) 
+    new JoystickButton(driverController, Constants.d_AxePort) //A Button
     .whileTrue(new AutoBalance(driveBase_Subsystem)); //Balancing
 
     //Intake Commands
-    new JoystickButton(driverController, Constants.d_LTriggerPort)
+    new JoystickButton(driverController, Constants.d_LTriggerPort) 
     .whileTrue(new IntakeOnReverse(intake_Subystem)) //Intake running in reverse
     .whileFalse(new IntakeOff(intake_Subystem)); 
      
-    new JoystickButton(driverController, Constants.d_RTriggerPort)
+    new JoystickButton(driverController, Constants.d_RTriggerPort) 
     .whileTrue(new IntakeOn(intake_Subystem)) //Intake running
     .whileFalse(new IntakeOff(intake_Subystem));
     
@@ -157,7 +155,7 @@ public class RobotContainer {
     .onTrue(new ArmResetToIntake(arm_Subsystem, intake_Subystem)); //Reset to Intake Position
 
     new POVButton(assistController, Constants.DownDPad)
-    .onTrue(new HybridPreset(arm_Subsystem, intake_Subystem)); //Floor/Hybrid Positon 
+    .onTrue(new HybridPreset(arm_Subsystem, intake_Subystem)); //Floor-Hybrid Positon 
 
     //Clamp Commands
     new JoystickButton(assistController, Constants.a_RTriggerPort)

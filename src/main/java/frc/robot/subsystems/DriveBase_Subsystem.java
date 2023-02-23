@@ -117,7 +117,10 @@ public class DriveBase_Subsystem extends SubsystemBase {
     if (controller != null) {
       arcadeDrive(controller);
     }
+    //Updates the position with gyro and encoder periodcally 
     updatePoseEstimator();
+
+    //For Testing
     System.out.println(getPose());
     System.out.println("Roll (Horizontal)" + gyro.getRoll());
     System.out.println("Pitch (Vertical)" + gyro.getPitch());
@@ -126,11 +129,13 @@ public class DriveBase_Subsystem extends SubsystemBase {
   }
 
 
+  //A consumer(method that takes a value) used in the auto paths / autoBuilder that drives the robot using a left and right speed
   public void drive(double leftSpeed, double rightSpeed)
   {
     jMoney_Drive.tankDrive(leftSpeed, rightSpeed);
   }
 
+  //Used by the bot to drive -- calls upon adjust method to reduce error. Is used by the DefaultDrive command to drive in TeleOp
   public void arcadeDrive(Joystick controller) {
     //Gets controller values
     double speed = controller.getRawAxis(Constants.g_LYStickAxisPort);
@@ -147,6 +152,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     return axis;
   }
 
+  //Automatically Balances on charge station using gyro measurements
   public double autoBalance()
   {
     double forwardSpeed = balanceController.calculate(gyro.getPitch(), 0); //Calculates forward speed using PID
@@ -155,8 +161,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     
   }
 
-
-
+  //Drives towards and rotates towards a given position based on distance and yaw using PIDs
   public double autoDrive(Pose2d targetPose) 
   {
     double forwardSpeed = distanceController.calculate(PhotonUtils.getDistanceToPose(getPose(), targetPose), 0); //Calculates forward speed using PID
@@ -165,6 +170,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     return forwardSpeed;
   }
 
+  //Rotate towards a given pose based on yaw using a PID
   public double autoRotate(Pose2d targetPose)
   {
     double rotateSpeed =  -rotationController.calculate(PhotonUtils.getYawToPose(getPose(), targetPose).getDegrees(), 0.0);
@@ -172,15 +178,14 @@ public class DriveBase_Subsystem extends SubsystemBase {
     return rotateSpeed;
   }
   
+  //Returns the current global pose estimate of robot
   public Pose2d getPose()
   {
     return poseEstimator.getEstimatedPosition(); 
     
   }
 
-  
-  
-  
+  //Updates the pose estimator with current encoder values and gyro readings
   public void updatePoseEstimator(){
     //Make sure timer delay is added if needed, could need because of motor delays from inversion
     double leftFrontEncoder = leftFrontTalon.getSelectedSensorPosition() * Constants.distancePerPulse_TalonSRX;
@@ -188,18 +193,18 @@ public class DriveBase_Subsystem extends SubsystemBase {
     poseEstimator.updateWithTime(Timer.getFPGATimestamp(), new Rotation2d((double)gyro.getRoll()), leftFrontEncoder, rightFrontEncoder); //ad gyro value
   } 
    
+  //Used by AddVisionMeasurement command to add a location to pose estimator based on april tag system
   public void addVisionMeasurement(Pose2d visionMeasurement, double timestampSeconds)
   {
   poseEstimator.addVisionMeasurement(visionMeasurement, timestampSeconds);
   }
 
+
+  //Resets global pose estimator based on a position parameter, gyro and encoder have no effect
   public void resetPose(Pose2d pose)
   {
     poseEstimator.resetPosition(new Rotation2d(gyro.getRoll()), 0, 0, pose);
   }
-  
-  
-
   }
 
 
