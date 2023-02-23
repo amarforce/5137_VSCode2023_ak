@@ -13,7 +13,6 @@ import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -24,7 +23,6 @@ import frc.robot.subsystems.Arm_Subsystem;
 import frc.robot.subsystems.*;
 
 //Commands
-import frc.robot.commands.Intake_Commands.*;
 import frc.robot.commands.Vision_Commands.AddVisionMeasurement;
 import frc.robot.commands.Compressor_Commands.*;
 import frc.robot.commands.Drive_Commands.AutoBalance;
@@ -33,6 +31,7 @@ import frc.robot.commands.Drive_Commands.AutoRotate;
 import frc.robot.commands.Drive_Commands.DefaultDrive;
 import frc.robot.commands.Clamp_Commands.*;
 import frc.robot.commands.Arm_Commands.*;
+import frc.robot.commands.Intake_Commands.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -90,7 +89,7 @@ public class RobotContainer {
     eventMap.put("Score1", score);
     eventMap.put("Balance1", new AutoBalance(driveBase_Subsystem));
     
-    //initializes the auto builder which runs an autoPath
+    //initializes the auto builder which runs an the auto paths
     autoBuilder = new RamseteAutoBuilder(
       driveBase_Subsystem::getPose, // Pose2d supplier method from drivetrain
       driveBase_Subsystem::resetPose, // Pose2d consume method used to reset odometry at the beginning of auto
