@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import org.photonvision.PhotonUtils;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathConstraints;
@@ -30,13 +31,13 @@ import frc.robot.Constants;
 
 public class DriveBase_Subsystem extends SubsystemBase {
   //left motors
-  public static WPI_TalonSRX leftFrontTalon;
-  public static WPI_TalonSRX leftBackTalon;
+  public static WPI_TalonFX leftFrontTalon;
+  public static WPI_TalonFX leftBackTalon;
   public static MotorControllerGroup leftDrive;
   
   //right motors
-  public static WPI_TalonSRX rightFrontTalon;
-  public static WPI_TalonSRX rightBackTalon;
+  public static WPI_TalonFX rightFrontTalon;
+  public static WPI_TalonFX rightBackTalon;
   public static MotorControllerGroup rightDrive;
 
   //DriveTrain
@@ -76,16 +77,13 @@ public class DriveBase_Subsystem extends SubsystemBase {
     Goal_Path = (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("Goal_Path", new PathConstraints(4, 3));
 
     //Maps for the path groups
-    
-   
-    
-    leftFrontTalon = new WPI_TalonSRX(Constants.leftFrontTalonPort);
-    leftBackTalon = new WPI_TalonSRX(Constants.leftBackTalonPort);
+    leftFrontTalon = new WPI_TalonFX(Constants.leftFrontTalonPort);
+    leftBackTalon = new WPI_TalonFX(Constants.leftBackTalonPort);
     leftDrive = new MotorControllerGroup(leftFrontTalon, leftBackTalon);
 
     //right motors
-    rightFrontTalon = new WPI_TalonSRX(Constants.rightFrontTalonPort);
-    rightBackTalon = new WPI_TalonSRX(Constants.leftBackTalonPort);
+    rightFrontTalon = new WPI_TalonFX(Constants.rightFrontTalonPort);
+    rightBackTalon = new WPI_TalonFX(Constants.rightBackTalonPort);
     rightDrive = new MotorControllerGroup(rightFrontTalon, rightBackTalon);
     rightDrive.setInverted(true);
 
@@ -121,10 +119,11 @@ public class DriveBase_Subsystem extends SubsystemBase {
     updatePoseEstimator();
 
     //For Testing
+    /* 
     System.out.println(getPose());
     System.out.println("Roll (Horizontal)" + gyro.getRoll());
     System.out.println("Pitch (Vertical)" + gyro.getPitch());
-
+*/
 
   }
 
@@ -142,6 +141,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     double rotate = controller.getRawAxis(Constants.d_RXStickAxisPort);
     speed = adjust(speed);
     rotate = adjust(rotate);
+    System.out.println(speed);
     jMoney_Drive.curvatureDrive(speed/Constants.driveSensitivity, rotate/Constants.turnSensitivity, true);
   }
 

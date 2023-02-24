@@ -49,6 +49,7 @@ public class RobotContainer {
   private final  Arm_Subsystem arm_Subsystem = new Arm_Subsystem();
   private final  Vision_Subsystem vision_Subsystem = new Vision_Subsystem();
 
+
   //Controllers
   private final Joystick driverController  = new Joystick(Constants.driverControllerPort);
   private final Joystick assistController = new Joystick(Constants.assistControllerPort);
@@ -85,10 +86,13 @@ public class RobotContainer {
     SequentialCommandGroup score = new SequentialCommandGroup(new IntakeExtend(intake_Subystem),new ClampCone(clamp_Subsystem), new TopConePreset(arm_Subsystem, intake_Subystem) ,  new ClampOpen(clamp_Subsystem), new PrintCommand("Score Finished"));
     
     //Adds commands to be used at event markers during auto path. Used as a parameter in autoBuilder
+    
+    /* 
     eventMap.put("Intake1", new IntakeOn(intake_Subystem));
     eventMap.put("Score1", score);
     eventMap.put("Balance1", new AutoBalance(driveBase_Subsystem));
-    
+    */
+
     //initializes the auto builder which runs an the auto paths
     autoBuilder = new RamseteAutoBuilder(
       driveBase_Subsystem::getPose, // Pose2d supplier method from drivetrain
@@ -115,6 +119,15 @@ public class RobotContainer {
     new JoystickButton(driverController, Constants.d_XSquaredPort) 
     .whileTrue(new AutoRotate(driveBase_Subsystem, Constants.pose2b)); //AutoRotate
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
     new JoystickButton(driverController, Constants.d_BirclePort)  
     .whileTrue(new AutoDrive(driveBase_Subsystem, Constants.pose2b)); //AutoDrive
     
