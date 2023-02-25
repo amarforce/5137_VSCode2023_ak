@@ -15,45 +15,55 @@ import frc.robot.Constants;
 public class Addressable_LEDS_Subsystem extends SubsystemBase {
   /** Creates a new Addressabe_LEDS_Subsystem. */
 
-  private AddressableLED leds;
-  private AddressableLEDBuffer ledBuffer;
+  private AddressableLED leds1;
+  private AddressableLEDBuffer ledBuffer1;
+  private AddressableLED leds2;
+  private AddressableLEDBuffer ledBuffer2;
 
   public Addressable_LEDS_Subsystem() {
 
-    leds = new AddressableLED(9);
-    ledBuffer = new AddressableLEDBuffer(300);
-    leds.setLength(ledBuffer.getLength());
+    leds1 = new AddressableLED(Constants.ledString1Port);
+    ledBuffer1 = new AddressableLEDBuffer(300);
+    leds1.setLength(ledBuffer1.getLength());
+    
+
 
   }
 
   public void alternateColors(Color RGB1, Color RGB2){
 
-    for(var i = 0; i < ledBuffer.getLength(); i++){
+    for(var i = 0; i < ledBuffer1.getLength(); i++){
       if(i%2 != 0){//odd
-        ledBuffer.setLED(i, RGB2);
+        ledBuffer1.setLED(i, RGB2);
+
       }
       else{//even
-        ledBuffer.setLED(i, RGB1);
-      } 
-    }
+        ledBuffer1.setLED(i, RGB1);
 
-    leds.setData(ledBuffer);
+
+      } 
+      
+    }
+    leds1.setData(ledBuffer1);
+
+   
   }
 
   public void solidColor(Color RGB1){
 
-    for(var i = 0; i < ledBuffer.getLength(); i++){
-      ledBuffer.setLED(i, RGB1);
+    for(var i = 0; i < ledBuffer1.getLength(); i++){
+      ledBuffer1.setLED(i, RGB1);
 
     }
 
-    leds.setData(ledBuffer);
+    leds1.setData(ledBuffer1);
+
 }
       
 
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+
   }
 }
