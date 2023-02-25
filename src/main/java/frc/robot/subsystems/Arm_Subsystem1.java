@@ -73,11 +73,7 @@ public class Arm_Subsystem1 extends ProfiledPIDSubsystem {
     {
       double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
       armRotateMotor.setVoltage(output + feedforward);
-<<<<<<< HEAD
       System.out.println("Output" + output);
-=======
-    System.out.println("output" + output+feedforward);
->>>>>>> de32ac0ec4390b7a03c2f3b859998d4f57400a76
     }
 
     @Override

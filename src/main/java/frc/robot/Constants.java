@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.util.Color;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -105,7 +106,10 @@ public final class Constants {
   public final static double middleConeExtension = 45;
   public final static double hybridExtension = 30;
 
+  //RGB Values for Color Addressable LEDS
 
+  public final static Color cardinal = new Color(146, 45, 53);
+  public final static Color gold = new Color(255, 215, 0);
 
     //april tags/vision
   //Change values to match 2023 bot

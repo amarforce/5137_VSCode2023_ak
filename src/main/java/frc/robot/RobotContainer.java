@@ -48,6 +48,7 @@ public class RobotContainer {
   private final  Intake_Subystem intake_Subystem = new Intake_Subystem(); 
   private final  Clamp_Subsystem clamp_Subsystem = new Clamp_Subsystem();
   private final  Arm_Subsystem arm_Subsystem = new Arm_Subsystem();
+  private final  Addressable_LEDS_Subsystem addressable_LEDS_Subsystem = new Addressable_LEDS_Subsystem();
   //private final  Arm_Subsystem1 arm_Subsystem1 = new Arm_Subsystem1();
 
   private final  Vision_Subsystem vision_Subsystem = new Vision_Subsystem();
