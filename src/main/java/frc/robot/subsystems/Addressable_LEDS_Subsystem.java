@@ -23,7 +23,6 @@ public class Addressable_LEDS_Subsystem extends SubsystemBase {
     leds = new AddressableLED(9);
     ledBuffer = new AddressableLEDBuffer(300);
     leds.setLength(ledBuffer.getLength());
-    alternateColors(Constants.cardinal, Constants.gold);
 
   }
 

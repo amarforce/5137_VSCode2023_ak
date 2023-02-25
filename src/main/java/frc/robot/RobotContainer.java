@@ -4,12 +4,14 @@
 
 package frc.robot;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import com.pathplanner.lib.auto.RamseteAutoBuilder;
 
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.util.datalog.StringArrayLogEntry;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -66,12 +68,18 @@ public class RobotContainer {
   //Used by Supplier statically to decide what the control bindings should be 
   public static SendableChooser<String> driverControlChooser = new SendableChooser<>();
   public static SendableChooser<String> assistControlChooser = new SendableChooser<>();
-  
+  public static SendableChooser<String> ledChooser = new SendableChooser<>();
+
   
 
   public RobotContainer() {
   
-    //SmartDashboard values for choosing controller type, will be overwritten by Joseph's shuffleboard
+
+    ledChooser.setDefaultOption("Team Colors", "teamColors");
+    ledChooser.addOption("Cardinal", "cardinal");
+    SmartDashboard.putData("LED MODE", ledChooser);
+
+    //SmartDashboard values for choosing controller type, twill be overwritten by Joseph's shuffleboard
     driverControlChooser.setDefaultOption("XBOX", "xbox");
     driverControlChooser.addOption("PLAY_STATION", "ps4");
 
@@ -190,5 +198,17 @@ public class RobotContainer {
   //Returns the current selected auto command based on sendable. If none is selected goes to default command. If no default returns null. 
   public Command getAutoCommand(){
     return autoChooser.getSelected();
+  }
+
+  public void setLedMode()
+  {
+    if(ledChooser.getSelected().equals("teamColors"))
+    {
+      addressable_LEDS_Subsystem.alternateColors(Constants.cardinal, Constants.gold);
+    }
+    else if(ledChooser.getSelected().equals("cardinal"))
+    {
+      addressable_LEDS_Subsystem.solidColor(Constants.cardinal);
+    }
   }
 }

@@ -77,6 +77,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    m_robotContainer.setLedMode();
     
     //Stops auto command when teleop starts
     if (m_autonomousCommand != null) {
