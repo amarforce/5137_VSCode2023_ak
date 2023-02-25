@@ -16,6 +16,11 @@
           "open": true
         }
       },
+      "SPARK MAX [8]": {
+        "header": {
+          "open": true
+        }
+      },
       "SPARK MAX [9]": {
         "header": {
           "open": true
@@ -52,6 +57,11 @@
         }
       }
     },
+    "RoboRIO": {
+      "window": {
+        "visible": true
+      }
+    },
     "Solenoids": {
       "0": {
         "header": {
@@ -74,7 +84,12 @@
       "/SmartDashboard/Driver Controller Type": "String Chooser"
     },
     "windows": {
-      "/SmartDashboard/Auto Modes": {
+      "/FMSInfo": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Assist Controller Type": {
         "window": {
           "visible": true
         }

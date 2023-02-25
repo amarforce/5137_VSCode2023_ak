@@ -63,6 +63,7 @@ public class Arm_Subsystem1 extends ProfiledPIDSubsystem {
     rotateEncoder.setPosition(0.0);
     extendEncoder.setPosition(0.0);
 
+    super.enable();
   
     //int pulse = rotateEncoder.getCountsPerRevolution() / 4;         //converts counts into pulses 
     //int pulsePerDegree = pulse / 360;                               //figures out how many pulses per degree, so we can use that
@@ -72,7 +73,11 @@ public class Arm_Subsystem1 extends ProfiledPIDSubsystem {
     {
       double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
       armRotateMotor.setVoltage(output + feedforward);
+<<<<<<< HEAD
       System.out.println("Output" + output);
+=======
+    System.out.println("output" + output+feedforward);
+>>>>>>> de32ac0ec4390b7a03c2f3b859998d4f57400a76
     }
 
     @Override
