@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.PIDConstants;
+
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -114,11 +117,34 @@ public final class Constants {
   public final static double scoreDistance = Units.inchesToMeters(36); 
   //Encoder values
     public final static double wheelDiameter = Units.inchesToMeters(6); //Wheel diamter - used in encoder
-    public static final double distancePerPulse_TalonSRX = (wheelDiameter * Math.PI) / 4096.0; //4096 is the ticks per rotation for TalonSRX
+    public static final double distancePerPulse_TalonFX = (wheelDiameter * Math.PI) / 2048.0/10; //2048 is the ticks per rotation for TalonFX, /10 because the the selected sensor position is *10. 
   //pid for forward speed/vision
     public final static double dKP = 0.2;
     public final static double dKD = 0.0;
     public final static double dKI = 0.0;
+
+    //PID FOR RIGHT and Left side
+
+    public final static PIDConstants drivePIDConstants = new PIDConstants(0.05,0,0);
+
+    //Gains for FeedForward / Left+Right motor volts
+    public final static double kS = 1.49;
+    public final static double kV = 1.00;
+    public final static double kA = 0.1;
+    
+    //Gains for Arm PID
+    public final static double aKP = 1;
+    public final static double aKD = 0.0;
+    public final static double aKI = 0.0;
+
+    //Gains for FeedForward Arm
+    public static final double kSVolts = 1;
+    public static final double kGVolts = 1;
+    public static final double kVVoltSecondPerRad = 0.5;
+    public static final double kAVoltSecondSquaredPerRad = 0.1;
+
+    public final static double armMaxVelocity = 10; //rad/s
+    public final static double armMaxAccel = 3; //rad/s^2
 
   //pid for rotation speed/vision
     public final static double rKP = 0.02;

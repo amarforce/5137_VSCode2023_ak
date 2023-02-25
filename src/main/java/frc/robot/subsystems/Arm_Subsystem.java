@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
 //import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -72,6 +73,8 @@ public class Arm_Subsystem extends SubsystemBase {
       desiredRotation = rotation;
       desiredExtension = extension;
     }
+
+   
 
     private void armRotate() {
       //System.out.println("Desired Rotation:"+desiredRotation+"Current Rotation:"+rotatePosition);

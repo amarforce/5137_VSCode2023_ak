@@ -17,9 +17,11 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
@@ -51,6 +53,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
   PIDController distanceController;
   PIDController rotationController;
   PIDController balanceController;
+  public SimpleMotorFeedforward voltPID;
 
   //gyros
   public static AHRS gyro;
@@ -98,6 +101,8 @@ public class DriveBase_Subsystem extends SubsystemBase {
 
     //Encoders 
     leftFrontTalon.setSelectedSensorPosition(0);
+    rightFrontTalon.setSelectedSensorPosition(0);
+
 
     //DriveTrain
     jMoney_Drive = new DifferentialDrive(leftDrive, rightDrive);
@@ -106,7 +111,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     distanceController = new PIDController(Constants.dKP,Constants.dKI, Constants.dKD);
     rotationController = new PIDController(Constants.rKP,Constants.rKI, Constants.rKD);
     balanceController = new PIDController(Constants.bKP,Constants.bKI, Constants.bKD);
-
+    voltPID = new SimpleMotorFeedforward(Constants.kS, Constants.kV, Constants.kA);
   }
 
   @Override
@@ -119,11 +124,11 @@ public class DriveBase_Subsystem extends SubsystemBase {
     updatePoseEstimator();
 
     //For Testing
-    /* 
-    System.out.println(getPose());
-    System.out.println("Roll (Horizontal)" + gyro.getRoll());
-    System.out.println("Pitch (Vertical)" + gyro.getPitch());
-*/
+    //System.out.println(getPose());
+    
+
+    //System.out.println("Pitch (Vertical)" + gyro.getPitch());
+
 
   }
 
@@ -131,8 +136,28 @@ public class DriveBase_Subsystem extends SubsystemBase {
   //A consumer(method that takes a value) used in the auto paths / autoBuilder that drives the robot using a left and right speed
   public void drive(double leftSpeed, double rightSpeed)
   {
-    jMoney_Drive.tankDrive(leftSpeed, rightSpeed);
+   System.out.print("left speed" + leftSpeed);
+   System.out.print("right speed" + rightSpeed);
+    //jMoney_Drive.tankDrive(leftSpeed, rightSpeed);
   }
+
+  //Returns wheel speeds of motors
+  public DifferentialDriveWheelSpeeds getWheelSpeeds()
+  {
+    double leftSpeed = leftFrontTalon.getSelectedSensorVelocity()*Constants.distancePerPulse_TalonFX*10; //Speed = sensor count per 100 ms * distance per count * 10 (converts 100 ms to s)
+    double rightSpeed = rightFrontTalon.getSelectedSensorVelocity()*Constants.distancePerPulse_TalonFX*10;
+   System.out.println("Left Speed: " + leftSpeed);
+   System.out.println("Right Speed: " + rightSpeed);
+    return new DifferentialDriveWheelSpeeds(leftSpeed, rightSpeed);
+  }
+
+  //Sets the volts of each motor 
+  public void setVolts(double leftVolts, double rightVolts)
+  {
+    leftDrive.setVoltage(leftVolts);
+    rightDrive.setVoltage(rightVolts);
+  }
+
 
   //Used by the bot to drive -- calls upon adjust method to reduce error. Is used by the DefaultDrive command to drive in TeleOp
   public void arcadeDrive(Joystick controller) {
@@ -141,7 +166,6 @@ public class DriveBase_Subsystem extends SubsystemBase {
     double rotate = controller.getRawAxis(Constants.d_RXStickAxisPort);
     speed = adjust(speed);
     rotate = adjust(rotate);
-    System.out.println(speed);
     jMoney_Drive.curvatureDrive(speed/Constants.driveSensitivity, rotate/Constants.turnSensitivity, true);
   }
 
@@ -188,8 +212,8 @@ public class DriveBase_Subsystem extends SubsystemBase {
   //Updates the pose estimator with current encoder values and gyro readings
   public void updatePoseEstimator(){
     //Make sure timer delay is added if needed, could need because of motor delays from inversion
-    double leftFrontEncoder = leftFrontTalon.getSelectedSensorPosition() * Constants.distancePerPulse_TalonSRX;
-    double rightFrontEncoder = rightFrontTalon.getSelectedSensorPosition() * Constants.distancePerPulse_TalonSRX;
+    double leftFrontEncoder = leftFrontTalon.getSelectedSensorPosition() * Constants.distancePerPulse_TalonFX;
+    double rightFrontEncoder = rightFrontTalon.getSelectedSensorPosition() * Constants.distancePerPulse_TalonFX;
     poseEstimator.updateWithTime(Timer.getFPGATimestamp(), new Rotation2d((double)gyro.getRoll()), leftFrontEncoder, rightFrontEncoder); //ad gyro value
   } 
    

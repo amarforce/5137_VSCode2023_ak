@@ -9,7 +9,7 @@ import java.util.HashMap;
 import com.pathplanner.lib.auto.RamseteAutoBuilder;
 
 import edu.wpi.first.math.controller.RamseteController;
-
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -92,14 +92,16 @@ public class RobotContainer {
     eventMap.put("Score1", score);
     eventMap.put("Balance1", new AutoBalance(driveBase_Subsystem));
     */
-
     //initializes the auto builder which runs an the auto paths
     autoBuilder = new RamseteAutoBuilder(
       driveBase_Subsystem::getPose, // Pose2d supplier method from drivetrain
       driveBase_Subsystem::resetPose, // Pose2d consume method used to reset odometry at the beginning of auto
-      new RamseteController(), 
+      new RamseteController(),
       Constants.trackWidth, //Kinematics for our drivebase
-      driveBase_Subsystem::drive, // Method used to drive the bot with left and right speeds
+      driveBase_Subsystem.voltPID,
+      driveBase_Subsystem::getWheelSpeeds,
+      Constants.drivePIDConstants,
+      driveBase_Subsystem::setVolts,
       eventMap, //Event map that maps out commands to specific keywords in autoPath markers
       true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
       driveBase_Subsystem); // The drive subsystem. Used to properly set the requirements of path following commands
