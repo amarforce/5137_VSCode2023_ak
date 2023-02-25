@@ -71,8 +71,8 @@ public final class Constants {
   public final static double intakeSpeed = 1.0;
 
   //PWM PORTS for LED Strings
-  public static final int ledString1Port = 6;
-  public static final int ledString2Port = 7;
+  public static final int ledString1Port = 9;
+
 
   //Solenoids
   //these are the channels we will be using, don't know what solenoid will go to which yet
