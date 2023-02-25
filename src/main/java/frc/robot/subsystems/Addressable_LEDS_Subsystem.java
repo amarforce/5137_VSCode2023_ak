@@ -41,6 +41,17 @@ public class Addressable_LEDS_Subsystem extends SubsystemBase {
     leds.setData(ledBuffer);
   }
 
+  public void solidColor(Color RGB1){
+
+    for(var i = 0; i < ledBuffer.getLength(); i++){
+      ledBuffer.setLED(i, RGB1);
+
+    }
+
+    leds.setData(ledBuffer);
+}
+      
+
 
   @Override
   public void periodic() {
