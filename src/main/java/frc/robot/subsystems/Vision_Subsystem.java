@@ -31,9 +31,7 @@ public class Vision_Subsystem extends SubsystemBase
     PhotonCamera ar2Camera = new PhotonCamera("AR2");
 
     //Pose estimators using each camera instance, make sure to update where the camera is on the robot in Constants
-    ar1CamPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, ar1Camera, Constants.robotToAR1Cam);
-    ar2CamPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, ar2Camera, Constants.robotToAR2Cam);
-
+   
 
     
     //Sets the April Tag field to the 2023 field. Uses try and catch to make sure field loading doesn't crash program. 
@@ -41,13 +39,17 @@ public class Vision_Subsystem extends SubsystemBase
     {
       aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
       System.out.println ("Set the field");
-      System.out.println(aprilTagFieldLayout);
+      System.out.println(aprilTagFieldLayout); 
     } 
     catch (IOException e) 
     {
       e.printStackTrace();
       System.out.println ("The field Load Didn't Work");
     }
+
+    ar1CamPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, ar1Camera, Constants.robotToAR1Cam);
+    ar2CamPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, ar2Camera, Constants.robotToAR2Cam);
+
   }
 
 

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -47,7 +48,7 @@ public class RobotContainer {
   private final  Intake_Subystem intake_Subystem = new Intake_Subystem(); 
   private final  Clamp_Subsystem clamp_Subsystem = new Clamp_Subsystem();
   private final  Arm_Subsystem arm_Subsystem = new Arm_Subsystem();
-  private final  Arm_Subsystem1 arm_Subsystem1 = new Arm_Subsystem1();
+  //private final  Arm_Subsystem1 arm_Subsystem1 = new Arm_Subsystem1();
 
   private final  Vision_Subsystem vision_Subsystem = new Vision_Subsystem();
 
@@ -126,7 +127,8 @@ public class RobotContainer {
     
     
     
-    
+  //new JoystickButton(driverController, 1)
+  //.whileTrue(new InstantCommand(()-> {arm_Subsystem1.setGoal(5); arm_Subsystem1.enable();}, arm_Subsystem1));
     
     
     
@@ -156,7 +158,7 @@ public class RobotContainer {
 
     //Arm Commands
     new JoystickButton(assistController, Constants.a_XSquaredPort)
-    .onTrue(new TopConePreset1(arm_Subsystem1)); //Top Cone
+    .onTrue(new TopConePreset(arm_Subsystem, intake_Subystem)); //Top Cone
 
     new JoystickButton(assistController, Constants.a_AxePort)
     .onTrue(new MidConePreset(arm_Subsystem, intake_Subystem)); //Mid Cone

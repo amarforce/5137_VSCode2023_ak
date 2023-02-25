@@ -162,10 +162,12 @@ public class DriveBase_Subsystem extends SubsystemBase {
   //Used by the bot to drive -- calls upon adjust method to reduce error. Is used by the DefaultDrive command to drive in TeleOp
   public void arcadeDrive(Joystick controller) {
     //Gets controller values
-    double speed = controller.getRawAxis(Constants.g_LYStickAxisPort);
-    double rotate = controller.getRawAxis(Constants.d_RXStickAxisPort);
+    double speed = controller.getRawAxis(Constants.g_LYStickAxisPort)/2;
+    double rotate = controller.getRawAxis(Constants.d_RXStickAxisPort)/2;
     speed = adjust(speed);
     rotate = adjust(rotate);
+    System.out.println(getWheelSpeeds());
+
     jMoney_Drive.curvatureDrive(speed/Constants.driveSensitivity, rotate/Constants.turnSensitivity, true);
   }
 
@@ -182,7 +184,6 @@ public class DriveBase_Subsystem extends SubsystemBase {
     double forwardSpeed = balanceController.calculate(gyro.getPitch(), 0); //Calculates forward speed using PID
     jMoney_Drive.curvatureDrive(forwardSpeed, 0, false);; //Sets the drivetraub to drive forward/backwards using PID speed
     return forwardSpeed;
-    
   }
 
   //Drives towards and rotates towards a given position based on distance and yaw using PIDs

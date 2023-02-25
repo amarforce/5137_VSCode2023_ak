@@ -5,11 +5,12 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 //import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.simulation.SparkMaxWrapper;
 
@@ -25,6 +26,8 @@ public class Arm_Subsystem1 extends ProfiledPIDSubsystem {
   
   public RelativeEncoder rotateEncoder = armRotateMotor.getEncoder();
   RelativeEncoder extendEncoder = armExtendMotor.getEncoder();
+
+  PIDController armPidController = new PIDController(1, 0, 0);
 
   private final ArmFeedforward m_feedforward =
       new ArmFeedforward(
@@ -69,7 +72,7 @@ public class Arm_Subsystem1 extends ProfiledPIDSubsystem {
     {
       double feedforward = m_feedforward.calculate(setpoint.position, setpoint.velocity);
       armRotateMotor.setVoltage(output + feedforward);
-
+      System.out.println("Output" + output);
     }
 
     @Override
@@ -77,10 +80,14 @@ public class Arm_Subsystem1 extends ProfiledPIDSubsystem {
     return rotateEncoder.getPosition();
   }
 
-  public void setSetpoint(double setpoint)
+  public void setPositionDegrees(double degrees)
   {
-    super.setGoal(setpoint);
-}
+    double currentDegrees = rotateEncoder.getPosition();
+    double voltageSpeed = armPidController.calculate(currentDegrees, degrees);
+    super.setGoal(voltageSpeed);
+  }
+ 
+  
 }
 
    
