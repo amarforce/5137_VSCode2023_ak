@@ -13,11 +13,13 @@ import frc.robot.subsystems.Intake_Subystem;
 public class TopConePreset1 extends CommandBase {
   /** Creates a new TopConePreset. */
   Arm_Subsystem1 arm_Subsystem1;
+  boolean set;
   
   public TopConePreset1(Arm_Subsystem1 arm_Subsystem1) {
     this.arm_Subsystem1 = arm_Subsystem1;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(arm_Subsystem1);
+    set = true;
   }
 
   // Called when the command is initially scheduled.
@@ -27,7 +29,7 @@ public class TopConePreset1 extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   arm_Subsystem1.setGoal(30);
+   arm_Subsystem1.setSetpoint(30);
    System.out.println("Set arm subsytem1 target to 30");
   }
 
@@ -42,7 +44,10 @@ public class TopConePreset1 extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+  if(set){
     return true;
+  }
+  return false;
     
   }
 }

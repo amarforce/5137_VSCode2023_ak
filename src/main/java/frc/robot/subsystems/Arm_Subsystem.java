@@ -17,8 +17,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class Arm_Subsystem extends SubsystemBase {
   //CANSparkMax armRotateMotor = new CANSparkMax(Constants.armRotatePort, MotorType.kBrushless);
   //CANSparkMax armExtendMotor = new CANSparkMax(Constants.armExtendPort, MotorType.kBrushless);
-  SparkMaxWrapper armRotateMotor = new SparkMaxWrapper(Constants.armRotatePort, MotorType.kBrushless);
-  SparkMaxWrapper armExtendMotor = new SparkMaxWrapper(Constants.armExtendPort, MotorType.kBrushless);
+  SparkMaxWrapper armRotateMotor = new SparkMaxWrapper(0, MotorType.kBrushless);
+  SparkMaxWrapper armExtendMotor = new SparkMaxWrapper(1, MotorType.kBrushless);
   
   public RelativeEncoder rotateEncoder = armRotateMotor.getEncoder();
   RelativeEncoder extendEncoder = armExtendMotor.getEncoder();
