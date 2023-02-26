@@ -73,7 +73,9 @@ public class DriveBase_Subsystem extends SubsystemBase {
   //RobotContainer
 
   //rate limiter
-  private final SlewRateLimiter rateLimiter = new SlewRateLimiter(1.0);
+  private final SlewRateLimiter rateLimiter = new SlewRateLimiter(1.2);
+  private final SlewRateLimiter rotateLimiter = new SlewRateLimiter(4);
+
 
 
   public DriveBase_Subsystem() {
@@ -88,7 +90,6 @@ public class DriveBase_Subsystem extends SubsystemBase {
     leftFrontTalon = new WPI_TalonFX(Constants.leftFrontTalonPort);
     leftBackTalon = new WPI_TalonFX(Constants.leftBackTalonPort);
     leftDrive = new MotorControllerGroup(leftFrontTalon, leftBackTalon);
-
     //right motors
     rightFrontTalon = new WPI_TalonFX(Constants.rightFrontTalonPort);
     rightBackTalon = new WPI_TalonFX(Constants.rightBackTalonPort);
@@ -108,10 +109,10 @@ public class DriveBase_Subsystem extends SubsystemBase {
     leftFrontTalon.setSelectedSensorPosition(0);
     rightFrontTalon.setSelectedSensorPosition(0);
 
-
     //DriveTrain
     jMoney_Drive = new DifferentialDrive(leftDrive, rightDrive);
-    jMoney_Drive.setMaxOutput(0.45);
+    jMoney_Drive.setMaxOutput(.7);
+    
 
     //PID
     distanceController = new PIDController(Constants.dKP,Constants.dKI, Constants.dKD);
@@ -152,8 +153,6 @@ public class DriveBase_Subsystem extends SubsystemBase {
   {
     double leftSpeed = leftFrontTalon.getSelectedSensorVelocity()*Constants.distancePerPulse_TalonFX*10; //Speed = sensor count per 100 ms * distance per count * 10 (converts 100 ms to s)
     double rightSpeed = rightFrontTalon.getSelectedSensorVelocity()*Constants.distancePerPulse_TalonFX*10;
-   System.out.println("Left Speed: " + leftSpeed);
-   System.out.println("Right Speed: " + rightSpeed);
     return new DifferentialDriveWheelSpeeds(leftSpeed, rightSpeed);
   }
 
@@ -168,18 +167,29 @@ public class DriveBase_Subsystem extends SubsystemBase {
   //Used by the bot to drive -- calls upon adjust method to reduce error. Is used by the DefaultDrive command to drive in TeleOp
   public void arcadeDrive(Joystick controller) {
     //Gets controller values
-    double speed = controller.getRawAxis(Constants.g_LYStickAxisPort);
-    double rotate = controller.getRawAxis(Constants.d_RXStickAxisPort);
+    double speed = controller.getRawAxis(1);
+    double rotate = controller.getRawAxis(4);
+
     speed = adjust(speed);
     rotate = adjust(rotate);
-    //System.out.println(" speed" + speed);
-    //System.out.println("rotate" + rotate);
-    jMoney_Drive.curvatureDrive(speed/Constants.driveSensitivity, rotate/Constants.turnSensitivity, true);
+    speed = rateLimiter.calculate(speed);
+    rotate = rotateLimiter.calculate(rotate);
+    //rotate = rateLimiter.calculate(rotate);
+  //System.out.println("speed:" + speed);
+  //System.out.println("rotate" + rotate);
+  if(speed!=0.0){
+    rotate -= 0.4*speed;
+  }
+ 
+
+  System.out.println("speed:" + speed);
+  System.out.println("rotate" + rotate);  
+    jMoney_Drive.curvatureDrive(speed/Constants.driveSensitivity, rotate/Constants.turnSensitivity , true);
+
   }
 
   //Also not required but stops drifiting and gurantees max speed
   public double adjust(double axis) {
-    axis = rateLimiter.calculate(axis);
     if (Math.abs(axis)<Constants.errormargin) {return 0.0;}
     if (Math.abs(axis)>(1-Constants.errormargin)) {return (Math.abs(axis)/axis);}
     return axis;
