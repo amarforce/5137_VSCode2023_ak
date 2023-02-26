@@ -19,6 +19,7 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
@@ -70,6 +71,10 @@ public class DriveBase_Subsystem extends SubsystemBase {
   //AutoBuilder
 
   //RobotContainer
+
+  //rate limiter
+  private final SlewRateLimiter rateLimiter = new SlewRateLimiter(0.5);
+
 
   public DriveBase_Subsystem() {
 
@@ -162,17 +167,17 @@ public class DriveBase_Subsystem extends SubsystemBase {
   //Used by the bot to drive -- calls upon adjust method to reduce error. Is used by the DefaultDrive command to drive in TeleOp
   public void arcadeDrive(Joystick controller) {
     //Gets controller values
-    double speed = controller.getRawAxis(Constants.g_LYStickAxisPort)/2;
-    double rotate = controller.getRawAxis(Constants.d_RXStickAxisPort)/2;
+    double speed = controller.getRawAxis(Constants.g_LYStickAxisPort);
+    double rotate = controller.getRawAxis(Constants.d_RXStickAxisPort);
     speed = adjust(speed);
     rotate = adjust(rotate);
     System.out.println(getWheelSpeeds());
-
     jMoney_Drive.curvatureDrive(speed/Constants.driveSensitivity, rotate/Constants.turnSensitivity, true);
   }
 
   //Also not required but stops drifiting and gurantees max speed
   public double adjust(double axis) {
+    axis = rateLimiter.calculate(axis);
     if (Math.abs(axis)<Constants.errormargin) {return 0.0;}
     if (Math.abs(axis)>(1-Constants.errormargin)) {return (Math.abs(axis)/axis);}
     return axis;

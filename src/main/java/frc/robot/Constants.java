@@ -141,7 +141,7 @@ public final class Constants {
     public final static double kA = 0.1;
     
     //Gains for Arm PID
-    public final static double aKP = 1;
+    public final static double aKP = .005;
     public final static double aKD = 0.0;
     public final static double aKI = 0.0;
 
