@@ -34,6 +34,8 @@ public class Arm_Subsystem extends SubsystemBase {
   private double extendPosition;
 
   private PIDController rotatePID = new PIDController(Constants.aKP, Constants.aKD, Constants.aKI);
+  private PIDController extendPID = new PIDController(Constants.eKP, Constants.eKD, Constants.eKI);
+
 
   //int pulse = rotateEncoder.getCountsPerRevolution() / 4;         //converts counts into pulses 
   //int pulsePerDegree = pulse / 360;    
@@ -84,10 +86,7 @@ public class Arm_Subsystem extends SubsystemBase {
 
     private void armRotate() {
       //System.out.println("Desired Rotation:"+desiredRotation+"Current Rotation:"+rotatePosition);
-      if (Math.abs(rotatePosition-desiredRotation) < 1) {
-        armRotateMotor.stopMotor();
-      }
-      else if (rotatePosition < desiredRotation) {
+      if(rotatePosition < desiredRotation) {
         armRotateMotor.set(rotatePID.calculate(rotatePosition, desiredRotation));
       } 
       else if (rotatePosition > desiredRotation) {
@@ -103,20 +102,17 @@ public class Arm_Subsystem extends SubsystemBase {
 
     private void armExtend() {
       //System.out.println("Desired Extension:"+desiredExtension+"Current Extension:"+extendPosition);
-      if (Math.abs(extendPosition-desiredExtension) < 1){
-        armExtendMotor.stopMotor();
-      }
       else if (extendPosition < desiredExtension){
-        armExtendMotor.set(Constants.armExtendSpeed);
+        armExtendMotor.set(rotatePID.calculate(extendPosition, desiredExtension));
       } 
       else if (extendPosition > desiredExtension) {
-        armExtendMotor.set(-Constants.armExtendSpeed);
+        armExtendMotor.set(-rotatePID.calculate(extendPosition, desiredExtension));
       }
     }
 
     public boolean armFinished(double rotation, double extention ){
       
-      if ((rotatePosition == rotation) && (extendPosition == extention)){
+      if ((rotatePosition-rotation < Math.abs(1)) && (extendPosition-extention < Math.abs(1.0))){
         return true;
       }
       return false;

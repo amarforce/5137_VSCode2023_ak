@@ -140,10 +140,16 @@ public final class Constants {
     public final static double kV = 1.00;
     public final static double kA = 0.1;
     
-    //Gains for Arm PID
+    //Gains for Arm PID ROtate
     public final static double aKP = .005;
     public final static double aKD = 0.0;
     public final static double aKI = 0.0;
+
+    //Gains for Arm PID Extend
+    public final static double eKP = .005;
+    public final static double eKD = 0.0;
+    public final static double eKI = 0.0;
+
 
     //Gains for FeedForward Arm
     public static final double kSVolts = 1;
@@ -160,7 +166,7 @@ public final class Constants {
     public final static double rKI = 0;
 
      //pid for charge station
-     public final static double bKP = 0.02;
+     public final static double bKP = 0.01;
      public final static double bKD = 0.;
      public final static double bKI = 0.;
 
