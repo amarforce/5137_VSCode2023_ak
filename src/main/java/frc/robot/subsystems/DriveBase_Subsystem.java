@@ -73,7 +73,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
   //RobotContainer
 
   //rate limiter
-  private final SlewRateLimiter rateLimiter = new SlewRateLimiter(0.5);
+  private final SlewRateLimiter rateLimiter = new SlewRateLimiter(1.0);
 
 
   public DriveBase_Subsystem() {
@@ -111,6 +111,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
 
     //DriveTrain
     jMoney_Drive = new DifferentialDrive(leftDrive, rightDrive);
+    jMoney_Drive.setMaxOutput(0.45);
 
     //PID
     distanceController = new PIDController(Constants.dKP,Constants.dKI, Constants.dKD);
@@ -171,8 +172,8 @@ public class DriveBase_Subsystem extends SubsystemBase {
     double rotate = controller.getRawAxis(Constants.d_RXStickAxisPort);
     speed = adjust(speed);
     rotate = adjust(rotate);
-    System.out.println(" speed" + speed);
-    System.out.println("rotate" + rotate);
+    //System.out.println(" speed" + speed);
+    //System.out.println("rotate" + rotate);
     jMoney_Drive.curvatureDrive(speed/Constants.driveSensitivity, rotate/Constants.turnSensitivity, true);
   }
 
