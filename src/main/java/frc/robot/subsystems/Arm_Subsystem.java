@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.PIDController;
 //import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -16,10 +17,12 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class Arm_Subsystem extends SubsystemBase {
-  CANSparkMax armRotateMotor = new CANSparkMax(Constants.armRotatePort, MotorType.kBrushless);
-  CANSparkMax armExtendMotor = new CANSparkMax(Constants.armExtendPort, MotorType.kBrushless);
-  //SparkMaxWrapper armRotateMotor = new SparkMaxWrapper(Constants.armRotatePort, MotorType.kBrushless);
-  //SparkMaxWrapper armExtendMotor = new SparkMaxWrapper(Constants.armExtendPort, MotorType.kBrushless);
+  //CANSparkMax armRotateMotor = new CANSparkMax(Constants.armRotatePort, MotorType.kBrushless);
+  //CANSparkMax armExtendMotor = new CANSparkMax(Constants.armExtendPort, MotorType.kBrushless);
+  SparkMaxWrapper armRotateMotor = new SparkMaxWrapper(Constants.armRotatePort, MotorType.kBrushless);
+  SparkMaxWrapper armExtendMotor = new SparkMaxWrapper(Constants.armExtendPort, MotorType.kBrushless);
+  //final EncoderSim rotateEncoderSim = new EncoderSim(rotateEncoder);
+  //final EncoderSim extendEncoderSim = new EncoderSim(extendEncoder);
   
   public RelativeEncoder rotateEncoder = armRotateMotor.getEncoder();
   RelativeEncoder extendEncoder = armExtendMotor.getEncoder();
@@ -30,11 +33,12 @@ public class Arm_Subsystem extends SubsystemBase {
   private double rotatePosition;
   private double extendPosition;
 
+  private PIDController rotatePID = new PIDController(Constants.aKP, Constants.aKD, Constants.aKI);
+
   //int pulse = rotateEncoder.getCountsPerRevolution() / 4;         //converts counts into pulses 
   //int pulsePerDegree = pulse / 360;    
 
-  //final EncoderSim rotateEncoderSim = new EncoderSim(rotateEncoder);
-  //final EncoderSim extendEncoderSim = new EncoderSim(extendEncoder);
+  
 
   /** Creates a new Arm. */
   public Arm_Subsystem() {
@@ -83,10 +87,10 @@ public class Arm_Subsystem extends SubsystemBase {
         armRotateMotor.stopMotor();
       }
       else if (rotatePosition < desiredRotation) {
-        armRotateMotor.set(Constants.armRotateSpeed);
+        armRotateMotor.set(rotatePID.calculate(rotatePosition, desiredRotation));
       } 
       else if (rotatePosition > desiredRotation) {
-        armRotateMotor.set(-Constants.armRotateSpeed);
+        armRotateMotor.set(-rotatePID.calculate(rotatePosition, desiredRotation));
       }
     }
 
