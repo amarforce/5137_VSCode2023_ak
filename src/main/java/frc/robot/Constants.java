@@ -6,7 +6,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.PIDConstants;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -161,7 +160,7 @@ public final class Constants {
     public final static double armMaxAccel = 3; //rad/s^2
 
   //pid for rotation speed/vision
-    public final static double rKP = 0.02;
+    public final static double rKP = 0.004;
     public final static double rKD = 0;
     public final static double rKI = 0;
 

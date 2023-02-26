@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 //import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -102,11 +101,11 @@ public class Arm_Subsystem extends SubsystemBase {
 
     private void armExtend() {
       //System.out.println("Desired Extension:"+desiredExtension+"Current Extension:"+extendPosition);
-      else if (extendPosition < desiredExtension){
-        armExtendMotor.set(rotatePID.calculate(extendPosition, desiredExtension));
+      if (extendPosition < desiredExtension){
+        armExtendMotor.set(extendPID.calculate(extendPosition, desiredExtension));
       } 
       else if (extendPosition > desiredExtension) {
-        armExtendMotor.set(-rotatePID.calculate(extendPosition, desiredExtension));
+        armExtendMotor.set(-extendPID.calculate(extendPosition, desiredExtension));
       }
     }
 

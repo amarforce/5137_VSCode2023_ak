@@ -17,21 +17,18 @@ public class Addressable_LEDS_Subsystem extends SubsystemBase {
 
   private AddressableLED leds1;
   private AddressableLEDBuffer ledBuffer1;
-  private AddressableLED leds2;
-  private AddressableLEDBuffer ledBuffer2;
 
   public Addressable_LEDS_Subsystem() {
 
+    //Creates new LED on port 9
     leds1 = new AddressableLED(Constants.ledString1Port);
     ledBuffer1 = new AddressableLEDBuffer(300);
     leds1.setLength(ledBuffer1.getLength());
-    
-
-
   }
 
   public void alternateColors(Color RGB1, Color RGB2){
 
+    //Sets Odd and Even Leds to alternating colors
     for(var i = 0; i < ledBuffer1.getLength(); i++){
       if(i%2 != 0){//odd
         ledBuffer1.setLED(i, RGB2);
@@ -44,10 +41,10 @@ public class Addressable_LEDS_Subsystem extends SubsystemBase {
       } 
       
     }
+    //Sets the LED to the buffer sequence
     leds1.setData(ledBuffer1);
-
-   
   }
+    
 
   public void solidColor(Color RGB1){
 

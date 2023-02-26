@@ -4,20 +4,15 @@
 
 package frc.robot;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import com.pathplanner.lib.auto.RamseteAutoBuilder;
 
 import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.util.datalog.StringArrayLogEntry;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -73,8 +68,7 @@ public class RobotContainer {
   
 
   public RobotContainer() {
-  
-
+    //Smart Dashboard Options for LED Modes
     ledChooser.setDefaultOption("Team Colors", "teamColors");
     ledChooser.addOption("Cardinal", "cardinal");
     SmartDashboard.putData("LED MODE", ledChooser);
@@ -94,12 +88,11 @@ public class RobotContainer {
     //Sets the defasult command to run continously for the vision subsystem
     vision_Subsystem.setDefaultCommand(new AddVisionMeasurement(driveBase_Subsystem, vision_Subsystem));
     
+    /* 
     //Command group for scoring, relies on the isFinished of each command
     SequentialCommandGroup score = new SequentialCommandGroup(new IntakeExtend(intake_Subystem),new ClampCone(clamp_Subsystem), new TopConePreset(arm_Subsystem, intake_Subystem) ,  new ClampOpen(clamp_Subsystem), new PrintCommand("Score Finished"));
     
     //Adds commands to be used at event markers during auto path. Used as a parameter in autoBuilder
-    
-    /* 
     eventMap.put("Intake1", new IntakeOn(intake_Subystem));
     eventMap.put("Score1", score);
     eventMap.put("Balance1", new AutoBalance(driveBase_Subsystem));
@@ -133,15 +126,8 @@ public class RobotContainer {
     new JoystickButton(driverController, Constants.d_XSquaredPort) 
     .whileTrue(new AutoRotate(driveBase_Subsystem, Constants.pose2b)); //AutoRotate
 
-    
-    
-    
-  //new JoystickButton(driverController, 1)
-  //.whileTrue(new InstantCommand(()-> {arm_Subsystem1.setGoal(5); arm_Subsystem1.enable();}, arm_Subsystem1));
-    
-    
-    
-    
+    //new JoystickButton(driverController, 1)
+    //.whileTrue(new InstantCommand(()-> {arm_Subsystem1.setGoal(5); arm_Subsystem1.enable();}, arm_Subsystem1));
     
     new JoystickButton(driverController, Constants.d_BirclePort)  
     .whileTrue(new AutoDrive(driveBase_Subsystem, Constants.pose2b)); //AutoDrive
@@ -200,6 +186,7 @@ public class RobotContainer {
     return autoChooser.getSelected();
   }
 
+  //Method to call LED MOde with specfic colors 
   public void setLedMode()
   {
     if(ledChooser.getSelected().equals("teamColors"))
