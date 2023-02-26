@@ -171,7 +171,8 @@ public class DriveBase_Subsystem extends SubsystemBase {
     double rotate = controller.getRawAxis(Constants.d_RXStickAxisPort);
     speed = adjust(speed);
     rotate = adjust(rotate);
-    System.out.println(getWheelSpeeds());
+    System.out.println(" speed" + speed);
+    System.out.println("rotate" + rotate);
     jMoney_Drive.curvatureDrive(speed/Constants.driveSensitivity, rotate/Constants.turnSensitivity, true);
   }
 
