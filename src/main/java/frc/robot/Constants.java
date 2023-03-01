@@ -121,7 +121,7 @@ public final class Constants {
 
   public final static double pi = Math.PI;
   public final static double nodeSpacing = Units.inchesToMeters(22);
-  public final static double scoreDistance = Units.inchesToMeters(36); 
+  public final static double scoreDistance = Units.inchesToMeters(17.25); //blue line is 14.25 inches from tag, want to be another 3 inches
   //Encoder values
     public final static double wheelDiameter = Units.inchesToMeters(6); //Wheel diamter - used in encoder
     public static final double distancePerPulse_TalonFX = (wheelDiameter * Math.PI) / 2048.0/10; //2048 is the ticks per rotation for TalonFX, /10 because the the selected sensor position is *10. 
@@ -194,7 +194,7 @@ public final class Constants {
 
   //AlignField 
   
-  //Red Alliance Align Spots
+  //Red Alliance Align Spots  
   public final static Pose2d pose1a = new Pose2d(15.513558 - scoreDistance, 1.071626 - nodeSpacing, new Rotation2d(pi));
   public final static Pose2d pose1b = new Pose2d(15.513558 - scoreDistance, 1.071626, new Rotation2d(pi));
   public final static Pose2d pose1c = new Pose2d(15.513558 - scoreDistance, 1.071626 + nodeSpacing, new Rotation2d(pi));
