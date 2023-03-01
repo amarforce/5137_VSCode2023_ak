@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 //import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,6 +23,7 @@ public class Arm_Subsystem extends SubsystemBase {
   SparkMaxWrapper armExtendMotor = new SparkMaxWrapper(Constants.armExtendPort, MotorType.kBrushless);
   //final EncoderSim rotateEncoderSim = new EncoderSim(rotateEncoder);
   //final EncoderSim extendEncoderSim = new EncoderSim(extendEncoder);
+  private ArmFeedforward feedForward = new ArmFeedforward(Constants.kS, Constants.kG, Constants.kV, Constants.kA);
   
   public RelativeEncoder rotateEncoder = armRotateMotor.getEncoder();
   RelativeEncoder extendEncoder = armExtendMotor.getEncoder();
@@ -79,16 +81,17 @@ public class Arm_Subsystem extends SubsystemBase {
       desiredRotation = rotation;
       desiredExtension = extension;
     }
-
    
 
     private void armRotate() {
       //System.out.println("Desired Rotation:"+desiredRotation+"Current Rotation:"+rotatePosition);
       if(rotatePosition < desiredRotation) {
-        armRotateMotor.set(rotatePID.calculate(rotatePosition, desiredRotation));
+        double speed = rotatePID.calculate(rotatePosition, desiredRotation);
+        armRotateMotor.setVoltage(speed + feedForward.calculate(desiredRotation, 2));
       } 
       else if (rotatePosition > desiredRotation) {
-        armRotateMotor.set(-rotatePID.calculate(rotatePosition, desiredRotation));
+        double speed = -rotatePID.calculate(rotatePosition, desiredRotation);
+        armRotateMotor.setVoltage(speed + feedForward.calculate(desiredRotation, 2));
       }
     }
 

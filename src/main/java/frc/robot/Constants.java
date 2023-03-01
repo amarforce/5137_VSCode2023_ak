@@ -136,11 +136,12 @@ public final class Constants {
 
     //Gains for FeedForward / Left+Right motor volts
     public final static double kS = 1.49;
-    public final static double kV = 1.00;
-    public final static double kA = 0.1;
+    public final static double kV = 1.95;
+    public final static double kA = 0.08;
+    public final static double kG = 0;
     
     //Gains for Arm PID ROtate
-    public final static double aKP = .005;
+    public final static double aKP = .025;
     public final static double aKD = 0.0;
     public final static double aKI = 0.0;
 
