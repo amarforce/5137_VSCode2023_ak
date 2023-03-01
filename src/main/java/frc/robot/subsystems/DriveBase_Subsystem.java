@@ -184,8 +184,8 @@ public class DriveBase_Subsystem extends SubsystemBase {
   }
  
 
-  System.out.println("speed:" + speed);
-  System.out.println("rotate" + rotate);  
+  //System.out.println("speed:" + speed);
+  //System.out.println("rotate" + rotate);  
     jMoney_Drive.curvatureDrive(speed/Constants.driveSensitivity, rotate/Constants.turnSensitivity , true);
 
   }

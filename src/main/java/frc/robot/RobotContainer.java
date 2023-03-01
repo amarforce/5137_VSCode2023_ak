@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -123,8 +125,8 @@ public class RobotContainer {
   public void configureBindings() {
 
     //Automated Commands
-    new JoystickButton(driverController, Constants.d_XSquaredPort) 
-    .whileTrue(new AutoRotate(driveBase_Subsystem, Constants.pose2b)); //AutoRotate
+    new JoystickButton(driverController, 1) 
+    .whileTrue(new InstantCommand(() -> arm_Subsystem.moveArm(10, 0) , arm_Subsystem)); //AutoRotate
 
     //new JoystickButton(driverController, 1)
     //.whileTrue(new InstantCommand(()-> {arm_Subsystem1.setGoal(5); arm_Subsystem1.enable();}, arm_Subsystem1));
