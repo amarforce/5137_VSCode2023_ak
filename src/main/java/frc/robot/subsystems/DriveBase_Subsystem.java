@@ -159,6 +159,8 @@ public class DriveBase_Subsystem extends SubsystemBase {
   //Sets the volts of each motor 
   public void setVolts(double leftVolts, double rightVolts)
   {
+    leftVolts += 0.4*leftVolts;
+
     leftDrive.setVoltage(leftVolts);
     rightDrive.setVoltage(rightVolts);
   }
