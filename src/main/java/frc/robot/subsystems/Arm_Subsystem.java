@@ -64,6 +64,10 @@ public class Arm_Subsystem extends SubsystemBase {
     //int pulsePerDegree = pulse / 360;                               //figures out how many pulses per degree, so we can use that
     }
 
+    public void setRotation(double rotationDegrees)
+    {
+      desiredRotation = rotationDegrees;
+    }
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
@@ -84,6 +88,7 @@ public class Arm_Subsystem extends SubsystemBase {
    
 
     private void armRotate() {
+
       //System.out.println("Desired Rotation:"+desiredRotation+"Current Rotation:"+rotatePosition);
       if(rotatePosition < desiredRotation) {
         double speed = rotatePID.calculate(rotatePosition, desiredRotation);

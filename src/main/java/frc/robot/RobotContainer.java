@@ -125,8 +125,8 @@ public class RobotContainer {
   public void configureBindings() {
 
     //Automated Commands
-    new JoystickButton(driverController, 1) 
-    .whileTrue(new InstantCommand(() -> arm_Subsystem.moveArm(10, 0) , arm_Subsystem)); //AutoRotate
+    new JoystickButton(driverController, 1)
+  .whileTrue(new InstantCommand(() -> arm_Subsystem.setRotation(10) , arm_Subsystem)); //AutoRotate
 
     //new JoystickButton(driverController, 1)
     //.whileTrue(new InstantCommand(()-> {arm_Subsystem1.setGoal(5); arm_Subsystem1.enable();}, arm_Subsystem1));

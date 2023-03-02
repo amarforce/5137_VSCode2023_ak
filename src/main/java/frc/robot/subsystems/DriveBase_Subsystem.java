@@ -83,7 +83,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     score_mobility_chargeEngage = (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("score_mobility_chargeEngage", new PathConstraints(4, 3));
     score_mobility_intake_score = (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("score_mobility_intake_score", new PathConstraints(4, 3));
     score_chargeEngage =  (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("score_chargeEngage", new PathConstraints(4, 3));
-    score_mobility_straightChargeEngage =  (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("score_mobility_straightChargeEngage", new PathConstraints(4, 3));
+    score_mobility_straightChargeEngage =  (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("score_mobility_straightChargeEngage", new PathConstraints(2, 1));
     Goal_Path = (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("Goal_Path", new PathConstraints(4, 3));
 
     //Maps for the path groups
@@ -153,16 +153,21 @@ public class DriveBase_Subsystem extends SubsystemBase {
   {
     double leftSpeed = leftFrontTalon.getSelectedSensorVelocity()*Constants.distancePerPulse_TalonFX*10; //Speed = sensor count per 100 ms * distance per count * 10 (converts 100 ms to s)
     double rightSpeed = rightFrontTalon.getSelectedSensorVelocity()*Constants.distancePerPulse_TalonFX*10;
+    
     return new DifferentialDriveWheelSpeeds(leftSpeed, rightSpeed);
   }
 
   //Sets the volts of each motor 
   public void setVolts(double leftVolts, double rightVolts)
   {
-    leftVolts += 0.4*leftVolts;
+    
+    leftVolts *= .2;
+    rightVolts *= .2;
+    leftVolts -= 0.1*leftVolts;
 
-    leftDrive.setVoltage(leftVolts);
-    rightDrive.setVoltage(rightVolts);
+    leftDrive.setVoltage(-leftVolts);
+    rightDrive.setVoltage(-rightVolts);
+    System.out.println(getWheelSpeeds());
   }
 
 
@@ -182,8 +187,6 @@ public class DriveBase_Subsystem extends SubsystemBase {
   if(speed!=0.0){
     rotate -= 0.4*speed;
   }
- 
-
   //System.out.println("speed:" + speed);
   //System.out.println("rotate" + rotate);  
     jMoney_Drive.curvatureDrive(speed/Constants.driveSensitivity, rotate/Constants.turnSensitivity , true);
