@@ -1,0 +1,238 @@
+{
+    "tabPane": [
+      {
+        "title": "Teleop",
+        "autoPopulate": false,
+        "autoPopulatePrefix": "",
+        "widgetPane": {
+          "gridSize": 128.0,
+          "showGrid": true,
+          "hgap": 16.0,
+          "vgap": 16.0,
+          "titleType": 0,
+          "tiles": {}
+        }
+      },
+      {
+        "title": "Test",
+        "autoPopulate": false,
+        "autoPopulatePrefix": "",
+        "widgetPane": {
+          "gridSize": 128.0,
+          "showGrid": true,
+          "hgap": 16.0,
+          "vgap": 16.0,
+          "titleType": 0,
+          "tiles": {
+            "3,0": {
+              "size": [
+                3,
+                1
+              ],
+              "content": {
+                "_type": "Basic FMS Info",
+                "_source0": "network_table:///FMSInfo",
+                "_title": "FMSInfo",
+                "_glyph": 148,
+                "_showGlyph": false
+              }
+            },
+            "3,1": {
+              "size": [
+                3,
+                2
+              ],
+              "content": {
+                "_type": "Differential Drivebase",
+                "_source0": "network_table:///SmartDashboard/jMoneyDrive",
+                "_title": "jMoneyDrive",
+                "_glyph": 148,
+                "_showGlyph": false,
+                "Wheels/Number of wheels": 4,
+                "Wheels/Wheel diameter": 80.0,
+                "Visuals/Show velocity vectors": true
+              }
+            },
+            "8,0": {
+              "size": [
+                1,
+                1
+              ],
+              "content": {
+                "_type": "Simple Dial",
+                "_source0": "network_table:///SmartDashboard/Arm Rotate Position",
+                "_title": "Current Rotation",
+                "_glyph": 148,
+                "_showGlyph": false,
+                "Range/Min": -90.0,
+                "Range/Max": 90.0,
+                "Visuals/Show value": true
+              }
+            },
+            "8,1": {
+              "size": [
+                1,
+                1
+              ],
+              "content": {
+                "_type": "Simple Dial",
+                "_source0": "network_table:///SmartDashboard/Arm Extend Position",
+                "_title": "Current Extension",
+                "_glyph": 148,
+                "_showGlyph": false,
+                "Range/Min": 0.0,
+                "Range/Max": 60.0,
+                "Visuals/Show value": true
+              }
+            },
+            "1,0": {
+              "size": [
+                1,
+                1
+              ],
+              "content": {
+                "_type": "Number Bar",
+                "_source0": "network_table:///SmartDashboard/Intake Motor",
+                "_title": "Intake",
+                "_glyph": 148,
+                "_showGlyph": false,
+                "Range/Min": -1.0,
+                "Range/Max": 1.0,
+                "Range/Center": 0.0,
+                "Visuals/Num tick marks": 5,
+                "Visuals/Show text": true,
+                "Visuals/Orientation": "HORIZONTAL"
+              }
+            },
+            "1,1": {
+              "size": [
+                1,
+                1
+              ],
+              "content": {
+                "_type": "Number Bar",
+                "_source0": "network_table:///SmartDashboard/Arm Rotate Motor",
+                "_title": "Rotate",
+                "_glyph": 148,
+                "_showGlyph": false,
+                "Range/Min": -1.0,
+                "Range/Max": 1.0,
+                "Range/Center": 0.0,
+                "Visuals/Num tick marks": 5,
+                "Visuals/Show text": true,
+                "Visuals/Orientation": "HORIZONTAL"
+              }
+            },
+            "1,2": {
+              "size": [
+                1,
+                1
+              ],
+              "content": {
+                "_type": "Number Bar",
+                "_source0": "network_table:///SmartDashboard/Arm Extend Motor",
+                "_title": "Extend",
+                "_glyph": 148,
+                "_showGlyph": false,
+                "Range/Min": -1.0,
+                "Range/Max": 1.0,
+                "Range/Center": 0.0,
+                "Visuals/Num tick marks": 5,
+                "Visuals/Show text": true,
+                "Visuals/Orientation": "HORIZONTAL"
+              }
+            },
+            "2,0": {
+              "size": [
+                1,
+                1
+              ],
+              "content": {
+                "_type": "Boolean Box",
+                "_source0": "network_table:///SmartDashboard/Intake Solenoid",
+                "_title": "Intake",
+                "_glyph": 148,
+                "_showGlyph": false,
+                "Colors/Color when true": "#7CFC00FF",
+                "Colors/Color when false": "#8B0000FF"
+              }
+            },
+            "2,1": {
+              "size": [
+                1,
+                1
+              ],
+              "content": {
+                "_type": "Boolean Box",
+                "_source0": "network_table:///SmartDashboard/Clamp Solenoid",
+                "_title": "Clamp",
+                "_glyph": 148,
+                "_showGlyph": false,
+                "Colors/Color when true": "#7CFC00FF",
+                "Colors/Color when false": "#8B0000FF"
+              }
+            },
+            "6,0": {
+              "size": [
+                2,
+                1
+              ],
+              "content": {
+                "_type": "ComboBox Chooser",
+                "_source0": "network_table:///SmartDashboard/Manual Arm",
+                "_title": "Manual Arm Enabled",
+                "_glyph": 148,
+                "_showGlyph": false
+              }
+            },
+            "6,1": {
+              "size": [
+                2,
+                1
+              ],
+              "content": {
+                "_type": "ComboBox Chooser",
+                "_source0": "network_table:///SmartDashboard/Arm Preset",
+                "_title": "Manual Arm Preset",
+                "_glyph": 148,
+                "_showGlyph": false
+              }
+            }
+          }
+        }
+      },
+      {
+        "title": "Setup",
+        "autoPopulate": false,
+        "autoPopulatePrefix": "",
+        "widgetPane": {
+          "gridSize": 128.0,
+          "showGrid": true,
+          "hgap": 16.0,
+          "vgap": 16.0,
+          "titleType": 0,
+          "tiles": {
+            "3,0": {
+              "size": [
+                4,
+                1
+              ],
+              "content": {
+                "_type": "Basic FMS Info",
+                "_source0": "network_table:///FMSInfo",
+                "_title": "FMSInfo",
+                "_glyph": 148,
+                "_showGlyph": false
+              }
+            }
+          }
+        }
+      }
+    ],
+    "windowGeometry": {
+      "x": 0.0,
+      "y": 61.0,
+      "width": 1471.0,
+      "height": 875.0
+    }
+  }
