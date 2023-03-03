@@ -139,6 +139,10 @@ public final class Constants {
     public final static double kV = 1.95;
     public final static double kA = 0.08;
     public final static double kG = 0;
+
+    public final static double dKS = 1.49;
+    public final static double dKV = 1.95;
+    public final static double dKA = 0.08;
     
     //Gains for Arm PID ROtate
     public final static double aKP = .025;

@@ -118,7 +118,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     distanceController = new PIDController(Constants.dKP,Constants.dKI, Constants.dKD);
     rotationController = new PIDController(Constants.rKP,Constants.rKI, Constants.rKD);
     balanceController = new PIDController(Constants.bKP,Constants.bKI, Constants.bKD);
-    voltPID = new SimpleMotorFeedforward(Constants.kS, Constants.kV, Constants.kA);
+    voltPID = new SimpleMotorFeedforward(Constants.dKS, Constants.dKV, Constants.dKA);
   }
 
   @Override
@@ -168,6 +168,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
     leftDrive.setVoltage(-leftVolts);
     rightDrive.setVoltage(-rightVolts);
     System.out.println(getWheelSpeeds());
+    System.out.println(leftVolts);
   }
 
 
