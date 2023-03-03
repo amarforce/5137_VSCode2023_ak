@@ -3,11 +3,11 @@ package frc.robot.commands.Clamp_Commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Clamp_Subsystem;
 
-public class ClampCube extends CommandBase {
-
+public class ClampClose extends CommandBase {
+  
   Clamp_Subsystem clamp_Subsystem;
 
-  public ClampCube (Clamp_Subsystem clamp_Subsystem) {
+  public ClampClose (Clamp_Subsystem clamp_Subsystem) {
      this.clamp_Subsystem = clamp_Subsystem; 
    addRequirements(clamp_Subsystem);
    }
@@ -20,7 +20,7 @@ public class ClampCube extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    clamp_Subsystem.Clamp(false);
+    clamp_Subsystem.Clamp();
 
   }
 
@@ -33,7 +33,7 @@ public class ClampCube extends CommandBase {
   public boolean isFinished() {
     if(clamp_Subsystem.getClamped())
     {
-      System.out.println("Cube Clamped");
+      System.out.println("Game Piece Clamped");
       return true;
     }
     return false;

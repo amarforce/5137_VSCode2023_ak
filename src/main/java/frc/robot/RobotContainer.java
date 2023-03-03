@@ -41,13 +41,13 @@ import frc.robot.commands.Intake_Commands.*;
  */
 public class RobotContainer {
 
-  //Subsytems 
-  private final  Pneumatics_Subsystem pneumatics_Subsystem = new Pneumatics_Subsystem();
-  private final  DriveBase_Subsystem driveBase_Subsystem = new DriveBase_Subsystem();
-  private final  Intake_Subystem intake_Subystem = new Intake_Subystem(); 
-  private final  Clamp_Subsystem clamp_Subsystem = new Clamp_Subsystem();
-  private final  Arm_Subsystem arm_Subsystem = new Arm_Subsystem();
-  private final  Addressable_LEDS_Subsystem addressable_LEDS_Subsystem = new Addressable_LEDS_Subsystem();
+  //Subsytems private
+  public static final  Pneumatics_Subsystem pneumatics_Subsystem = new Pneumatics_Subsystem();
+  public static final  DriveBase_Subsystem driveBase_Subsystem = new DriveBase_Subsystem();
+  public static final  Intake_Subystem intake_Subystem = new Intake_Subystem(); 
+  public static final  Clamp_Subsystem clamp_Subsystem = new Clamp_Subsystem();
+  public static final  Arm_Subsystem arm_Subsystem = new Arm_Subsystem();
+  public static final  Addressable_LEDS_Subsystem addressable_LEDS_Subsystem = new Addressable_LEDS_Subsystem();
   //private final  Arm_Subsystem1 arm_Subsystem1 = new Arm_Subsystem1();
 
   private final  Vision_Subsystem vision_Subsystem = new Vision_Subsystem();
@@ -174,11 +174,7 @@ public class RobotContainer {
 
     //Clamp Commands
     new JoystickButton(assistController, Constants.a_RTriggerPort)
-    .whileTrue(new ClampCube(clamp_Subsystem)) //Clamp Cube
-    .whileFalse(new ClampOpen(clamp_Subsystem));
-    
-    new JoystickButton(assistController, Constants.a_RTriggerPort)
-    .whileTrue(new ClampCone(clamp_Subsystem)) //Clamp Cone
+    .whileTrue(new ClampClose(clamp_Subsystem)) //Clamp Cone
     .whileFalse(new ClampOpen(clamp_Subsystem));
 
   }

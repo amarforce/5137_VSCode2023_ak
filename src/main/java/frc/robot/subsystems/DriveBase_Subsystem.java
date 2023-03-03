@@ -44,7 +44,7 @@ public class DriveBase_Subsystem extends SubsystemBase {
   public static MotorControllerGroup rightDrive;
 
   //DriveTrain
-  DifferentialDrive jMoney_Drive;
+  public static DifferentialDrive jMoney_Drive;
 
   //Position Estimator
   private DifferentialDrivePoseEstimator poseEstimator = new DifferentialDrivePoseEstimator(Constants.trackWidth, new Rotation2d(0),Constants.initialLeftDistance ,Constants.initialRightDistance, new Pose2d());

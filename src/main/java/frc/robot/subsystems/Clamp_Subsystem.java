@@ -10,16 +10,10 @@ public class Clamp_Subsystem extends SubsystemBase {
     }
 
 
-    public void Clamp(boolean type) {
-        if (type) {
-            Pneumatics_Subsystem.clampSolenoid.set(true);
-            clamped = true;
-        } else {
-            //Need to make cube not die
-            Pneumatics_Subsystem.clampSolenoid.set(true);
-            clamped = false;
-        }
+    public void Clamp( ) {  
+        Pneumatics_Subsystem.clampSolenoid.set(true);
     }
+
 
     public void Release() {
         Pneumatics_Subsystem.clampSolenoid.set(false);
