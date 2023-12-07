@@ -16,19 +16,16 @@ reset(): This method resets the distance to 0.0.
 This class is part of a Gradle project, which is a build automation tool used primarily for Java projects. Gradle helps manage dependencies, run tests, create documentation, and perform many other tasks.
 */
 
-
-package frc.robot.simulation;
-
-import com.revrobotics.CANSparkMax;
-
-
-
 /**
  * The JMoneyEncoder class simulates an encoder measuring the displacement of a motor.
  * This class is intended for temporary use and was created for fun.
  * -- JMoney
  */
 
+
+package frc.robot.simulation;
+
+import com.revrobotics.CANSparkMax;
 
 
 public class JMoneyEncoder {
@@ -43,6 +40,8 @@ public class JMoneyEncoder {
      * @param motor The motor you want to link the epic JMoneyEncoder too. ONLY CANSparkMax
      * @param timePerRotation The amount of time in seconds until the motor does a full rotation.
     */
+
+
     public JMoneyEncoder(CANSparkMax motor, Double timePerRotation) {
         m_motor = motor;
         distance = 0.0;
